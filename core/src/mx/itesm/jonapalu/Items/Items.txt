@@ -1,0 +1,3 @@
+00 Aire
+01 Tierra tierra.png
+02 Piedra piedra.png

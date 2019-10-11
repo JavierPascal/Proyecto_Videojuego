@@ -11,7 +11,7 @@ class configuracion implements Screen {
     }
 
     @Override
-    public void show() { //soy luismi
+    public void show() { //soy luismibbbb
 
     }
 

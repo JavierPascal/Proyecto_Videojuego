@@ -2,16 +2,16 @@ package mx.itesm.jonapalu;
 
 import com.badlogic.gdx.Screen;
 
-class configuracion implements Screen {
+class Configuracion implements Screen {
 
     private final Juego juego;
 
-    public configuracion(Juego juego){
+    public Configuracion(Juego juego){
         this.juego =juego;
     }
 
     @Override
-    public void show() { //soy luismibbbb
+    public void show() {
 
     }
 

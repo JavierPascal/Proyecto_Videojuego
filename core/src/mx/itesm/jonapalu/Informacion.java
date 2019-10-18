@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-class informacion implements Screen {
+class Informacion implements Screen {
     private final Juego juego;
     private OrthographicCamera camara;
     private Viewport vista;
@@ -26,13 +26,13 @@ class informacion implements Screen {
     //Fases
     private Stage fasesMenu;
 
-    public informacion(Juego juego) {
+    public Informacion(Juego juego) {
         this.juego = juego;
     }
 
     @Override
     public void show() {
-        texturaFondo = new Texture( "mundos/HUD/fondoGris.png");
+        texturaFondo = new Texture( "Mundos/HUD/fondoGris.png");
         configuracionVista();
         crearBotones();
     }

@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-class mundos implements Screen {
+class Mundos implements Screen {
 
     private final Juego juego;
     private OrthographicCamera camara;
@@ -27,14 +27,14 @@ class mundos implements Screen {
     //Fondo Textura
     private Texture texturaFondo;
 
-    //Botones de mundos
+    //Botones de Mundos
     public int mundos;
     public Array<ImageButton> arrBotonesMundo;
 
     //Fases
     private Stage fasesMenu;
 
-    public mundos(Juego juego) {
+    public Mundos(Juego juego) {
         this.juego = juego;
     }
 
@@ -62,14 +62,14 @@ class mundos implements Screen {
 
     private void cargarTexturas() {
         //Fondo
-        texturaFondo = new Texture( "mundos/HUD/fondoGris.png");
+        texturaFondo = new Texture( "Mundos/HUD/fondoGris.png");
     }
 
     private void crearMenu() {
         fasesMenu = new Stage(vista);
         //Boton de Regresar
-        TextureRegionDrawable trdRegresar = new TextureRegionDrawable(new TextureRegion(new Texture("mundos/boton/btnRegresar.png")));
-        TextureRegionDrawable trdRegresarPress = new TextureRegionDrawable(new TextureRegion(new Texture("mundos/boton/btnRegresarPress.png")));
+        TextureRegionDrawable trdRegresar = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnRegresar.png")));
+        TextureRegionDrawable trdRegresarPress = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnRegresarPress.png")));
         ImageButton btnRegresar = new ImageButton(trdRegresar, trdRegresarPress);
         btnRegresar.setPosition(10, Juego.ALTO - btnRegresar.getHeight() - 10);
         //Funcionamiento
@@ -77,12 +77,12 @@ class mundos implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                juego.setScreen(new pantallaMenu(juego));
+                juego.setScreen(new PantallaMenu(juego));
             }
         });
         //Boton Nuevo Mundo
-        TextureRegionDrawable trdNuevoMundo = new TextureRegionDrawable(new TextureRegion(new Texture("mundos/boton/btnAgregarMundo.png")));
-        TextureRegionDrawable trdNuevoMundoPress = new TextureRegionDrawable(new TextureRegion(new Texture("mundos/boton/btnAgregarMundoPress.png")));
+        TextureRegionDrawable trdNuevoMundo = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnAgregarMundo.png")));
+        TextureRegionDrawable trdNuevoMundoPress = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnAgregarMundoPress.png")));
         ImageButton btnNuevoMundo = new ImageButton(trdNuevoMundo, trdNuevoMundoPress);
         btnNuevoMundo.setPosition(Juego.ANCHO - btnNuevoMundo.getWidth() - 20, 10);
         //Funcionamiento
@@ -90,14 +90,14 @@ class mundos implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                juego.setScreen(new crearMundo(juego));
+                juego.setScreen(new CrearMundo(juego));
             }
         });
 
         //Boton Mundo provicional
         final int numMundo = 1;
-        TextureRegionDrawable trdMundo = new TextureRegionDrawable(new TextureRegion(new Texture("mundos/boton/btnMundos.png")));
-        TextureRegionDrawable trdMundoPress = new TextureRegionDrawable(new TextureRegion(new Texture("mundos/boton/btnMundosPress.png")));
+        TextureRegionDrawable trdMundo = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnMundos.png")));
+        TextureRegionDrawable trdMundoPress = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnMundosPress.png")));
         ImageButton btnMundo = new ImageButton(trdMundo, trdMundoPress);
         btnMundo.setPosition(10, Juego.ALTO - 10 - (btnMundo.getHeight() * (numMundo + 1)));
         //Funcionamiento
@@ -105,7 +105,7 @@ class mundos implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                juego.setScreen(new mundo(juego, numMundo));
+                juego.setScreen(new Mundo(juego, numMundo));
             }
         });
 

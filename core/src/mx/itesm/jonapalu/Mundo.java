@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class mundo implements Screen {
+public class Mundo implements Screen {
 
     private final Juego juego;
     private OrthographicCamera camara;
@@ -33,7 +33,7 @@ public class mundo implements Screen {
 
     private int numeroMundo;
 
-    public mundo(Juego juego, int numeroMundo){
+    public Mundo(Juego juego, int numeroMundo){
         this.juego = juego;
         this.numeroMundo = numeroMundo;
     }
@@ -51,7 +51,7 @@ public class mundo implements Screen {
         camara.update();
         vista = new FitViewport(Juego.ANCHO, Juego.ALTO, camara);
         batch = new SpriteBatch();
-        //Codigo provisional para crear el mundo
+        //Codigo provisional para crear el Mundo
 
 
     }
@@ -61,7 +61,7 @@ public class mundo implements Screen {
         //Nuve
         arrSpriteNuves = new Array<>( 6);
         for (int cantidadNuves = 0; cantidadNuves < 6; cantidadNuves++) {
-            String nombre = "pantallaMenu/fondo/nuve" + Integer.toString(cantidadNuves) + ".png";
+            String nombre = "PantallaMenu/fondo/nuve" + Integer.toString(cantidadNuves) + ".png";
             Texture texturaNuve = new Texture(nombre);
             arrSpriteNuves.add(texturaNuve);
         }
@@ -92,7 +92,7 @@ public class mundo implements Screen {
     }
 
     private void cargarTexturas() {
-        texturaFondo = new Texture( "pantallaMenu/fondo/fondoCielo.png");
+        texturaFondo = new Texture( "PantallaMenu/fondo/fondoCielo.png");
         persona = new Texture("items/persona.png");
     }
 

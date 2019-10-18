@@ -16,9 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.io.File;
-
-class crearMundo implements Screen {
+class CrearMundo implements Screen {
 
     private final Juego juego;
     private OrthographicCamera camara;
@@ -40,9 +38,9 @@ class crearMundo implements Screen {
 
     //Mundos
     private Array<ImageButton> botonesMundo;
-    private Array<mundo> Mundos;
+    private Array<Mundo> Mundos;
 
-    public crearMundo(Juego juego) {
+    public CrearMundo(Juego juego) {
         this.juego = juego;
     }
 
@@ -63,16 +61,16 @@ class crearMundo implements Screen {
 
     private void cargarTexturas() {
         //Fondo
-        texturaFondo = new Texture( "mundos/HUD/fondoGris.png");
+        texturaFondo = new Texture( "Mundos/HUD/fondoGris.png");
         //Botones
-        btnCreativoTextura = "mundos/boton/btnCreativo.png";
-        btnAventuraTextura = "mundos/boton/btnAventuraPress.png";
+        btnCreativoTextura = "Mundos/boton/btnCreativo.png";
+        btnAventuraTextura = "Mundos/boton/btnAventuraPress.png";
     }
     private void crearMenu() {
         fasesMenu = new Stage(vista);
         //Boton Aventura
         final TextureRegionDrawable trdAventura = new TextureRegionDrawable(new TextureRegion(new Texture(btnAventuraTextura)));
-        final TextureRegionDrawable trdAventuraPress = new TextureRegionDrawable(new TextureRegion(new Texture("mundos/boton/btnAventuraPress.png")));
+        final TextureRegionDrawable trdAventuraPress = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnAventuraPress.png")));
         final ImageButton btnAventura = new ImageButton(trdAventura, trdAventuraPress);
         btnAventura.setPosition(50, Juego.ALTO - 50 - btnAventura.getHeight());
         //Funcionamiento
@@ -80,14 +78,14 @@ class crearMundo implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                btnCreativoTextura = "mundos/boton/btnCreativo.png";
-                btnAventuraTextura = "mundos/boton/btnAventuraPress.png";
+                btnCreativoTextura = "Mundos/boton/btnCreativo.png";
+                btnAventuraTextura = "Mundos/boton/btnAventuraPress.png";
                 modo = modoDeJuego.Aventura;
             }
         });
         //Boton Creativo
         TextureRegionDrawable trdCreativo = new TextureRegionDrawable(new TextureRegion(new Texture(btnCreativoTextura)));
-        TextureRegionDrawable trdCreativoPress = new TextureRegionDrawable(new TextureRegion(new Texture("mundos/boton/btnCreativoPress.png")));
+        TextureRegionDrawable trdCreativoPress = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnCreativoPress.png")));
         ImageButton btnCreativo = new ImageButton(trdCreativo, trdCreativoPress);
         btnCreativo.setPosition(50 +  btnCreativo.getWidth() + 10, Juego.ALTO - 50 - btnCreativo.getHeight());
         //Funcionamiento
@@ -95,15 +93,15 @@ class crearMundo implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                btnCreativoTextura = "mundos/boton/btnCreativoPress.png";
-                btnAventuraTextura = "mundos/boton/btnAventura.png";
+                btnCreativoTextura = "Mundos/boton/btnCreativoPress.png";
+                btnAventuraTextura = "Mundos/boton/btnAventura.png";
                 modo = modoDeJuego.Creativo;
             }
         });
 
         //Boton Crear Mundo
-        TextureRegionDrawable trdCrearMundo = new TextureRegionDrawable(new TextureRegion(new Texture("mundos/boton/btnCrearMundo.png")));
-        TextureRegionDrawable trdCrearMundoPress = new TextureRegionDrawable(new TextureRegion(new Texture("mundos/boton/btnCrearMundoPress.png")));
+        TextureRegionDrawable trdCrearMundo = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnCrearMundo.png")));
+        TextureRegionDrawable trdCrearMundoPress = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnCrearMundoPress.png")));
         ImageButton btnCrearMundo = new ImageButton(trdCrearMundo, trdCrearMundoPress);
         btnCrearMundo.setPosition(Juego.ANCHO - btnCrearMundo.getWidth() - 10, 10);
         //Funcionamiento
@@ -111,8 +109,8 @@ class crearMundo implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                //Debes de comprobar si el mundo ya existe o no
-                juego.setScreen(new mundo(juego, 1));
+                //Debes de comprobar si el Mundo ya existe o no
+                juego.setScreen(new Mundo(juego, 1));
             }
         });
 

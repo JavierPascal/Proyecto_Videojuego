@@ -6,6 +6,7 @@ class Configuracion implements Screen {
 
     private final Juego juego;
 
+    @org.jetbrains.annotations.Contract(pure = true)
     public Configuracion(Juego juego){
         this.juego =juego;
     }

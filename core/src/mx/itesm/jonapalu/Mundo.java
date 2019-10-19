@@ -13,9 +13,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class Mundo implements Screen {
 
     private final Juego juego;
+    private SpriteBatch batch;
     private OrthographicCamera camara;
     private Viewport vista;
-    private SpriteBatch batch;
 
     //Fondo Sprite
     private Array<Nuve> arrNuves;

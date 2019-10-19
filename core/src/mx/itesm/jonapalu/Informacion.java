@@ -47,11 +47,11 @@ class Informacion implements Screen {
 
     private void crearBotones() {
         fasesMenu = new Stage(vista);
-        //Boton Aventura
+        //Boton Imagen de nosotros asi bien guapa
         final TextureRegionDrawable trdNosotros = new TextureRegionDrawable(new TextureRegion(new Texture("Fotitos/nosotros.jpeg")));
         final TextureRegionDrawable trdNosotrosPress = new TextureRegionDrawable(new TextureRegion(new Texture("Fotitos/nosotrosPress.jpeg")));
         final ImageButton btnNosotros = new ImageButton(trdNosotros, trdNosotrosPress);
-        btnNosotros.setPosition(50, 50);
+        btnNosotros.setPosition(0, 0);
         //Funcionamiento
         btnNosotros.addListener(new ClickListener() {
             @Override
@@ -59,7 +59,24 @@ class Informacion implements Screen {
                 super.clicked(event, x, y);
             }
         });
+
+        //Boton de Regresar
+        TextureRegionDrawable trdRegresar = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnRegresar.png")));
+        TextureRegionDrawable trdRegresarPress = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnRegresarPress.png")));
+        ImageButton btnRegresar = new ImageButton(trdRegresar, trdRegresarPress);
+        btnRegresar.setPosition(10, Juego.ALTO - btnRegresar.getHeight() - 10);
+        //Funcionamiento
+        btnRegresar.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                juego.setScreen(new PantallaMenu(juego));
+            }
+        });
+
+        //Anadir botones
         fasesMenu.addActor(btnNosotros);
+        fasesMenu.addActor(btnRegresar);
 
         //Cargar las entradas
         Gdx.input.setInputProcessor(fasesMenu);
@@ -74,9 +91,9 @@ class Informacion implements Screen {
 
         batch.begin();
         batch.draw(texturaFondo, 0 , 0);
-
-        batch.end();
         fasesMenu.draw();
+        batch.end();
+
 
     }
 

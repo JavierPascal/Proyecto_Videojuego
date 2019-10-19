@@ -52,6 +52,7 @@ class Configuracion implements Screen {
         batch = new SpriteBatch();
     }
     private void crearMenu() {
+
         fasesMenu = new Stage(vista);
         //Boton de Regresar
         TextureRegionDrawable trdRegresar = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnRegresar.png")));

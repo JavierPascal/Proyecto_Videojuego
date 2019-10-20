@@ -68,6 +68,19 @@ class CrearMundo implements Screen {
     }
     private void crearMenu() {
         fasesMenu = new Stage(vista);
+        //Boton de Regresar
+        TextureRegionDrawable trdRegresar = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnRegresar.png")));
+        TextureRegionDrawable trdRegresarPress = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnRegresarPress.png")));
+        ImageButton btnRegresar = new ImageButton(trdRegresar, trdRegresarPress);
+        btnRegresar.setPosition(10, Juego.ALTO - btnRegresar.getHeight() - 10);
+        //Funcionamiento
+        btnRegresar.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                juego.setScreen(new PantallaMenu(juego));
+            }
+        });
         //Boton Aventura
         final TextureRegionDrawable trdAventura = new TextureRegionDrawable(new TextureRegion(new Texture(btnAventuraTextura)));
         final TextureRegionDrawable trdAventuraPress = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnAventuraPress.png")));
@@ -115,6 +128,7 @@ class CrearMundo implements Screen {
         });
 
         //Anadir botones
+        fasesMenu.addActor(btnRegresar);
         fasesMenu.addActor(btnAventura);
         fasesMenu.addActor(btnCreativo);
         fasesMenu.addActor(btnCrearMundo);
@@ -170,5 +184,6 @@ class CrearMundo implements Screen {
     private enum modoDeJuego {
         Aventura,
         Creativo
+
     }
 }

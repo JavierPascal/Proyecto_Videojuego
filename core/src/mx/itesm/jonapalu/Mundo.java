@@ -16,6 +16,7 @@ public class Mundo implements Screen {
     private SpriteBatch batch;
     private OrthographicCamera camara;
     private Viewport vista;
+    private EstadosJuego Activo = EstadosJuego.JUGANDO;
 
     //Fondo Sprite
     private Array<Nuve> arrNuves;
@@ -98,27 +99,37 @@ public class Mundo implements Screen {
 
     @Override
     public void render(float delta) {
-        moverNuves();
+        if(Activo==EstadosJuego.JUGANDO){
 
-        clearScreen();
+            moverNuves();
 
-        batch.setProjectionMatrix(camara.combined);
+            clearScreen();
 
-        batch.begin();
-        batch.draw(texturaFondo, 0 , 0);
+            batch.setProjectionMatrix(camara.combined);
 
-        personaje(per1, 1);
-        personaje(per2, 2);
+            batch.begin();
+            batch.draw(texturaFondo, 0 , 0);
 
-        //Render Nuves
-        for (Nuve nuve: arrNuves) {
-            nuve.render(batch);
+            personaje(per1, 1);
+            personaje(per2, 2);
+
+            //Render Nuves
+            for (Nuve nuve: arrNuves) {
+                nuve.render(batch);
+            }
+
+            //Render Suelo
+            for (Item_Falso item:arrItem) {
+                item.render(batch);
+            }
+
+
+        }else{
+
+            System.out.println("hola luis mi");
+
         }
 
-        //Render Suelo
-        for (Item_Falso item:arrItem) {
-            item.render(batch);
-        }
 
         batch.end();
     }
@@ -181,5 +192,9 @@ public class Mundo implements Screen {
     public static double numeroRandom(double min, double max){
         double x = (int)(Math.random()*((max-min)+1))+min;
         return x;
+    }
+    private enum EstadosJuego{
+        PAUSADO,
+        JUGANDO
     }
 }

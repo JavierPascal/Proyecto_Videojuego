@@ -72,8 +72,8 @@ class PantallaMenu implements Screen {
     private void crearMenu() {
         fasesMenu = new Stage(vista);
         //Boton de Jugar
-        TextureRegionDrawable trdJugar = new TextureRegionDrawable(new TextureRegion(new Texture("PantallaMenu/boton/btnJugar.png")));
-        TextureRegionDrawable trdJugarPress = new TextureRegionDrawable(new TextureRegion(new Texture("PantallaMenu/boton/btnJugarPress.png")));
+        TextureRegionDrawable trdJugar = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnJugar.png")));
+        TextureRegionDrawable trdJugarPress = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnJugarPressed.png")));
         ImageButton btnJugar = new ImageButton(trdJugar, trdJugarPress);
         btnJugar.setPosition(Juego.ANCHO / 2 - btnJugar.getWidth() / 2, Juego.ALTO / 2 - btnJugar.getHeight() / 2);
         //Funcionamiento
@@ -86,8 +86,8 @@ class PantallaMenu implements Screen {
         });
 
         //Boton Configuracion
-        TextureRegionDrawable trdConf = new TextureRegionDrawable(new TextureRegion(new Texture("PantallaMenu/boton/btnConf.png")));
-        TextureRegionDrawable trdConfPress = new TextureRegionDrawable(new TextureRegion(new Texture("PantallaMenu/boton/btnConfPress.png")));
+        TextureRegionDrawable trdConf = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnConf.png")));
+        TextureRegionDrawable trdConfPress = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnConfPressed.png")));
         ImageButton btnConf = new ImageButton(trdConf, trdConfPress);
         btnConf.setPosition(10, 10);
         //Funcionamiento
@@ -100,12 +100,12 @@ class PantallaMenu implements Screen {
         });
 
         //Boton Informacion
-        TextureRegionDrawable trdInf = new TextureRegionDrawable(new TextureRegion(new Texture("PantallaMenu/boton/btnInf.png")));
-        TextureRegionDrawable trdInfPress = new TextureRegionDrawable(new TextureRegion(new Texture("PantallaMenu/boton/btnInfPress.png")));
-        ImageButton btnInf = new ImageButton(trdInf, trdInfPress);
-        btnInf.setPosition(juego.ANCHO - 10 - btnInf.getWidth(), 10);
+        TextureRegionDrawable trdAcercaDe = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnAcercaDe.png")));
+        TextureRegionDrawable trdAcercaDePressed = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnAcercaDePressed.png")));
+        ImageButton btnAcercaDe = new ImageButton(trdAcercaDe, trdAcercaDePressed);
+        btnAcercaDe.setPosition(juego.ANCHO - 10 - btnAcercaDe.getWidth(), 10);
         //Funcionamiento
-        btnInf.addListener(new ClickListener() {
+        btnAcercaDe.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -116,7 +116,7 @@ class PantallaMenu implements Screen {
         //Anadir botones
         fasesMenu.addActor(btnJugar);
         fasesMenu.addActor(btnConf);
-        fasesMenu.addActor(btnInf);
+        fasesMenu.addActor(btnAcercaDe);
 
 
         //Cargar las entradas
@@ -126,11 +126,11 @@ class PantallaMenu implements Screen {
     private void crearFondo() {
         //Texturas
         //Fondo
-        texturaFondo = new Texture( "PantallaMenu/fondo/fondoCielo.png");
+        texturaFondo = new Texture( "HUD/fondoCielo.png");
         //Nuve
         arrSpriteNuves = new Array<>( 6);
         for (int cantidadNuves = 0; cantidadNuves < 6; cantidadNuves++) {
-            String nombre = "PantallaMenu/fondo/nuve" + Integer.toString(cantidadNuves) + ".png";
+            String nombre = "HUD/nuve" + Integer.toString(cantidadNuves) + ".png";
             Texture texturaNuve = new Texture(nombre);
             arrSpriteNuves.add(texturaNuve);
         }

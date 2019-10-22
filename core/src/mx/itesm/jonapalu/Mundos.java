@@ -62,14 +62,14 @@ class Mundos implements Screen {
 
     private void cargarTexturas() {
         //Fondo
-        texturaFondo = new Texture( "Mundos/HUD/fondoGris.png");
+        texturaFondo = new Texture( "HUD/fondoGris.png");
     }
 
     private void crearMenu() {
         fasesMenu = new Stage(vista);
         //Boton de Regresar
-        TextureRegionDrawable trdRegresar = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnRegresar.png")));
-        TextureRegionDrawable trdRegresarPress = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnRegresarPress.png")));
+        TextureRegionDrawable trdRegresar = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnRegresar.png")));
+        TextureRegionDrawable trdRegresarPress = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnRegresar.png")));
         ImageButton btnRegresar = new ImageButton(trdRegresar, trdRegresarPress);
         btnRegresar.setPosition(10, Juego.ALTO - btnRegresar.getHeight() - 10);
         //Funcionamiento
@@ -81,8 +81,8 @@ class Mundos implements Screen {
             }
         });
         //Boton Nuevo Mundo
-        TextureRegionDrawable trdNuevoMundo = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnAgregarMundo.png")));
-        TextureRegionDrawable trdNuevoMundoPress = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnAgregarMundoPress.png")));
+        TextureRegionDrawable trdNuevoMundo = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnAgregarMundo.png")));
+        TextureRegionDrawable trdNuevoMundoPress = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnAgregarMundoPressed.png")));
         ImageButton btnNuevoMundo = new ImageButton(trdNuevoMundo, trdNuevoMundoPress);
         btnNuevoMundo.setPosition(Juego.ANCHO - btnNuevoMundo.getWidth() - 20, 10);
         //Funcionamiento
@@ -96,8 +96,8 @@ class Mundos implements Screen {
 
         //Boton Mundo provicional
         final int numMundo = 1;
-        TextureRegionDrawable trdMundo = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnMundos.png")));
-        TextureRegionDrawable trdMundoPress = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnMundosPress.png")));
+        TextureRegionDrawable trdMundo = new TextureRegionDrawable(new TextureRegion(new Texture("HUD/btnMundos.png")));
+        TextureRegionDrawable trdMundoPress = new TextureRegionDrawable(new TextureRegion(new Texture("HUD/btnMundosPress.png")));
         ImageButton btnMundo = new ImageButton(trdMundo, trdMundoPress);
         btnMundo.setPosition(10, Juego.ALTO - 10 - (btnMundo.getHeight() * (numMundo + 1)));
         //Funcionamiento

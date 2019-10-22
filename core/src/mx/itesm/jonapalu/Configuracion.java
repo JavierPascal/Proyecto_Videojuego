@@ -41,7 +41,7 @@ class Configuracion implements Screen {
 
     private void cargarTexturas() {
         //Fondo
-        texturaFondo = new Texture( "Mundos/HUD/fondoGris.png");
+        texturaFondo = new Texture( "HUD/fondoGris.png");
     }
 
     private void configuracionVista() {
@@ -55,8 +55,8 @@ class Configuracion implements Screen {
 
         fasesMenu = new Stage(vista);
         //Boton de Regresar
-        TextureRegionDrawable trdRegresar = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnRegresar.png")));
-        TextureRegionDrawable trdRegresarPress = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnRegresarPress.png")));
+        TextureRegionDrawable trdRegresar = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnRegresar.png")));
+        TextureRegionDrawable trdRegresarPress = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnRegresar.png")));
         ImageButton btnRegresar = new ImageButton(trdRegresar, trdRegresarPress);
         btnRegresar.setPosition(10, Juego.ALTO - btnRegresar.getHeight() - 10);
         //Funcionamiento

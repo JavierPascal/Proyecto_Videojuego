@@ -62,7 +62,7 @@ public class Mundo implements Screen {
         //Nuve
         arrSpriteNuves = new Array<>( 6);
         for (int cantidadNuves = 0; cantidadNuves < 6; cantidadNuves++) {
-            String nombre = "PantallaMenu/fondo/nuve" + Integer.toString(cantidadNuves) + ".png";
+            String nombre = "HUD/nuve" + Integer.toString(cantidadNuves) + ".png";
             Texture texturaNuve = new Texture(nombre);
             arrSpriteNuves.add(texturaNuve);
         }
@@ -93,8 +93,8 @@ public class Mundo implements Screen {
     }
 
     private void cargarTexturas() {
-        texturaFondo = new Texture( "PantallaMenu/fondo/fondoCielo.png");
-        persona = new Texture("items/persona.png");
+        texturaFondo = new Texture( "HUD/fondoCielo.png");
+        persona = new Texture("HUD/persona.png");
     }
 
     @Override

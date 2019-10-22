@@ -32,7 +32,7 @@ class Informacion implements Screen {
 
     @Override
     public void show() {
-        texturaFondo = new Texture( "Mundos/HUD/fondoGris.png");
+        texturaFondo = new Texture( "HUD/fondoGris.png");
         configuracionVista();
         crearBotones();
     }
@@ -61,8 +61,8 @@ class Informacion implements Screen {
         });
 
         //Boton de Regresar
-        TextureRegionDrawable trdRegresar = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnRegresar.png")));
-        TextureRegionDrawable trdRegresarPress = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnRegresarPress.png")));
+        TextureRegionDrawable trdRegresar = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnRegresar.png")));
+        TextureRegionDrawable trdRegresarPress = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnRegresar.png")));
         ImageButton btnRegresar = new ImageButton(trdRegresar, trdRegresarPress);
         btnRegresar.setPosition(10, Juego.ALTO - btnRegresar.getHeight() - 10);
         //Funcionamiento

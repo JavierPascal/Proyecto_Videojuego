@@ -12,11 +12,11 @@ public class Item_Falso {
     public Item_Falso(int ID, float x, float y){
         this.ID = ID;
         if(ID == 00){
-            this.texturaItem = new Texture("items/null.png");
+            this.texturaItem = new Texture("Texturas/null.png");
         }else if(ID == 01){
-            this.texturaItem = new Texture("items/tierra.png");
+            this.texturaItem = new Texture("Texturas/texTierra.png");
         }else if(ID == 02){
-            this.texturaItem = new Texture("items/piedra.png");
+            this.texturaItem = new Texture("Texturas/texPiedra.png");
         }
         sprite = new Sprite(texturaItem);
         sprite.setPosition( x, y);

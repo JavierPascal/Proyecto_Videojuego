@@ -2,6 +2,7 @@ package mx.itesm.jonapalu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,19 +28,22 @@ class PantallaMenu implements Screen {
     private Viewport vista;
     private SpriteBatch batch;
 
-    //Fondo Textura
+    //Fondo
     private Texture texturaFondo;
-    private Array<Texture> arrSpriteNuves;
+    private int deltaFondoX = 1;
+
 
     //Fondo Sprite
-    private Array<Nuve> arrNuves;
     private Array<Item_Falso> arrItem;
 
-    //Fases
-    private Stage fasesMenu;
+    //Stages
+    private Stage menuStage;
 
     //Items
     private Hashtable<Integer, Item> Items;
+
+    //Audio
+    private Music audioFondo;
 
     //Timer
     float tiempo = 0;
@@ -53,7 +57,8 @@ class PantallaMenu implements Screen {
         configuracionVista();
         cargarTexturas();
         crearMenu();
-        crearFondo();
+
+
         cargarItems();
     }
 
@@ -67,15 +72,19 @@ class PantallaMenu implements Screen {
 
     private void cargarTexturas() {
 
+        texturaFondo = new Texture("Texturas/mapaMenu.png");
+
     }
 
     private void crearMenu() {
-        fasesMenu = new Stage(vista);
+        menuStage = new Stage(vista);
         //Boton de Jugar
-        TextureRegionDrawable trdJugar = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnJugar.png")));
-        TextureRegionDrawable trdJugarPress = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnJugarPressed.png")));
+        TextureRegionDrawable trdJugar = new TextureRegionDrawable
+                (new TextureRegion(new Texture("Botones/btnJugar.png")));
+        TextureRegionDrawable trdJugarPress = new TextureRegionDrawable
+                (new TextureRegion(new Texture("Botones/btnJugarPressed.png")));
         ImageButton btnJugar = new ImageButton(trdJugar, trdJugarPress);
-        btnJugar.setPosition(Juego.ANCHO / 2 - btnJugar.getWidth() / 2, Juego.ALTO / 2 - btnJugar.getHeight() / 2);
+        btnJugar.setPosition(Juego.ANCHO / 2 - btnJugar.getWidth() / 2, Juego.ALTO - 2*btnJugar.getHeight());
         //Funcionamiento
         btnJugar.addListener(new ClickListener() {
             @Override
@@ -86,8 +95,10 @@ class PantallaMenu implements Screen {
         });
 
         //Boton Configuracion
-        TextureRegionDrawable trdConf = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnConf.png")));
-        TextureRegionDrawable trdConfPress = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnConfPressed.png")));
+        TextureRegionDrawable trdConf = new TextureRegionDrawable
+                (new TextureRegion(new Texture("Botones/btnConf.png")));
+        TextureRegionDrawable trdConfPress = new TextureRegionDrawable
+                (new TextureRegion(new Texture("Botones/btnConfPressed.png")));
         ImageButton btnConf = new ImageButton(trdConf, trdConfPress);
         btnConf.setPosition(10, 10);
         //Funcionamiento
@@ -99,11 +110,13 @@ class PantallaMenu implements Screen {
             }
         });
 
-        //Boton Informacion
-        TextureRegionDrawable trdAcercaDe = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnAcercaDe.png")));
-        TextureRegionDrawable trdAcercaDePressed = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnAcercaDePressed.png")));
+        //Boton Acerca de
+        TextureRegionDrawable trdAcercaDe = new TextureRegionDrawable
+                (new TextureRegion(new Texture("Botones/btnAcercaDe.png")));
+        TextureRegionDrawable trdAcercaDePressed = new TextureRegionDrawable
+                (new TextureRegion(new Texture("Botones/btnAcercaDePressed.png")));
         ImageButton btnAcercaDe = new ImageButton(trdAcercaDe, trdAcercaDePressed);
-        btnAcercaDe.setPosition(juego.ANCHO - 10 - btnAcercaDe.getWidth(), 10);
+        btnAcercaDe.setPosition(Juego.ANCHO / 2 - btnJugar.getWidth() / 2, Juego.ALTO / 2 );
         //Funcionamiento
         btnAcercaDe.addListener(new ClickListener() {
             @Override
@@ -113,51 +126,31 @@ class PantallaMenu implements Screen {
             }
         });
 
+        //Boton Instrucciones
+        TextureRegionDrawable trdInstrucciones = new TextureRegionDrawable
+                (new TextureRegion(new Texture("Botones/btnInstrucciones.png")));
+        TextureRegionDrawable trdInstruccionesPressed = new TextureRegionDrawable
+                (new TextureRegion(new Texture("Botones/btnInstruccionesPressed.png")));
+        ImageButton btnInstrucciones = new ImageButton(trdInstrucciones, trdInstruccionesPressed);
+        btnInstrucciones.setPosition(Juego.ANCHO / 2 - btnJugar.getWidth() / 2, Juego.ALTO/3);
+        //Funcionamiento
+        btnInstrucciones.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                juego.setScreen(new Instrucciones(juego));
+            }
+        });
+
         //Anadir botones
-        fasesMenu.addActor(btnJugar);
-        fasesMenu.addActor(btnConf);
-        fasesMenu.addActor(btnAcercaDe);
+        menuStage.addActor(btnJugar);
+        menuStage.addActor(btnConf);
+        menuStage.addActor(btnAcercaDe);
+        menuStage.addActor(btnInstrucciones);
 
 
         //Cargar las entradas
-        Gdx.input.setInputProcessor(fasesMenu);
-    }
-
-    private void crearFondo() {
-        //Texturas
-        //Fondo
-        texturaFondo = new Texture( "HUD/fondoCielo.png");
-        //Nuve
-        arrSpriteNuves = new Array<>( 6);
-        for (int cantidadNuves = 0; cantidadNuves < 6; cantidadNuves++) {
-            String nombre = "HUD/nuve" + Integer.toString(cantidadNuves) + ".png";
-            Texture texturaNuve = new Texture(nombre);
-            arrSpriteNuves.add(texturaNuve);
-        }
-        //Nuves en pantalla
-        arrNuves = new Array<>( 6);
-        for (int i = 0; i < 6; i++){
-            Nuve nuve = new Nuve(arrSpriteNuves.get((int) numeroRandom(0,arrSpriteNuves.size - 1)), (int) numeroRandom(0,Juego.ANCHO));
-            arrNuves.add(nuve);
-        }
-        //Items en pantalla
-        arrItem = new Array<> (4 * 22);
-        for(int columna = 0; columna < 23; columna++) {
-            for (int fila = 0; fila < 5; fila++) {
-                int ID;
-                if(fila == 4){
-                    ID = 01;
-                }
-                else if(fila <4){
-                    ID = 02;
-                }
-                else{
-                    ID = 0;
-                }
-                Item_Falso item = new Item_Falso(ID, columna * 64, fila * 64);
-                arrItem.add(item);
-            }
-        }
+        Gdx.input.setInputProcessor(menuStage);
     }
 
     private void cargarItems() {
@@ -167,48 +160,21 @@ class PantallaMenu implements Screen {
     @Override
     public void render(float delta) {
 
-        movimientoFondo(delta);
+        //movimientoFondo(delta);
 
         clearScreen();
 
         batch.setProjectionMatrix(camara.combined);
+        deltaFondoX--;
 
         batch.begin();
-        batch.draw(texturaFondo, 0 , 0);
-        
-        //Render Nuves
-        for (Nuve nuve: arrNuves) {
-            nuve.render(batch);
-        }
-
-        //Render Suelo
-        for (Item_Falso item:arrItem) {
-            item.render(batch);
-        }
-
+        batch.draw(texturaFondo, deltaFondoX , -30);
         batch.end();
-        fasesMenu.draw();
+        menuStage.draw();
 
     }
 
     private void movimientoFondo(float delta) {
-        for (Nuve nuve : arrNuves) {
-            nuve.mover((float) numeroRandom(1, 4), 0);
-            if (nuve.getX() < 0 - nuve.getTexture().getWidth()) {
-                arrNuves.removeIndex(arrNuves.indexOf(nuve, true));
-                arrNuves.add(new Nuve(arrSpriteNuves.get((int) numeroRandom(0, arrSpriteNuves.size - 1))));
-            }
-        }
-        for (Item_Falso item : arrItem) {
-            item.mover(2);
-            if (item.getX() < 0 - item.getTexture().getWidth()) {
-                int ID = item.getID();
-                int index = arrItem.indexOf(item, true);
-                float y = item.getY();
-                arrItem.removeIndex(index);
-                arrItem.add(new Item_Falso(ID, Juego.ANCHO - 1 - (1 / delta / 60), y));
-            }
-        }
     }
 
     private void clearScreen() {

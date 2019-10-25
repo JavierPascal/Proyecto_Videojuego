@@ -8,16 +8,16 @@ public class Nuve {
     private Texture texturaNuve;
     private Sprite sprite;
 
-    public Nuve(Texture texturaNuve){
-        this.texturaNuve = texturaNuve;
+    public Nuve(){
+        this.texturaNuve = new Texture("Texturas/texNube.png");
         sprite = new Sprite(texturaNuve);
         sprite.setPosition(Juego.ANCHO, Juego.ALTO - texturaNuve.getHeight() - 50);
     }
 
-    public Nuve(Texture texturaNuve, int x){
-        this.texturaNuve = texturaNuve;
+    public Nuve(int x){
+        this.texturaNuve = new Texture("Texturas/texNube.png");
         sprite = new Sprite(texturaNuve);
-        sprite.setPosition(x, Juego.ALTO - texturaNuve.getHeight() - 20);
+        sprite.setPosition(x, Juego.ALTO - texturaNuve.getHeight() - 20 - (int)numeroRandom(0,40));
     }
 
     public void render(SpriteBatch batch){
@@ -34,5 +34,10 @@ public class Nuve {
 
     public Texture getTexture(){
         return texturaNuve;
+    }
+
+    public static double numeroRandom(double min, double max){
+        double x = (int)(Math.random()*((max-min)+1))+min;
+        return x;
     }
 }

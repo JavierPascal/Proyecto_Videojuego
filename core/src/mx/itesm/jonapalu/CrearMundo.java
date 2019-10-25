@@ -141,6 +141,7 @@ class CrearMundo implements Screen {
     @Override
     public void render(float delta) {
         clearScreen();
+        juego.sumar(delta);
 
         batch.setProjectionMatrix(camara.combined);
 

@@ -76,6 +76,7 @@ public class Instrucciones extends Pantalla {
     public void render(float delta) {
 
         borrarPantalla();
+        juego.sumar(delta);
 
         batch.setProjectionMatrix(camara.combined);
 

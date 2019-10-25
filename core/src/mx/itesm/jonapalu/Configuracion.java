@@ -77,6 +77,7 @@ class Configuracion implements Screen {
 
     @Override
     public void render(float delta) {
+        juego.sumar(delta);
 
         batch.setProjectionMatrix(camara.combined);
 

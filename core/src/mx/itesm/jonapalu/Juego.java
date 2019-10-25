@@ -19,8 +19,9 @@ public class Juego extends Game {
 
 
     }
-    public void render(float delta) {
-        tiempo =(0 + delta);
+    public void sumar(float delta) {
+        tiempo += delta;
+        System.out.println(tiempo);
 
 
     }

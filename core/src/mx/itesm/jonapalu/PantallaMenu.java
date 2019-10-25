@@ -45,8 +45,7 @@ class PantallaMenu implements Screen {
     //Audio
     private Music audioFondo;
 
-    //Timer
-    float tiempo = 0;
+
 
     public PantallaMenu(Juego juego) {
         this.juego = juego;
@@ -163,6 +162,7 @@ class PantallaMenu implements Screen {
         //movimientoFondo(delta);
 
         clearScreen();
+        juego.sumar(delta);
 
         batch.setProjectionMatrix(camara.combined);
         deltaFondoX--;

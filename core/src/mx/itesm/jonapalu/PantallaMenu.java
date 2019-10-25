@@ -31,6 +31,8 @@ class PantallaMenu implements Screen {
     //Fondo
     private Texture texturaFondo;
     private int deltaFondoX = 1;
+    private int contador;
+
 
 
     //Fondo Sprite
@@ -72,6 +74,7 @@ class PantallaMenu implements Screen {
     private void cargarTexturas() {
 
         texturaFondo = new Texture("Texturas/mapaMenu.png");
+        texturaFondo.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
     }
 
@@ -165,12 +168,12 @@ class PantallaMenu implements Screen {
         juego.sumar(delta);
 
         batch.setProjectionMatrix(camara.combined);
-        deltaFondoX--;
-
+        deltaFondoX++;
         batch.begin();
-        batch.draw(texturaFondo, deltaFondoX , -30);
+        batch.draw(texturaFondo, 0,-10,deltaFondoX, 0, (int)Juego.ANCHO, (int)Juego.ALTO);
         batch.end();
         menuStage.draw();
+
 
     }
 

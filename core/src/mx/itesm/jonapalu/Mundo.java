@@ -248,13 +248,16 @@ public class Mundo implements Screen {
             } else if(FaseTutorial == 1){
                 batch.begin();
                 moverNuves();
-                personaje.moverX(575);
+                personaje.moverX(Juego.ANCHO - 64);
                 juego.sumar(delta);
                 clearScreen();
                 CargarPantalla();
                 batch.draw(texturaMano, Juego.ANCHO - 64 - texturaMano.getWidth(), 320 - texturaMano.getHeight() - 10);
                 batch.setProjectionMatrix(camara.combined);
                 batch.end();
+                if(personaje.getX() > Juego.ANCHO - 65){
+                    Activo = EstadosJuego.JUGANDO;
+                }
             }
 
         }

@@ -17,9 +17,9 @@ public class Juego extends Game {
         setScreen(new PantallaMenu(this));
 
 
-
     }
     public void sumar(float delta) {
         tiempo += delta;
+        System.out.println(tiempo);
     }
 }

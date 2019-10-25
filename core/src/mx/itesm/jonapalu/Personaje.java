@@ -10,6 +10,7 @@ public class Personaje {
     private Texture texturaPersonaje;
     private Sprite sprite;
     private boolean Moviendo;
+    int dx;
 
     public Personaje(int x, int y){
         this.texturaPersonaje = new Texture("Personajes/personaje.png");
@@ -21,18 +22,27 @@ public class Personaje {
         sprite.draw(batch);
     }
 
-    public void mover(float x, float y){
+    public void moverX(float x){
         if(Moviendo) {
             //Debes de comprobar si te puedes mover ( si hay un bloque abajo de donde te quieres mover y si no hay ningun bloque enfrente
-            int dx = 2;
-            int dy = 0;
-            sprite.setPosition(sprite.getX() - dx, sprite.getY() + dy);
+            if(x > sprite.getX()){
+                dx = -2;
+            }else {
+                dx = 2;
+            }
+            sprite.setPosition(sprite.getX() - dx, sprite.getY());
         }
+    }
+
+    public void moverY(float y){
+        int dy = 2;
+        sprite.setPosition(sprite.getX(), sprite.getY() - dy);
     }
 
     public float getX(){
         return sprite.getX();
     }
+    public float getY(){ return sprite.getY();}
     public boolean getMoviendo(){
         return Moviendo;
     }

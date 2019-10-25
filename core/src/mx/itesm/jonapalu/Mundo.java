@@ -1,10 +1,8 @@
 package mx.itesm.jonapalu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,7 +11,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -71,8 +68,19 @@ public class Mundo implements Screen {
         cargarTexturas();
     }
 
+    private void configuracionVista() {
+        camara = new OrthographicCamera();
+        camara.position.set( Juego.ANCHO / 2, Juego.ALTO / 2, 0);
+        camara.update();
+        vista = new FitViewport(Juego.ANCHO, Juego.ALTO, camara);
+        batch = new SpriteBatch();
+        //Codigo provisional para crear el Mundo
+
+    }
+
     private void crearBotones() {
         fasesMenu = new Stage(vista);
+
         //Boton de Pausa
         TextureRegionDrawable trdPausa = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnPausa.png")));
         TextureRegionDrawable trdPausaPress = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnPausa.png")));
@@ -99,7 +107,8 @@ public class Mundo implements Screen {
                 Activo = EstadosJuego.CRAFTEANDO;
             }
         });
-
+        fasesMenu.addActor(btnPausa);
+        fasesMenu.addActor(btnCrafteo);
     }
 
     private void cargarMapa() {
@@ -126,16 +135,6 @@ public class Mundo implements Screen {
         backAudio.setVolume(.2f);*/
     }
 
-    private void configuracionVista() {
-        camara = new OrthographicCamera();
-        camara.position.set( Juego.ANCHO / 2, Juego.ALTO / 2, 0);
-        camara.update();
-        vista = new FitViewport(Juego.ANCHO, Juego.ALTO, camara);
-        batch = new SpriteBatch();
-        //Codigo provisional para crear el Mundo
-
-    }
-
     private void crearFondo() {
 
         //Personajes
@@ -156,7 +155,7 @@ public class Mundo implements Screen {
         //Items en pantalla
         arrItem = new Array<> (4 * 22);
         for(int columna = 0; columna < 40; columna++) {
-            for (int fila = 0; fila < 40; fila++) {
+            for (int fila = 0; fila < 11; fila++) {
                 int ID;
                 if (fila == 4) {
                     ID = 01;

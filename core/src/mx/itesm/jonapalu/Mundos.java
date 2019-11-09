@@ -3,6 +3,7 @@ package mx.itesm.jonapalu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -26,6 +28,7 @@ class Mundos implements Screen {
 
     //Fondo Textura
     private Texture texturaFondo;
+    private AssetManager manager;
 
     //Botones de Mundos
     public int mundos;
@@ -36,6 +39,7 @@ class Mundos implements Screen {
 
     public Mundos(Juego juego) {
         this.juego = juego;
+        manager = juego.getManager();
     }
 
     @Override
@@ -62,16 +66,23 @@ class Mundos implements Screen {
 
     private void cargarTexturas() {
         //Fondo
-        texturaFondo = new Texture( "HUD/fondoGris.png");
+        texturaFondo = manager.get("HUD/fondoGris.png");
     }
 
     private void crearMenu() {
         fasesMenu = new Stage(vista);
         //Boton de Regresar
-        TextureRegionDrawable trdRegresar = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnRegresar.png")));
-        TextureRegionDrawable trdRegresarPress = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnRegresar.png")));
+        Texture texturabtnRegresar = manager.get("Botones/btnRegresar.png");
+        TextureRegionDrawable trdRegresar = new TextureRegionDrawable
+                (new TextureRegion(texturabtnRegresar));
+
+        Texture texturabtnRegresarPressed = manager.get("Botones/btnRegresar.png");
+        TextureRegionDrawable trdRegresarPress = new TextureRegionDrawable
+                (new TextureRegion(texturabtnRegresarPressed));
+
         ImageButton btnRegresar = new ImageButton(trdRegresar, trdRegresarPress);
         btnRegresar.setPosition(10, Juego.ALTO - btnRegresar.getHeight() - 10);
+
         //Funcionamiento
         btnRegresar.addListener(new ClickListener() {
             @Override
@@ -81,8 +92,14 @@ class Mundos implements Screen {
             }
         });
         //Boton Nuevo Mundo
-        TextureRegionDrawable trdNuevoMundo = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnAgregarMundo.png")));
-        TextureRegionDrawable trdNuevoMundoPress = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnAgregarMundoPressed.png")));
+        Texture texturaBtnAgregarMundo = manager.get("Botones/btnAgregarMundo.png");
+        TextureRegionDrawable trdNuevoMundo = new TextureRegionDrawable
+                (new TextureRegion(texturaBtnAgregarMundo));
+
+        Texture texturaBtnAgregarMundoPressed = manager.get("Botones/btnAgregarMundoPressed.png");
+        TextureRegionDrawable trdNuevoMundoPress = new TextureRegionDrawable
+                (new TextureRegion(texturaBtnAgregarMundoPressed));
+
         ImageButton btnNuevoMundo = new ImageButton(trdNuevoMundo, trdNuevoMundoPress);
         btnNuevoMundo.setPosition(Juego.ANCHO - btnNuevoMundo.getWidth() - 20, 10);
         //Funcionamiento
@@ -96,8 +113,15 @@ class Mundos implements Screen {
 
         //Boton Mundo provicional
         final int numMundo = 1;
-        TextureRegionDrawable trdMundo = new TextureRegionDrawable(new TextureRegion(new Texture("HUD/btnMundos.png")));
-        TextureRegionDrawable trdMundoPress = new TextureRegionDrawable(new TextureRegion(new Texture("HUD/btnMundosPress.png")));
+
+        Texture texturaBtnMundos = manager.get("HUD/btnMundos.png");
+        TextureRegionDrawable trdMundo = new TextureRegionDrawable
+                (new TextureRegion(texturaBtnMundos));
+
+        Texture texturaBtnMundosPressed = manager.get("HUD/btnMundosPress.png");
+        TextureRegionDrawable trdMundoPress = new TextureRegionDrawable
+                (new TextureRegion(texturaBtnMundosPressed));
+
         ImageButton btnMundo = new ImageButton(trdMundo, trdMundoPress);
         btnMundo.setPosition(10, Juego.ALTO - 10 - (btnMundo.getHeight() * (numMundo + 1)));
         //Funcionamiento
@@ -162,6 +186,12 @@ class Mundos implements Screen {
 
     @Override
     public void dispose() {
+        manager.unload("HUD/fondoGris.png");
+        manager.unload("Botones/btnRegresar.png");
+        manager.unload("Botones/btnAgregarMundo.png");
+        manager.unload("Botones/btnAgregarMundoPressed.png");
+        manager.unload("HUD/btnMundos.png");
+        manager.unload("HUD/btnMundosPress.png");
 
     }
 }

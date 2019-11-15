@@ -76,7 +76,7 @@ class PantallaMenu implements Screen {
 
     private void cargarTexturas() {
 
-        texturaFondo = manager.get("Texturas/mapaMenu.png");
+        texturaFondo = manager.get("Texturas/fondoMenu.png");
         texturaFondo.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
     }

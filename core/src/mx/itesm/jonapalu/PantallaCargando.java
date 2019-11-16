@@ -1,8 +1,14 @@
 package mx.itesm.jonapalu;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 public class PantallaCargando extends Pantalla{
 
@@ -53,8 +59,22 @@ public class PantallaCargando extends Pantalla{
             case MUNDOS:
                 cargarRecursosMundos();
                 break;
+            case TUTORIAL:
+                cargarRecursosTutorial();
+                break;
 
         }
+
+    }
+
+    private void cargarRecursosTutorial() {
+        //manager.load("Audios/marioBros.mp3", Music.class);
+        //manager.load("Audios/moneda.mp3", Sound.class);
+        manager.load("Mapas/mapaTutorial.tmx", TiledMap.class);
+        manager.load("Texturas/Tileset.png", Texture.class);
+
+
+
 
     }
 
@@ -65,6 +85,10 @@ public class PantallaCargando extends Pantalla{
         manager.load("Botones/btnAgregarMundoPressed.png",Texture.class);
         manager.load("HUD/btnMundos.png",Texture.class);
         manager.load("HUD/btnMundosPress.png",Texture.class);
+        manager.load("Botones/btnTutorial.png",Texture.class);
+        manager.load("Botones/btnTutorialPressed.png",Texture.class);
+
+
 
     }
 
@@ -130,6 +154,10 @@ public class PantallaCargando extends Pantalla{
                 case INSTRUCCIONES:
                     juego.setScreen(new Instrucciones(juego));
                     break;
+                case TUTORIAL:
+                    juego.setScreen(new PantallaMundoTutorial(juego));
+                    break;
+
             }
         }
     }

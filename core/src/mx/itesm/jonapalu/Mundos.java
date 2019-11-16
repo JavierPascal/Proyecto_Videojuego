@@ -132,11 +132,31 @@ class Mundos implements Screen {
                 juego.setScreen(new Mundo(juego, numMundo));
             }
         });
+//Boton Tutorial
+        Texture texturaBtnTutorial = manager.get("Botones/btnTutorial.png");
+        TextureRegionDrawable trdTutorial = new TextureRegionDrawable
+                (new TextureRegion(texturaBtnTutorial));
+
+        Texture texturaBtnTutorialPressed = manager.get("Botones/btnTutorialPressed.png");
+        TextureRegionDrawable trdTutorialPressed = new TextureRegionDrawable
+                (new TextureRegion(texturaBtnTutorialPressed));
+
+        ImageButton btnTutorial = new ImageButton(trdTutorial, trdTutorialPressed);
+        btnTutorial.setPosition(10, Juego.ALTO  - 5*(btnTutorial.getHeight()));
+        //Funcionamiento
+        btnTutorial.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                juego.setScreen((new PantallaCargando(juego, TipoPantalla.TUTORIAL)));
+            }
+        });
 
         //Anadir botones
         fasesMenu.addActor(btnRegresar);
         fasesMenu.addActor(btnNuevoMundo);
         fasesMenu.addActor(btnMundo);
+        fasesMenu.addActor(btnTutorial);
 
 
         //Cargar las entradas
@@ -192,6 +212,8 @@ class Mundos implements Screen {
         manager.unload("Botones/btnAgregarMundoPressed.png");
         manager.unload("HUD/btnMundos.png");
         manager.unload("HUD/btnMundosPress.png");
+        manager.unload("Botones/btnTutorial.png");
+        manager.unload("Botones/btnTutorial.png");
 
     }
 }

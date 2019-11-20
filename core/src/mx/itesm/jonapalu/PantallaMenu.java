@@ -83,6 +83,15 @@ class PantallaMenu implements Screen {
 
     private void crearMenu() {
         menuStage = new Stage(vista);
+
+        //Logo
+        Texture texturaLogo = manager.get("Botones/logo.png");
+        TextureRegionDrawable trdLogo = new TextureRegionDrawable
+                (new TextureRegion(texturaLogo));
+
+        ImageButton btnLogo = new ImageButton(trdLogo, trdLogo);
+        btnLogo.setPosition(Juego.ANCHO / 2 - btnLogo.getWidth() / 2, Juego.ALTO - btnLogo.getHeight()-20);
+
         //Boton de Jugar
         Texture texturaBtnJugar = manager.get("Botones/btnJugar.png");
         TextureRegionDrawable trdJugar = new TextureRegionDrawable
@@ -93,7 +102,7 @@ class PantallaMenu implements Screen {
                 (new TextureRegion(texturaBtnJugarPressed));
 
         ImageButton btnJugar = new ImageButton(trdJugar, trdJugarPress);
-        btnJugar.setPosition(Juego.ANCHO / 2 - btnJugar.getWidth() / 2, Juego.ALTO - 2*btnJugar.getHeight());
+        btnJugar.setPosition(Juego.ANCHO / 2 - btnJugar.getWidth() / 2, Juego.ALTO - 4*btnJugar.getHeight());
 
         //Funcionamiento
         btnJugar.addListener(new ClickListener() {
@@ -129,7 +138,7 @@ class PantallaMenu implements Screen {
         TextureRegionDrawable trdAcercaDePressed = new TextureRegionDrawable
                 (new TextureRegion(new Texture("Botones/btnAcercaDePressed.png")));
         ImageButton btnAcercaDe = new ImageButton(trdAcercaDe, trdAcercaDePressed);
-        btnAcercaDe.setPosition(Juego.ANCHO / 2 - btnJugar.getWidth() / 2, Juego.ALTO / 2 );
+        btnAcercaDe.setPosition(Juego.ANCHO / 2 - btnAcercaDe.getWidth() / 2, Juego.ALTO - 5*btnJugar.getHeight()-40);
         //Funcionamiento
         btnAcercaDe.addListener(new ClickListener() {
             @Override
@@ -145,7 +154,7 @@ class PantallaMenu implements Screen {
         TextureRegionDrawable trdInstruccionesPressed = new TextureRegionDrawable
                 (new TextureRegion(new Texture("Botones/btnInstruccionesPressed.png")));
         ImageButton btnInstrucciones = new ImageButton(trdInstrucciones, trdInstruccionesPressed);
-        btnInstrucciones.setPosition(Juego.ANCHO / 2 - btnJugar.getWidth() / 2, Juego.ALTO/3);
+        btnInstrucciones.setPosition(Juego.ANCHO / 2 - btnInstrucciones.getWidth() / 2,Juego.ALTO - 6*btnJugar.getHeight()-80);
         //Funcionamiento
         btnInstrucciones.addListener(new ClickListener() {
             @Override
@@ -156,6 +165,7 @@ class PantallaMenu implements Screen {
         });
 
         //Anadir botones
+        menuStage.addActor(btnLogo);
         menuStage.addActor(btnJugar);
         menuStage.addActor(btnConf);
         menuStage.addActor(btnAcercaDe);

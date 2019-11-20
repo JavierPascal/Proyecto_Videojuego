@@ -109,6 +109,8 @@ public class PantallaCargando extends Pantalla{
     private void cargarRecursosMenu() {
         manager.load("Texturas/fondoMenu.png", Texture.class);
 
+        manager.load("Botones/logo.png",Texture.class);
+
         manager.load("Botones/btnJugar.png",Texture.class);
         manager.load("Botones/btnJugarPressed.png",Texture.class);
 

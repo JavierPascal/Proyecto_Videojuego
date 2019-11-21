@@ -62,8 +62,25 @@ public class PantallaCargando extends Pantalla{
             case TUTORIAL:
                 cargarRecursosTutorial();
                 break;
+            case CREARMUNDO:
+                cargarRecursosCrearMundo();
+                break;
 
         }
+
+    }
+
+    private void cargarRecursosCrearMundo() {
+        manager.load("HUD/fondoGris.png",Texture.class);
+        manager.load("Botones/btnRegresar.png",Texture.class);
+        manager.load("Botones/btnCreativo.png",Texture.class);
+        manager.load("Botones/btnCreativoPressed.png",Texture.class);
+        manager.load("Botones/btnAventura.png",Texture.class);
+        manager.load("Botones/btnAventuraPressed.png",Texture.class);
+
+
+
+
 
     }
 
@@ -83,8 +100,8 @@ public class PantallaCargando extends Pantalla{
         manager.load("Botones/btnRegresar.png",Texture.class);
         manager.load("Botones/btnAgregarMundo.png",Texture.class);
         manager.load("Botones/btnAgregarMundoPressed.png",Texture.class);
-        manager.load("HUD/btnMundos.png",Texture.class);
-        manager.load("HUD/btnMundosPress.png",Texture.class);
+        manager.load("Botones/btnMundo1.png",Texture.class);
+        manager.load("Botones/btnMundo1Pressed.png",Texture.class);
         manager.load("Botones/btnTutorial.png",Texture.class);
         manager.load("Botones/btnTutorialPressed.png",Texture.class);
 
@@ -159,6 +176,8 @@ public class PantallaCargando extends Pantalla{
                 case TUTORIAL:
                     juego.setScreen(new PantallaMundoTutorial(juego));
                     break;
+                case CREARMUNDO:
+                    juego.setScreen(new CrearMundo(juego));
 
             }
         }

@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 class Mundos implements Screen {
@@ -60,7 +61,7 @@ class Mundos implements Screen {
         camara = new OrthographicCamera();
         camara.position.set( Juego.ANCHO / 2, Juego.ALTO / 2, 0);
         camara.update();
-        vista = new FitViewport(Juego.ANCHO, Juego.ALTO, camara);
+        vista = new StretchViewport(Juego.ANCHO, Juego.ALTO, camara);
         batch = new SpriteBatch();
     }
 
@@ -107,23 +108,23 @@ class Mundos implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                juego.setScreen(new CrearMundo(juego));
+                juego.setScreen((new PantallaCargando(juego, TipoPantalla.CREARMUNDO)));
             }
         });
 
         //Boton Mundo provicional
         final int numMundo = 1;
 
-        Texture texturaBtnMundos = manager.get("HUD/btnMundos.png");
+        Texture texturaBtnMundos = manager.get("Botones/btnMundo1.png");
         TextureRegionDrawable trdMundo = new TextureRegionDrawable
                 (new TextureRegion(texturaBtnMundos));
 
-        Texture texturaBtnMundosPressed = manager.get("HUD/btnMundosPress.png");
+        Texture texturaBtnMundosPressed = manager.get("Botones/btnMundo1Pressed.png");
         TextureRegionDrawable trdMundoPress = new TextureRegionDrawable
                 (new TextureRegion(texturaBtnMundosPressed));
 
         ImageButton btnMundo = new ImageButton(trdMundo, trdMundoPress);
-        btnMundo.setPosition(10, Juego.ALTO - 10 - (btnMundo.getHeight() * (numMundo + 1)));
+        btnMundo.setPosition(50, Juego.ALTO - 3*btnMundo.getHeight());
         //Funcionamiento
         btnMundo.addListener(new ClickListener() {
             @Override
@@ -142,7 +143,7 @@ class Mundos implements Screen {
                 (new TextureRegion(texturaBtnTutorialPressed));
 
         ImageButton btnTutorial = new ImageButton(trdTutorial, trdTutorialPressed);
-        btnTutorial.setPosition(10, Juego.ALTO  - 5*(btnTutorial.getHeight()));
+        btnTutorial.setPosition(50, Juego.ALTO  - 10 - 4*(btnTutorial.getHeight()));
         //Funcionamiento
         btnTutorial.addListener(new ClickListener() {
             @Override

@@ -21,7 +21,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.io.File;
@@ -86,7 +88,7 @@ public class Mundo implements Screen {
         camara = new OrthographicCamera();
         camara.position.set( Juego.ANCHO / 2, Juego.ALTO / 2, 0);
         camara.update();
-        vista = new FitViewport(Juego.ANCHO, Juego.ALTO, camara);
+        vista = new StretchViewport(Juego.ANCHO, Juego.ALTO, camara);
         batch = new SpriteBatch();
         Gdx.input.setInputProcessor( new EntryProcessor());
         //Codigo provisional para crear el Mundo

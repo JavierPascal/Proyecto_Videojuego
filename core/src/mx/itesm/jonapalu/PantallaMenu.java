@@ -37,7 +37,6 @@ class PantallaMenu implements Screen {
     private int deltaFondoX = 1;
 
 
-
     //Fondo Sprite
     private Array<Item_Falso> arrItem;
 
@@ -69,7 +68,7 @@ class PantallaMenu implements Screen {
 
     private void configuracionVista() {
         camara = new OrthographicCamera();
-        camara.position.set( Juego.ANCHO / 2, Juego.ALTO / 2, 0);
+        camara.position.set(Juego.ANCHO / 2, Juego.ALTO / 2, 0);
         camara.update();
         vista = new StretchViewport(Juego.ANCHO, Juego.ALTO, camara);
         batch = new SpriteBatch();
@@ -91,7 +90,7 @@ class PantallaMenu implements Screen {
                 (new TextureRegion(texturaLogo));
 
         ImageButton btnLogo = new ImageButton(trdLogo, trdLogo);
-        btnLogo.setPosition(Juego.ANCHO / 2 - btnLogo.getWidth() / 2, Juego.ALTO - btnLogo.getHeight()-20);
+        btnLogo.setPosition(Juego.ANCHO / 2 - btnLogo.getWidth() / 2, Juego.ALTO - btnLogo.getHeight() - 20);
 
         //Boton de Jugar
         Texture texturaBtnJugar = manager.get("Botones/btnJugar.png");
@@ -103,7 +102,7 @@ class PantallaMenu implements Screen {
                 (new TextureRegion(texturaBtnJugarPressed));
 
         ImageButton btnJugar = new ImageButton(trdJugar, trdJugarPress);
-        btnJugar.setPosition(Juego.ANCHO / 2 - btnJugar.getWidth() / 2, Juego.ALTO - 4*btnJugar.getHeight());
+        btnJugar.setPosition(Juego.ANCHO / 2 - btnJugar.getWidth() / 2, Juego.ALTO - 4 * btnJugar.getHeight());
 
         //Funcionamiento
         btnJugar.addListener(new ClickListener() {
@@ -139,13 +138,13 @@ class PantallaMenu implements Screen {
         TextureRegionDrawable trdAcercaDePressed = new TextureRegionDrawable
                 (new TextureRegion(new Texture("Botones/btnAcercaDePressed.png")));
         ImageButton btnAcercaDe = new ImageButton(trdAcercaDe, trdAcercaDePressed);
-        btnAcercaDe.setPosition(Juego.ANCHO / 2 - btnAcercaDe.getWidth() / 2, Juego.ALTO - 5*btnJugar.getHeight()-40);
+        btnAcercaDe.setPosition(Juego.ANCHO / 2 - btnAcercaDe.getWidth() / 2, Juego.ALTO - 5 * btnJugar.getHeight() - 40);
         //Funcionamiento
         btnAcercaDe.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                juego.setScreen(new Informacion(juego));
+                juego.setScreen(new PantallaCargando(juego, TipoPantalla.ACERCA));
             }
         });
 
@@ -155,7 +154,7 @@ class PantallaMenu implements Screen {
         TextureRegionDrawable trdInstruccionesPressed = new TextureRegionDrawable
                 (new TextureRegion(new Texture("Botones/btnInstruccionesPressed.png")));
         ImageButton btnInstrucciones = new ImageButton(trdInstrucciones, trdInstruccionesPressed);
-        btnInstrucciones.setPosition(Juego.ANCHO / 2 - btnInstrucciones.getWidth() / 2,Juego.ALTO - 6*btnJugar.getHeight()-80);
+        btnInstrucciones.setPosition(Juego.ANCHO / 2 - btnInstrucciones.getWidth() / 2, Juego.ALTO - 6 * btnJugar.getHeight() - 80);
         //Funcionamiento
         btnInstrucciones.addListener(new ClickListener() {
             @Override
@@ -192,7 +191,7 @@ class PantallaMenu implements Screen {
         batch.setProjectionMatrix(camara.combined);
         deltaFondoX++;
         batch.begin();
-        batch.draw(texturaFondo, 0,-10,deltaFondoX, 0, (int)Juego.ANCHO, (int)Juego.ALTO);
+        batch.draw(texturaFondo, 0, -10, deltaFondoX, 0, (int) Juego.ANCHO, (int) Juego.ALTO);
         batch.end();
         menuStage.draw();
 
@@ -203,7 +202,7 @@ class PantallaMenu implements Screen {
     }
 
     private void clearScreen() {
-        Gdx.gl.glClearColor(1,1,1,1);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
@@ -237,8 +236,8 @@ class PantallaMenu implements Screen {
     }
 
 
-    public static double numeroRandom(double min, double max){
-        double x = (int)(Math.random()*((max-min)+1))+min;
+    public static double numeroRandom(double min, double max) {
+        double x = (int) (Math.random() * ((max - min) + 1)) + min;
         return x;
     }
 }

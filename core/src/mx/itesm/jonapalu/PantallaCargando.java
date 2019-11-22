@@ -114,10 +114,17 @@ public class PantallaCargando extends Pantalla{
 
     private void cargarRecursosConfig() {
         manager.load("Botones/btnRegresar.png",Texture.class);
+        manager.load("HUD/fondoGris.png",Texture.class);
+        manager.load("Botones/btnRegresar.png",Texture.class);
 
     }
 
     private void cargarRecursosAcerca() {
+        manager.load("HUD/fondoGris.png",Texture.class);
+        manager.load("Fotitos/nosotros.jpeg",Texture.class);
+        manager.load("Fotitos/nosotrosPress.jpeg",Texture.class);
+        manager.load("Botones/btnRegresar.png",Texture.class);
+
     }
 
     private void cargarRecursosJuego() {

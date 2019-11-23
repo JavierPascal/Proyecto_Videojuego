@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
@@ -23,6 +25,7 @@ class Configuracion implements Screen {
 
     //Fases
     private Stage fasesMenu;
+    private Stage MenuFases;
 
     private SpriteBatch batch;
     private Viewport vista;
@@ -32,8 +35,12 @@ class Configuracion implements Screen {
     private Texture texturaFondo;
     private AssetManager manager;
 
+    //Tabla
+    private Table tabla = new Table();
+    //private Label nameLabel = new Label();
+
     public Configuracion(Juego juego){
-        this.juego =juego;
+        this.juego = juego;
         manager = juego.getManager();
     }
 
@@ -60,6 +67,7 @@ class Configuracion implements Screen {
     private void crearMenu() {
 
         fasesMenu = new Stage(vista);
+        MenuFases= new Stage(vista);
         //Boton de Regresar
         Texture texturabtnRegresar = manager.get("Botones/btnRegresar.png");
         TextureRegionDrawable trdRegresar = new TextureRegionDrawable
@@ -82,6 +90,7 @@ class Configuracion implements Screen {
 
         //Anadir botones
         fasesMenu.addActor(btnRegresar);
+        MenuFases.addActor(tabla);
 
         //Cargar las entradas
         Gdx.input.setInputProcessor(fasesMenu);

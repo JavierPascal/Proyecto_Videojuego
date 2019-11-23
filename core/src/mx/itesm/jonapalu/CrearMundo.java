@@ -25,6 +25,7 @@ class CrearMundo implements Screen {
     private OrthographicCamera camara;
     private Viewport vista;
     private SpriteBatch batch;
+    private String nombre;
 
     //Fondo Textura
     private Texture texturaFondo;
@@ -136,9 +137,6 @@ class CrearMundo implements Screen {
             }
         });
 
-
-
-
         //Boton Crear Mundo
         TextureRegionDrawable trdCrearMundo = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnAgregarMundo.png")));
         TextureRegionDrawable trdCrearMundoPress = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnAgregarMundoPressed.png")));
@@ -150,7 +148,7 @@ class CrearMundo implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 //Debes de comprobar si el Mundo ya existe o no
-                juego.setScreen(new Mundo(juego, 1));
+                juego.setScreen(new Mundo(juego, nombre));
             }
         });
 

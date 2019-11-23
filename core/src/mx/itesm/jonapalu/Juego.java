@@ -33,3 +33,16 @@ public class Juego extends Game {
 	    return manager;
     }
 }
+
+/*REvisar Franja Blanca en menù principal DONE
+* revisar fondo de instrucciones e instrucciones
+* Revisar botón regresar DONE
+* OnBackButton pressed
+* en setInputProcessor
+* TErminar Tutorial
+* Implementar mundo 1
+* Pantalla perder
+* Enemigos
+* Botones de Menu
+* Crafteo
+* Back de crearMundo DONE*/

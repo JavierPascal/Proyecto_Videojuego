@@ -191,7 +191,7 @@ class PantallaMenu implements Screen {
         batch.setProjectionMatrix(camara.combined);
         deltaFondoX++;
         batch.begin();
-        batch.draw(texturaFondo, 0, -10, deltaFondoX, 0, (int) Juego.ANCHO, (int) Juego.ALTO);
+        batch.draw(texturaFondo, 0, 0, deltaFondoX, 0, (int) Juego.ANCHO, (int) Juego.ALTO);
         batch.end();
         menuStage.draw();
 

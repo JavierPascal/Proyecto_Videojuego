@@ -31,6 +31,7 @@ class Configuracion implements Screen {
 
     private Table tabla = new Table();
     private String tiempo;
+    private CharSequence s;
 
 
 
@@ -70,22 +71,31 @@ class Configuracion implements Screen {
     }
     private void crearMenu() {
 
-        MenuFases = new Stage(vista);
+        fasesMenu = new Stage(vista);
 
         Skin skin = new Skin(Gdx.files.internal("data/uiskin.json"));
         Label.LabelStyle estilo = new Label.LabelStyle();
         estilo.font = new BitmapFont(Gdx.files.internal("data/default.fnt"));
         tabla.setFillParent(true);
         Label nombreLabel = new Label("Nombre:", skin);
+        Label tiempoLabel = new Label("Tiempo", skin);
         tabla.defaults().width(100); // Hace que todas las celdas esten en default.
         tabla.add(nombreLabel);
+        tabla.add(tiempoLabel);
         tabla.row();
-        tabla.add();
+        //tabla.add(s);
 
-        fasesMenu = new Stage(vista);
+
         //Boton de Regresar
-        TextureRegionDrawable trdRegresar = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnRegresar.png")));
-        ImageButton btnRegresar = new ImageButton(trdRegresar, trdRegresar);
+        Texture texturabtnRegresar = manager.get("Botones/btnRegresar.png");
+        TextureRegionDrawable trdRegresar = new TextureRegionDrawable
+                (new TextureRegion(texturabtnRegresar));
+
+        Texture texturabtnRegresarPressed = manager.get("Botones/btnRegresar.png");
+        TextureRegionDrawable trdRegresarPress = new TextureRegionDrawable
+                (new TextureRegion(texturabtnRegresarPressed));
+
+        ImageButton btnRegresar = new ImageButton(trdRegresar, trdRegresarPress);
         btnRegresar.setPosition(10, Juego.ALTO - btnRegresar.getHeight() - 10);
         //Funcionamiento
         btnRegresar.addListener(new ClickListener() {
@@ -98,16 +108,16 @@ class Configuracion implements Screen {
 
         //Anadir botones
         fasesMenu.addActor(btnRegresar);
-        MenuFases.addActor(tabla);
+        fasesMenu.addActor(tabla);
 
         //Cargar las entradas
         Gdx.input.setInputProcessor(fasesMenu);
-        Gdx.input.setInputProcessor(MenuFases);
     }
 
     @Override
     public void render(float delta) {
-        tiempo = "12";
+         s = "tiempo";
+        tiempo = Float.toString(delta);
         juego.sumar(delta);
 
         batch.setProjectionMatrix(camara.combined);
@@ -117,7 +127,7 @@ class Configuracion implements Screen {
 
         batch.end();
         fasesMenu.draw();
-        MenuFases.draw();
+
     }
 
     @Override

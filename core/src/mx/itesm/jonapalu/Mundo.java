@@ -15,6 +15,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -25,10 +28,22 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.physics.box2d.World;
 
 import java.io.File;
 
 public class Mundo implements Screen {
+
+    private static final float SCALE = 2.0f;
+    public static final float PIXEL_PER_METER = 32f;
+    private static final float TIME_STEP = 1 / 60f;
+    private static final int VELOCITY_ITERATIONS = 6;
+    private static final int POSITION_ITERATIONS = 2;
+    private Box2DDebugRenderer box2DDebugRenderer;
+    private Personaje personaje;
+    private static final float VELOCITY_Y = -9.85f;
+    private static final float VELOCITY_X = 0f;
+    private Texture textureP;
 
     float mouseX;
     float mouseY;
@@ -51,7 +66,6 @@ public class Mundo implements Screen {
 
     //Personajes
     //private Array<Personaje> arrPersonajes;
-    private Personaje personaje;
 
     //Mundo
     private OrthogonalTiledMapRenderer rendererMap;
@@ -64,6 +78,8 @@ public class Mundo implements Screen {
 
     private int numeroMundo;
     private boolean MensajeError = false;
+
+    private World world;
 
     public Mundo(Juego juego, int numeroMundo){
         this.Activo = EstadosJuego.TUTORIAL;
@@ -80,8 +96,13 @@ public class Mundo implements Screen {
         crearBotones();
         cargarMapa();
         audio();
-        crearFondo();
         cargarTexturas();
+        box2d();
+    }
+
+    private void box2d() {
+        personaje = new Personaje(world);
+        world = new World(new Vector2(0, -10), true);
     }
 
     private void configuracionVista() {
@@ -90,9 +111,6 @@ public class Mundo implements Screen {
         camara.update();
         vista = new StretchViewport(Juego.ANCHO, Juego.ALTO, camara);
         batch = new SpriteBatch();
-        Gdx.input.setInputProcessor( new EntryProcessor());
-        //Codigo provisional para crear el Mundo
-
     }
 
     private void crearBotones() {
@@ -153,68 +171,19 @@ public class Mundo implements Screen {
         backAudio.setVolume(.2f);*/
     }
 
-    private void crearFondo() {
-        //Personajes
-        /*arrPersonajes = new Array<>(10);
-        for (int i = 0; i < 2; i++){
-            Personaje personaje = new Personaje( (int)Juego.ANCHO - 10, (int)Juego.ALTO - 10);
-            arrPersonajes.add(personaje);
-        }*/
-        personaje = new Personaje(0, (int)Juego.ALTO);
-        //Movimiento de personajes
-        arrMov = new Array<>(6);
-        //Nuves en pantalla
-        arrNuves = new Array<>( 6);
-        for (int i = 0; i < 2; i++){
-            Nuve nuve = new Nuve((int) numeroRandom(0,Juego.ANCHO));
-            arrNuves.add(nuve);
-        }
-        //Items en pantalla
-        arrItem = new Array<> (4 * 22);
-        for(int columna = 0; columna < 40; columna++) {
-            for (int fila = 0; fila < 11; fila++) {
-                int ID;
-                if (fila == 4) {
-                    ID = 01;
-                } else if (fila < 4) {
-                    ID = 02;
-                } else {
-                    ID = 00;
-                }
-                Item_Falso item = new Item_Falso(ID, columna * 64, fila * 64);
-                arrItem.add(item);
-            }
-        }
-    }
-
     private void cargarTexturas() {
-        texturaError = new Texture("HUD/ErrorP.png");
-        texturaMano = new Texture("Botones/btnMano.png");
+        textureP = new Texture(personaje.PLAYER_IMG_PATH);
     }
 
     @Override
     public void render(float delta) {
         if(Activo==EstadosJuego.JUGANDO){
-            //Movimiento del personaje
-            if(Gdx.input.justTouched()) {
-                personaje.empezarAMover();
-                arrMov.add((float)mouseX);
-            }
-            moverPersonajes();
+
             moverNuves();
             juego.sumar(delta);
             clearScreen();
-
             batch.setProjectionMatrix(camara.combined);
-
-            /*rendererMap.setView(camara);
-            rendererMap.render();
-            */
             batch.begin();
-            if(MensajeError){
-                batch.draw(texturaError, Juego.ANCHO - 20, Juego.ALTO - 20);
-                //Tras 10 segundos quitar el mensaje
-            }
             CargarPantalla();
             batch.end();
             fasesMenu.draw();
@@ -226,51 +195,23 @@ public class Mundo implements Screen {
         }else if(Activo == EstadosJuego.CRAFTEANDO){
             System.out.println("Crafteando");
         }
-        else if (Activo == EstadosJuego.TUTORIAL){
-            if(FaseTutorial == 0) {
-                batch.begin();
-                moverPersonajes();
-                moverNuves();
-                juego.sumar(delta);
-                clearScreen();
-                CargarPantalla();
-                if (personaje.getY() > 320) {
-                    personaje.moverY(320);
-                } else {
-                    batch.draw(texturaMano, Juego.ANCHO - 64 - texturaMano.getWidth(), 320 - texturaMano.getHeight() - 10);
-                    if((576 < mouseX && mouseX < 640) && (256 < mouseY && mouseY < 320)){
-                        FaseTutorial = 1;
-                        personaje.empezarAMover();
-                    }
-                }
-                batch.setProjectionMatrix(camara.combined);
-                batch.end();
+    }
 
-
-            } else if(FaseTutorial == 1){
-                batch.begin();
-                moverNuves();
-                personaje.moverX(Juego.ANCHO - 64);
-                juego.sumar(delta);
-                clearScreen();
-                CargarPantalla();
-                batch.draw(texturaMano, Juego.ANCHO - 64 - texturaMano.getWidth(), 320 - texturaMano.getHeight() - 10);
-                batch.setProjectionMatrix(camara.combined);
-                batch.end();
-                if(personaje.getX() > Juego.ANCHO - 65){
-                    Activo = EstadosJuego.JUGANDO;
-                }
-            }
-
-        }
+    private void update() {
+        world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+        cameraUpdate();
+    }
+    private void cameraUpdate() {
+        Vector3 position = camara.position;
+        position.x = personaje.getBody().getPosition().x * PIXEL_PER_METER;
+        position.y = personaje.getBody().getPosition().y * PIXEL_PER_METER;
+        camara.position.set(position);
+        camara.update();
     }
 
     private void CargarPantalla() {
-        //Render mapa
-        /*rendererMap.setView(camara);
-        rendererMap.render();
+        batch.draw(textureP, personaje.getBody().getPosition().x * PIXEL_PER_METER - (textureP.getWidth() / 2), personaje.getBody().getPosition().y * PIXEL_PER_METER - (textureP.getHeight() / 2));
 
-         */
         //Render Suelo
         for (Item_Falso item:arrItem) {
             item.render(batch);
@@ -278,21 +219,6 @@ public class Mundo implements Screen {
         //Render Nuves
         for (Nuve nuve: arrNuves) {
             nuve.render(batch);
-        }
-        //Render Personajes
-        /*for (Personaje personaje : arrPersonajes) {
-            personaje.render(batch);
-        }
-        */
-        personaje.render(batch);
-    }
-
-    private void moverPersonajes() {
-        for(float x: arrMov){
-            personaje.moverX(x);
-            if(personaje.getX() == x){
-                arrMov.pop();
-            }
         }
     }
 
@@ -314,7 +240,7 @@ public class Mundo implements Screen {
     @Override
     public void resize(int width, int height) {
         vista.update(width, height);
-
+        camara.setToOrtho(false, width / SCALE, height / SCALE);
     }
 
     @Override
@@ -334,55 +260,10 @@ public class Mundo implements Screen {
 
     @Override
     public void dispose() {
-
-    }
-    public static double numeroRandom(double min, double max){
-        double x = (int)(Math.random()*((max-min)+1))+min;
-        return x;
-    }
-    private class EntryProcessor implements InputProcessor {
-        @Override
-        public boolean keyDown(int keycode) {
-            return false;
-        }
-
-        @Override
-        public boolean keyUp(int keycode) {
-            return false;
-        }
-
-        @Override
-        public boolean keyTyped(char character) {
-            return false;
-        }
-
-        @Override
-        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            mouseX = screenX;
-            mouseY = screenY;
-            System.out.println(screenX + " " + screenY);
-            return true;
-        }
-
-        @Override
-        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-            return false;
-        }
-
-        @Override
-        public boolean touchDragged(int screenX, int screenY, int pointer) {
-            return false;
-        }
-
-        @Override
-        public boolean mouseMoved(int screenX, int screenY) {
-            return false;
-        }
-
-        @Override
-        public boolean scrolled(int amount) {
-            return false;
-        }
+        textureP.dispose();
+        batch.dispose();
+        box2DDebugRenderer.dispose();
+        world.dispose();
     }
     private enum EstadosJuego{
         PAUSADO,

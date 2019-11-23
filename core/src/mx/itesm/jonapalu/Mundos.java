@@ -3,6 +3,7 @@ package mx.itesm.jonapalu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,7 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 class Mundos implements Screen {
@@ -26,6 +29,7 @@ class Mundos implements Screen {
 
     //Fondo Textura
     private Texture texturaFondo;
+    private AssetManager manager;
 
     //Botones de Mundos
     public int mundos;
@@ -36,6 +40,7 @@ class Mundos implements Screen {
 
     public Mundos(Juego juego) {
         this.juego = juego;
+        manager = juego.getManager();
     }
 
     @Override
@@ -56,22 +61,29 @@ class Mundos implements Screen {
         camara = new OrthographicCamera();
         camara.position.set( Juego.ANCHO / 2, Juego.ALTO / 2, 0);
         camara.update();
-        vista = new FitViewport(Juego.ANCHO, Juego.ALTO, camara);
+        vista = new StretchViewport(Juego.ANCHO, Juego.ALTO, camara);
         batch = new SpriteBatch();
     }
 
     private void cargarTexturas() {
         //Fondo
-        texturaFondo = new Texture( "Mundos/HUD/fondoGris.png");
+        texturaFondo = manager.get("HUD/fondoGris.png");
     }
 
     private void crearMenu() {
         fasesMenu = new Stage(vista);
         //Boton de Regresar
-        TextureRegionDrawable trdRegresar = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnRegresar.png")));
-        TextureRegionDrawable trdRegresarPress = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnRegresarPress.png")));
+        Texture texturabtnRegresar = manager.get("Botones/btnRegresar.png");
+        TextureRegionDrawable trdRegresar = new TextureRegionDrawable
+                (new TextureRegion(texturabtnRegresar));
+
+        Texture texturabtnRegresarPressed = manager.get("Botones/btnRegresar.png");
+        TextureRegionDrawable trdRegresarPress = new TextureRegionDrawable
+                (new TextureRegion(texturabtnRegresarPressed));
+
         ImageButton btnRegresar = new ImageButton(trdRegresar, trdRegresarPress);
         btnRegresar.setPosition(10, Juego.ALTO - btnRegresar.getHeight() - 10);
+
         //Funcionamiento
         btnRegresar.addListener(new ClickListener() {
             @Override
@@ -81,8 +93,14 @@ class Mundos implements Screen {
             }
         });
         //Boton Nuevo Mundo
-        TextureRegionDrawable trdNuevoMundo = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnAgregarMundo.png")));
-        TextureRegionDrawable trdNuevoMundoPress = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnAgregarMundoPress.png")));
+        Texture texturaBtnAgregarMundo = manager.get("Botones/btnAgregarMundo.png");
+        TextureRegionDrawable trdNuevoMundo = new TextureRegionDrawable
+                (new TextureRegion(texturaBtnAgregarMundo));
+
+        Texture texturaBtnAgregarMundoPressed = manager.get("Botones/btnAgregarMundoPressed.png");
+        TextureRegionDrawable trdNuevoMundoPress = new TextureRegionDrawable
+                (new TextureRegion(texturaBtnAgregarMundoPressed));
+
         ImageButton btnNuevoMundo = new ImageButton(trdNuevoMundo, trdNuevoMundoPress);
         btnNuevoMundo.setPosition(Juego.ANCHO - btnNuevoMundo.getWidth() - 20, 10);
         //Funcionamiento
@@ -90,16 +108,23 @@ class Mundos implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                juego.setScreen(new CrearMundo(juego));
+                juego.setScreen((new PantallaCargando(juego, TipoPantalla.CREARMUNDO)));
             }
         });
 
         //Boton Mundo provicional
         final int numMundo = 1;
-        TextureRegionDrawable trdMundo = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnMundos.png")));
-        TextureRegionDrawable trdMundoPress = new TextureRegionDrawable(new TextureRegion(new Texture("Mundos/boton/btnMundosPress.png")));
+
+        Texture texturaBtnMundos = manager.get("Botones/btnMundo1.png");
+        TextureRegionDrawable trdMundo = new TextureRegionDrawable
+                (new TextureRegion(texturaBtnMundos));
+
+        Texture texturaBtnMundosPressed = manager.get("Botones/btnMundo1Pressed.png");
+        TextureRegionDrawable trdMundoPress = new TextureRegionDrawable
+                (new TextureRegion(texturaBtnMundosPressed));
+
         ImageButton btnMundo = new ImageButton(trdMundo, trdMundoPress);
-        btnMundo.setPosition(10, Juego.ALTO - 10 - (btnMundo.getHeight() * (numMundo + 1)));
+        btnMundo.setPosition(50, Juego.ALTO - 3*btnMundo.getHeight());
         //Funcionamiento
         btnMundo.addListener(new ClickListener() {
             @Override
@@ -108,11 +133,31 @@ class Mundos implements Screen {
                 juego.setScreen(new Mundo(juego, numMundo));
             }
         });
+//Boton Tutorial
+        Texture texturaBtnTutorial = manager.get("Botones/btnTutorial.png");
+        TextureRegionDrawable trdTutorial = new TextureRegionDrawable
+                (new TextureRegion(texturaBtnTutorial));
+
+        Texture texturaBtnTutorialPressed = manager.get("Botones/btnTutorialPressed.png");
+        TextureRegionDrawable trdTutorialPressed = new TextureRegionDrawable
+                (new TextureRegion(texturaBtnTutorialPressed));
+
+        ImageButton btnTutorial = new ImageButton(trdTutorial, trdTutorialPressed);
+        btnTutorial.setPosition(50, Juego.ALTO  - 10 - 4*(btnTutorial.getHeight()));
+        //Funcionamiento
+        btnTutorial.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                juego.setScreen((new PantallaCargando(juego, TipoPantalla.TUTORIAL)));
+            }
+        });
 
         //Anadir botones
         fasesMenu.addActor(btnRegresar);
         fasesMenu.addActor(btnNuevoMundo);
         fasesMenu.addActor(btnMundo);
+        fasesMenu.addActor(btnTutorial);
 
 
         //Cargar las entradas
@@ -122,6 +167,7 @@ class Mundos implements Screen {
     @Override
     public void render(float delta) {
         clearScreen();
+        juego.sumar(delta);
 
         batch.setProjectionMatrix(camara.combined);
 
@@ -130,6 +176,7 @@ class Mundos implements Screen {
 
         batch.end();
         fasesMenu.draw();
+
 
     }
 
@@ -160,6 +207,14 @@ class Mundos implements Screen {
 
     @Override
     public void dispose() {
+        manager.unload("HUD/fondoGris.png");
+        manager.unload("Botones/btnRegresar.png");
+        manager.unload("Botones/btnAgregarMundo.png");
+        manager.unload("Botones/btnAgregarMundoPressed.png");
+        manager.unload("HUD/btnMundos.png");
+        manager.unload("HUD/btnMundosPress.png");
+        manager.unload("Botones/btnTutorial.png");
+        manager.unload("Botones/btnTutorial.png");
 
     }
 }

@@ -12,11 +12,11 @@ public class Item_Falso {
     public Item_Falso(int ID, float x, float y){
         this.ID = ID;
         if(ID == 00){
-            this.texturaItem = new Texture("items/null.png");
+            this.texturaItem = new Texture("Texturas/texCielo.png");
         }else if(ID == 01){
-            this.texturaItem = new Texture("items/tierra.png");
+            this.texturaItem = new Texture("Texturas/texTierra.png");
         }else if(ID == 02){
-            this.texturaItem = new Texture("items/piedra.png");
+            this.texturaItem = new Texture("Texturas/texPiedra.png");
         }
         sprite = new Sprite(texturaItem);
         sprite.setPosition( x, y);
@@ -24,14 +24,6 @@ public class Item_Falso {
 
     public void render(SpriteBatch batch){
         sprite.draw(batch);
-    }
-
-    public void mover(float DX){
-        sprite.setPosition(sprite.getX() - DX, sprite.getY());
-    }
-
-    public void moverA(float x, float y){
-        sprite.setPosition(x, y);
     }
 
     public float getX(){

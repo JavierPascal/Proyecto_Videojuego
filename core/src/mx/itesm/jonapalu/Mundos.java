@@ -27,6 +27,8 @@ class Mundos implements Screen {
     private Viewport vista;
     private SpriteBatch batch;
 
+    private boolean Tutorial;
+
     //Fondo Textura
     private Texture texturaFondo;
     private AssetManager manager;
@@ -38,7 +40,10 @@ class Mundos implements Screen {
     //Fases
     private Stage fasesMenu;
 
+    private final String nameMundo;
+
     public Mundos(Juego juego) {
+        nameMundo = "Mundo1";
         this.juego = juego;
         manager = juego.getManager();
     }
@@ -92,7 +97,7 @@ class Mundos implements Screen {
                 juego.setScreen(new PantallaMenu(juego));
             }
         });
-        //Boton Nuevo Mundo
+        /*/Boton Nuevo Mundo
         Texture texturaBtnAgregarMundo = manager.get("Botones/btnAgregarMundo.png");
         TextureRegionDrawable trdNuevoMundo = new TextureRegionDrawable
                 (new TextureRegion(texturaBtnAgregarMundo));
@@ -100,7 +105,6 @@ class Mundos implements Screen {
         Texture texturaBtnAgregarMundoPressed = manager.get("Botones/btnAgregarMundoPressed.png");
         TextureRegionDrawable trdNuevoMundoPress = new TextureRegionDrawable
                 (new TextureRegion(texturaBtnAgregarMundoPressed));
-
         ImageButton btnNuevoMundo = new ImageButton(trdNuevoMundo, trdNuevoMundoPress);
         btnNuevoMundo.setPosition(Juego.ANCHO - btnNuevoMundo.getWidth() - 20, 10);
         //Funcionamiento
@@ -111,29 +115,33 @@ class Mundos implements Screen {
                 juego.setScreen((new PantallaCargando(juego, TipoPantalla.CREARMUNDO)));
             }
         });
+        fasesMenu.addActor(btnNuevoMundo);
+         */
 
         //Boton Mundo provicional
-        final int numMundo = 1;
+        if (Tutorial) {
+            Texture texturaBtnMundos = manager.get("Botones/btnMundo1.png");
+            TextureRegionDrawable trdMundo = new TextureRegionDrawable
+                    (new TextureRegion(texturaBtnMundos));
 
-        Texture texturaBtnMundos = manager.get("Botones/btnMundo1.png");
-        TextureRegionDrawable trdMundo = new TextureRegionDrawable
-                (new TextureRegion(texturaBtnMundos));
+            Texture texturaBtnMundosPressed = manager.get("Botones/btnMundo1Pressed.png");
+            TextureRegionDrawable trdMundoPress = new TextureRegionDrawable
+                    (new TextureRegion(texturaBtnMundosPressed));
 
-        Texture texturaBtnMundosPressed = manager.get("Botones/btnMundo1Pressed.png");
-        TextureRegionDrawable trdMundoPress = new TextureRegionDrawable
-                (new TextureRegion(texturaBtnMundosPressed));
+            ImageButton btnMundo = new ImageButton(trdMundo, trdMundoPress);
+            btnMundo.setPosition(50, Juego.ALTO - 3 * btnMundo.getHeight());
+            //Funcionamiento
+            btnMundo.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                    juego.setScreen(new Mundo(juego, nameMundo));
+                }
+            });
+            fasesMenu.addActor(btnMundo);
+        }
 
-        ImageButton btnMundo = new ImageButton(trdMundo, trdMundoPress);
-        btnMundo.setPosition(50, Juego.ALTO - 3*btnMundo.getHeight());
-        //Funcionamiento
-        btnMundo.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                juego.setScreen(new Mundo(juego, numMundo));
-            }
-        });
-//Boton Tutorial
+        //Boton Tutorial
         Texture texturaBtnTutorial = manager.get("Botones/btnTutorial.png");
         TextureRegionDrawable trdTutorial = new TextureRegionDrawable
                 (new TextureRegion(texturaBtnTutorial));
@@ -155,8 +163,6 @@ class Mundos implements Screen {
 
         //Anadir botones
         fasesMenu.addActor(btnRegresar);
-        fasesMenu.addActor(btnNuevoMundo);
-        fasesMenu.addActor(btnMundo);
         fasesMenu.addActor(btnTutorial);
 
 

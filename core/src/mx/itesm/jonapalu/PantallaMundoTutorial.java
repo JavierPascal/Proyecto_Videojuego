@@ -106,7 +106,7 @@ class PantallaMundoTutorial extends Pantalla {
                 estadoJuego = EstadoJuego.PAUSA;
                 //audioFondo.pause();
                 if (escenaPausa == null) {
-                    escenaPausa = new EscenaPausa(vista,batch);
+                    escenaPausa = new EscenaPausa(juego, vista, batch);
                 }
             } else{
                 estadoJuego = EstadoJuego.JUGANDO;
@@ -134,20 +134,6 @@ class PantallaMundoTutorial extends Pantalla {
         @Override
         public boolean scrolled(int amount) {
             return false;
-        }
-    }
-    class EscenaPausa extends Stage{
-
-        public EscenaPausa(Viewport view, SpriteBatch batch){
-            super(view,batch);
-            Pixmap pixmap =  new Pixmap((int)(ANCHO*0.7f),(int)(ALTO*0.8f), Pixmap.Format.RGBA8888);
-            pixmap.setColor(0,0,0,.5f);
-            pixmap.fillRectangle(0,0,pixmap.getWidth(),pixmap.getHeight());
-            Texture rectangleTexture = new Texture(pixmap);
-
-            Image rectangleImage = new Image(rectangleTexture);
-            rectangleImage.setPosition(ANCHO/2-pixmap.getWidth()/2,ALTO/2-pixmap.getHeight()/2);
-            this.addActor(rectangleImage);
         }
     }
 }

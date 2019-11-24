@@ -24,6 +24,7 @@ import java.io.File;
 public class Mundo extends Pantalla {
 
     private Juego juego;
+    private Stage fasesMenu;
 
     //Map
     private OrthogonalTiledMapRenderer mapaRenderer;
@@ -65,14 +66,16 @@ public class Mundo extends Pantalla {
 
         borrarPantalla(1,0,0);
 
-        if (estadoJuego == EstadoJuego.PAUSA) {
-            escenaPausa.draw();
-        }
         batch.setProjectionMatrix(camara.combined);
         mapaRenderer.setView(camara);
         mapaRenderer.render();
         batch.begin();
         batch.end();
+
+
+        if (estadoJuego == EstadoJuego.PAUSA) {
+            escenaPausa.draw();
+        }
 
     }
 
@@ -115,7 +118,7 @@ public class Mundo extends Pantalla {
                 estadoJuego = EstadoJuego.PAUSA;
                 //audioFondo.pause();
                 if (escenaPausa == null) {
-                    escenaPausa = new EscenaPausa(juego, vista, batch);
+                    escenaPausa = new EscenaPausa(juego,vista,batch, fasesMenu);
                 }
             } else{
                 estadoJuego = EstadoJuego.JUGANDO;

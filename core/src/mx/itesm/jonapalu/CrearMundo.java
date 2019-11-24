@@ -92,6 +92,7 @@ class CrearMundo implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 juego.setScreen(new PantallaCargando(juego, TipoPantalla.MUNDOS));
+
             }
         });
 
@@ -159,8 +160,10 @@ class CrearMundo implements Screen {
         fasesMenu.addActor(btnCrearMundo);
 
 
+
         //Cargar las entradas
         Gdx.input.setInputProcessor(fasesMenu);
+
     }
 
     @Override
@@ -175,6 +178,7 @@ class CrearMundo implements Screen {
 
         batch.end();
         fasesMenu.draw();
+
 
     }
 

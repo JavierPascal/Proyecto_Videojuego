@@ -9,10 +9,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.utils.Array;
 
 public class PantallaCargando extends Pantalla{
 
-    private final float TIEMPO_ENTRE_FRAME = 0.05f;
+    private final float TIEMPO_ENTRE_FRAME = 0.1f;
     private Sprite spriteCargando;
     private float timerAnimacion = TIEMPO_ENTRE_FRAME;
 
@@ -23,7 +24,9 @@ public class PantallaCargando extends Pantalla{
     private int avance;
 
     private Texture texturaCargando;
-
+    private Texture texturaFondo;
+    private Array<Sprite> spritesCargando;
+    private int start;
     public PantallaCargando(Juego juego, TipoPantalla siguiente) {
         this.juego = juego;
         this.siguientePantalla = siguiente;
@@ -31,12 +34,17 @@ public class PantallaCargando extends Pantalla{
 
     @Override
     public void show() {
-        texturaCargando = new Texture("Texturas/loading.png");
-        spriteCargando = new Sprite(texturaCargando);
-        spriteCargando.setPosition
-                (ANCHO/2-spriteCargando.getWidth()/2,ALTO/2-spriteCargando.getHeight()/2);
-     manager = juego.getManager();
-     cargarRecursosPantalla(); //Cargar elementos
+        manager = juego.getManager();
+        spritesCargando = new Array<>(5);
+        for(int i = 0; i < 5; i++){
+            texturaCargando = new Texture("Cargando/loading" + i + ".png");
+            spriteCargando = new Sprite(texturaCargando);
+            spriteCargando.setPosition(ANCHO / 2 - spriteCargando.getWidth() / 2, ALTO / 2 - spriteCargando.getHeight() / 2);
+            spritesCargando.add(spriteCargando);
+        }
+        texturaFondo = new Texture("HUD/fondoGris.png");
+
+        cargarRecursosPantalla(); //Cargar elementos
     }
 
     private void cargarRecursosPantalla() {
@@ -128,6 +136,7 @@ public class PantallaCargando extends Pantalla{
     }
 
     private void cargarRecursosJuego() {
+
     }
 
     private void cargarRecursosMenu() {
@@ -144,6 +153,7 @@ public class PantallaCargando extends Pantalla{
         manager.load("Botones/btnJugar.png",Texture.class);
         manager.load("Botones/btnJugar.png",Texture.class);
 
+
     }
 
     @Override
@@ -151,12 +161,16 @@ public class PantallaCargando extends Pantalla{
         borrarPantalla(.218f,.165f,.32f);
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
-        spriteCargando.draw(batch);
+        batch.draw(texturaFondo, 0, 0);
+        spritesCargando.get(start).draw(batch);
         batch.end();
         timerAnimacion -= delta;
         if (timerAnimacion <= 0){
-            spriteCargando.rotate(-20);
+            start += 1;
             timerAnimacion = TIEMPO_ENTRE_FRAME;
+            if (start > 3){
+                start = 0;
+            }
         }
         actualizarCargaRecursos();
 

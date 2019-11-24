@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -19,8 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -30,7 +27,6 @@ class Configuracion implements Screen {
 
     //Fases
     private Stage fasesMenu;
-    private Stage MenuFases;
 
     private Table tabla = new Table();
     private String tiempo;
@@ -104,10 +100,12 @@ class Configuracion implements Screen {
         tabla.setFillParent(true);
         Label nombreLabel = new Label("Nombre:", skin);
         Label tiempoLabel = new Label("Tiempo", skin);
-        tabla.defaults().width(100); // Hace que todas las celdas esten en default.
+        tabla.align(360); // Hace que todas las celdas esten en default.
         tabla.add(nombreLabel);
         tabla.add(tiempoLabel);
         tabla.row();
+
+        tabla.debug();
         //tabla.add(s);
 
 
@@ -131,7 +129,7 @@ class Configuracion implements Screen {
             }
         });
 
-        //Boton sonido
+        /*Boton sonido
         Texture texturasonido = manager.get("Botones/btnSonido.png");
         TextureRegionDrawable sonido = new TextureRegionDrawable
                 (new TextureRegionDrawable(texturasonido));
@@ -164,12 +162,12 @@ class Configuracion implements Screen {
                 super.clicked(event, x, y);
             }
         });
-
+        */
         //Anadir botones
         fasesMenu.addActor(btnRegresar);
         fasesMenu.addActor(tabla);
-        fasesMenu.addActor(btnsonido);
-        fasesMenu.addActor(btnsilencio);
+        //fasesMenu.addActor(btnsonido);
+        //fasesMenu.addActor(btnsilencio);
 
 
         //Cargar las entradas
@@ -194,7 +192,7 @@ class Configuracion implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        tabla.setSize(width, height);
     }
 
     @Override
@@ -216,8 +214,8 @@ class Configuracion implements Screen {
     public void dispose() {
         manager.unload("Botones/btnRegresar.png");
         manager.unload("HUD/fondoGris.png");
-        manager.unload("Botones/btnSonido.png");
-        manager.unload("Botones/btnSilencio.png");
+        //manager.unload("Botones/btnSonido.png");
+        //manager.unload("Botones/btnSilencio.png");
 
 
     }

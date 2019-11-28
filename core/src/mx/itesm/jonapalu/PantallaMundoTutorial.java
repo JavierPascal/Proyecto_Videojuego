@@ -119,7 +119,7 @@ class PantallaMundoTutorial extends Pantalla {
 
     @Override
     public void dispose() {
-        manager.unload("Botones/btnRegresar.png");
+        manager.unload("Botones/btnExit.png");
         manager.unload("Mapas/mapaTutorial.tmx");
         manager.unload("Texturas/Tileset.png");
         manager.unload("Botones/Pausa.png");

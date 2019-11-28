@@ -66,8 +66,8 @@ public class EscenaPausa extends Stage{
 
 
         });
-        //Boton de Regresar
-        Texture texturabtnRegresar = manager.get("Botones/btnRegresar.png");
+        //Boton de Salir
+        Texture texturabtnRegresar = manager.get("Botones/btnExit.png");
         TextureRegionDrawable trdRegresar = new TextureRegionDrawable
                 (new TextureRegion(texturabtnRegresar));
         btnRegresar = new ImageButton(trdRegresar);

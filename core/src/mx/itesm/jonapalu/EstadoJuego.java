@@ -2,5 +2,8 @@ package mx.itesm.jonapalu;
 
 enum EstadoJuego {
     JUGANDO,
-    PAUSA
+    PAUSA,
+    TUTORIAL,
+    ANIMACION,
+    CRAFTEO
 }

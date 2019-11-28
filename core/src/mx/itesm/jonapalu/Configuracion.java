@@ -149,7 +149,7 @@ class Configuracion implements Screen {
                 juego.setScreen(new PantallaMenu(juego));
             }
         });
-        //Boton de Sonido
+        /*Boton de Sonido
         Texture texturabtnsonido = manager.get("Botones/btnSonido.png");
         TextureRegionDrawable trdsonido = new TextureRegionDrawable
                 (new TextureRegion(texturabtnsonido));
@@ -158,7 +158,7 @@ class Configuracion implements Screen {
         TextureRegionDrawable trdSonidoPress = new TextureRegionDrawable
                 (new TextureRegion(texturabtnSonidoPressed));
 
-         ImageButton btnSonido = new ImageButton(trdsonido, trdSonidoPress);
+        ImageButton btnSonido = new ImageButton(trdsonido, trdSonidoPress);
         btnSonido.setPosition(720, Juego.ALTO - btnRegresar.getHeight() - 10);
 
         //Funcionamiento
@@ -172,9 +172,9 @@ class Configuracion implements Screen {
         });
 
 
-       // });
+        });
 
-        /*Boton Silencio
+        Boton Silencio
         Texture texturasilencio =manager.get("Botones/btnSilencio.png");
         TextureRegionDrawable silencio = new TextureRegionDrawable
                 (new TextureRegionDrawable(texturasilencio));
@@ -190,13 +190,13 @@ class Configuracion implements Screen {
                 super.clicked(event, x, y);
                 juego.setScreen(new Configuracion(juego));
             }
-        });
+        });*/
 
 
         //Anadir botones
         fasesMenu.addActor(btnRegresar);
        // fasesMenu.addActor(tabla);
-       fasesMenu.addActor(btnSonido);
+       //fasesMenu.addActor(btnSonido);
         //fasesMenu.addActor(btnsilencio);
 
 

@@ -246,8 +246,8 @@ class PantallaMundoTutorial extends Pantalla {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circulo;
-        fixtureDef.density = 0.4f;
-        fixtureDef.friction = 0.5f;
+        fixtureDef.density = 0.2f;
+        fixtureDef.friction = 0.0f;
         fixtureDef.restitution = 0.0f;
 
         body.createFixture(fixtureDef);
@@ -486,8 +486,8 @@ class PantallaMundoTutorial extends Pantalla {
             }
         }
         batch.end();
+        mundo.step(1/60f, 6,6);
         fasesMenu.draw();
-        mundo.step(1/60f, 6,2);
 
 
     }
@@ -533,7 +533,7 @@ class PantallaMundoTutorial extends Pantalla {
             float x = body.getPosition().x;
             float y = body.getPosition().y;
 
-            body.applyLinearImpulse(1000,10000,x,y,true);
+            body.applyLinearImpulse(1000,0,x,y,true);
             return true;
         }
 

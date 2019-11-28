@@ -28,6 +28,8 @@ public class EscenaPausa extends Stage{
     private AssetManager manager;
     private final Juego juego;
 
+    private ImageButton btnSilencio;
+
 
 
     public EscenaPausa(final Juego juego, Viewport view, SpriteBatch batch, final Stage fasesMenu){
@@ -37,7 +39,7 @@ public class EscenaPausa extends Stage{
         this.fasesMenu = fasesMenu;
         manager = juego.getManager();
         Pixmap pixmap =  new Pixmap((int)(juego.ANCHO),(int)(juego.ALTO), Pixmap.Format.RGBA8888);
-        pixmap.setColor(0,0,0,.5f);
+        pixmap.setColor(0,0,0,.2f);
         pixmap.fillRectangle(0,0,pixmap.getWidth(),pixmap.getHeight());
         Texture rectangleTexture = new Texture(pixmap);
 
@@ -45,7 +47,52 @@ public class EscenaPausa extends Stage{
         rectangleImage.setPosition(juego.ANCHO/2-pixmap.getWidth()/2,juego.ALTO/2-pixmap.getHeight()/2);
         this.addActor(rectangleImage);
 
+        //Boton de Sonido
+        Texture texturabtnSonido = manager.get("Configuracion/Sonido.png");
+        TextureRegionDrawable trdSonido = new TextureRegionDrawable
+                (new TextureRegion(texturabtnSonido));
 
+        final ImageButton btnSonido = new ImageButton(trdSonido);
+        btnSonido.setPosition(Juego.ANCHO/2 - (btnSonido.getWidth()/2), Juego.ALTO/2- (btnSonido.getHeight()/2));
+        btnSonido.setScale(Juego.ALTO, Juego.ANCHO);
+
+        //Funcionamiento
+        btnSonido.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                fasesMenu.clear();
+                Juego.Musica.play();
+                fasesMenu.addActor(btnSilencio);
+                fasesMenu.addActor(btnCerrar);
+                fasesMenu.addActor(btnRegresar);
+                fasesMenu.addActor(Pausa);
+
+            }
+        });
+
+        // Boton de Silencio
+        Texture texturabtnSilencio = manager.get("Configuracion/Silencio.png");
+        TextureRegionDrawable trdSilencio = new TextureRegionDrawable
+                (new TextureRegion(texturabtnSilencio));
+
+        btnSilencio = new ImageButton(trdSilencio);
+        btnSilencio.setPosition(Juego.ANCHO/2 - (btnSilencio.getWidth()/2), Juego.ALTO/2- (btnSilencio.getHeight()/2));
+
+        //Funcionamiento
+        btnSilencio.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                fasesMenu.clear();
+                Juego.Musica.pause();
+                fasesMenu.addActor(btnSonido);
+                fasesMenu.addActor(btnCerrar);
+                fasesMenu.addActor(btnRegresar);
+                fasesMenu.addActor(Pausa);
+
+            }
+        });
 
         //Boton de Cerrar
         Texture texturabtnCerrar = new Texture("Botones/btnCerrar.png");
@@ -88,7 +135,7 @@ public class EscenaPausa extends Stage{
         Texture texturaPausa = manager.get("Botones/Pausa.png");
         TextureRegionDrawable trdPausa = new TextureRegionDrawable(new TextureRegion(texturaPausa));
         Pausa = new ImageButton(trdPausa);
-        Pausa.setPosition(Juego.ANCHO/2-Pausa.getWidth()/2, Juego.ALTO/2-Pausa.getHeight()/2);
+        Pausa.setPosition(Juego.ANCHO/2-Pausa.getWidth()/2, Juego.ALTO - Pausa.getHeight() - 10);
 
 }
 public boolean getPausa(){
@@ -99,6 +146,7 @@ public void setPausa(){
 }
 public void addBotton(){
     fasesMenu.addActor(btnCerrar);
+    fasesMenu.addActor(btnSilencio);
     fasesMenu.addActor(btnRegresar);
     fasesMenu.addActor(Pausa);
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -43,9 +44,6 @@ class PantallaMenu implements Screen {
 
     //Stages
     private Stage menuStage;
-
-    //Musica
-   // public Music Musica;
 
     //Items
     private Hashtable<Integer, Item> Items;
@@ -150,35 +148,11 @@ class PantallaMenu implements Screen {
             }
         });
 
-        //Boton Instrucciones
-        TextureRegionDrawable trdInstrucciones = new TextureRegionDrawable
-                (new TextureRegion(new Texture("Botones/btnInstrucciones.png")));
-        TextureRegionDrawable trdInstruccionesPressed = new TextureRegionDrawable
-                (new TextureRegion(new Texture("Botones/btnInstruccionesPressed.png")));
-        ImageButton btnInstrucciones = new ImageButton(trdInstrucciones, trdInstruccionesPressed);
-        btnInstrucciones.setPosition(Juego.ANCHO / 2 - btnInstrucciones.getWidth() / 2, Juego.ALTO - 6 * btnJugar.getHeight() - 80);
-        //Funcionamiento
-        btnInstrucciones.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                juego.setScreen(new Instrucciones(juego));
-            }
-        });
-
-       /* manager.load("Audios/Musica.mp3", Music.class);
-        Musica = manager.get("Audios/Musica.mp3");
-        Musica.setLooping(true);
-        Musica.play();
-        Musica.setVolume(0.2f); */
-
-
         //Anadir botones
         menuStage.addActor(btnLogo);
         menuStage.addActor(btnJugar);
         menuStage.addActor(btnConf);
         menuStage.addActor(btnAcercaDe);
-        menuStage.addActor(btnInstrucciones);
 
 
         //Cargar las entradas

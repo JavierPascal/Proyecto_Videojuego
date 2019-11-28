@@ -1,5 +1,7 @@
 package mx.itesm.jonapalu;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -15,6 +17,8 @@ public class Personaje {
     private static final float PLAYER_START_X = 8f;
     private static final float PLAYER_START_Y = 18f;
     private com.badlogic.gdx.physics.box2d.Body body;
+    private int vida = 100;
+    //private Texture texture = new Texture(Gdx.files.internal("Personajes/BarraSalud.jpg"));
 
     public Personaje(World world) {
         createBoxBody(world, PLAYER_START_X, PLAYER_START_Y);
@@ -32,6 +36,9 @@ public class Personaje {
         fixtureDef.density = PLAYER_DENSITY;
         body = world.createBody(bdef);
         body.createFixture(fixtureDef).setUserData(this);
+
+
+
     }
     public Body getBody() {
         return body;

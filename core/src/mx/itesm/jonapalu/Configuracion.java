@@ -1,6 +1,7 @@
 package mx.itesm.jonapalu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.Screen;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -25,17 +27,22 @@ class Configuracion implements Screen {
 
     private final Juego juego;
 
+    //Efectos
+    public Array<Sound> arrdesonidos;
+
     //Fases
     private Stage fasesMenu;
 
-    private Table tabla = new Table();
-    private String tiempo;
-    private CharSequence s;
+    //private Table tabla = new Table();
+    //private String tiempo;
+    //private CharSequence s;
 
     //Sonido
 
     private Music audioFondo;   // Fondo, largo
-    private Sound efecto;       // Corto
+    private Sound efecto1;       // Corto
+   // private Sound efecto2;
+    //private Sound efecto3;
 
 
     private SpriteBatch batch;
@@ -56,22 +63,36 @@ class Configuracion implements Screen {
         configuracionVista();
         cargarTexturas();
         crearMenu();
-        /*/ Cargar audios
-        manager.load("audios/marioBros.mp3", Music.class);
-        manager.load("audios/moneda.mp3", Sound.class);
+         //cargar  audios
+        manager.load("Audios/Efecto2.mp3", Music.class);
+        manager.load("Audios/Efecto1.mp3", Sound.class);
+        //manager.load("Audios/Efecto2.mp3", Sound.class);
+        manager.load("Audios/Efecto3.mp3", Sound.class);
         manager.finishLoading();    // Segundo plano
+       /* mapa = manager.get("mapaMario.tmx");
         mapa = manager.get("mapaMario.tmx");
-        mapa = manager.get("mapaMario.tmx");
-        rendererMapa = new OrthogonalTiledMapRenderer(mapa);
+        rendererMapa = new OrthogonalTiledMapRenderer(mapa); */
         // Leer audios
-        audioFondo = manager.get("audios/marioBros.mp3");
-        efecto = manager.get("audios/moneda.mp3");
-
+        audioFondo = manager.get("Audios/Efecto2.mp3");
+        efecto1 = manager.get("Audios/Efecto1.mp3");
+        //efecto2 = manager.get("Audios/Efecto2.mp3");
+        //efecto3 = manager.get("Audios/Efecto3.mp3");
         audioFondo.setLooping(true);
         audioFondo.play();
         audioFondo.setVolume(0.2f);
 
-         */
+        /*manager = juego.getManager();
+        arrdesonidos = new Array<>(4);
+        for(int i = 0; i < 4; i++) {
+
+            Sound efecto1 = new Sound("Audios/Efecto1" + i + ".mp3");
+            Sound efecto2 = new Sound("Audios/Efecto2" + i + ".mp3");
+            Sound efecto3 = new Sound("Audios/Efecto3" + i + ".mp3");
+            arrdesonidos.add(efecto1, efecto2, efecto3);
+        }*/
+
+
+
 
     }
 
@@ -94,7 +115,7 @@ class Configuracion implements Screen {
 
         fasesMenu = new Stage(vista);
 
-        Skin skin = new Skin(Gdx.files.internal("data/uiskin.json"));
+        /*Skin skin = new Skin(Gdx.files.internal("data/uiskin.json"));
         Label.LabelStyle estilo = new Label.LabelStyle();
         estilo.font = new BitmapFont(Gdx.files.internal("data/default.fnt"));
         tabla.setFillParent(true);
@@ -106,7 +127,7 @@ class Configuracion implements Screen {
         tabla.row();
 
         tabla.debug();
-        //tabla.add(s);
+        //tabla.add(s); */
 
 
         //Boton de Regresar
@@ -128,25 +149,32 @@ class Configuracion implements Screen {
                 juego.setScreen(new PantallaMenu(juego));
             }
         });
+        /*Boton de Sonido
+        Texture texturabtnsonido = manager.get("Botones/btnSonido.png");
+        TextureRegionDrawable trdsonido = new TextureRegionDrawable
+                (new TextureRegion(texturabtnsonido));
 
-        /*Boton sonido
-        Texture texturasonido = manager.get("Botones/btnSonido.png");
-        TextureRegionDrawable sonido = new TextureRegionDrawable
-                (new TextureRegionDrawable(texturasonido));
+        Texture texturabtnSonidoPressed = manager.get("Botones/btnSonido.png");
+        TextureRegionDrawable trdSonidoPress = new TextureRegionDrawable
+                (new TextureRegion(texturabtnSonidoPressed));
 
-        ImageButton btnsonido = new ImageButton(sonido);
-        btnsonido.setPosition(Juego.ANCHO / 2, 0);
+         ImageButton btnSonido = new ImageButton(trdsonido, trdSonidoPress);
+        btnSonido.setPosition(720, Juego.ALTO - btnRegresar.getHeight() - 10);
 
         //Funcionamiento
-        btnsonido.addListener(new ClickListener() {
+        btnSonido.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+
             }
         });
 
-        //Boton Silencio
+
+       // });
+
+        /*Boton Silencio
         Texture texturasilencio =manager.get("Botones/btnSilencio.png");
         TextureRegionDrawable silencio = new TextureRegionDrawable
                 (new TextureRegionDrawable(texturasilencio));
@@ -160,13 +188,15 @@ class Configuracion implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                juego.setScreen(new Configuracion(juego));
             }
-        });
-        */
+        }); */
+
+
         //Anadir botones
         fasesMenu.addActor(btnRegresar);
-        fasesMenu.addActor(tabla);
-        //fasesMenu.addActor(btnsonido);
+       // fasesMenu.addActor(tabla);
+       // fasesMenu.addActor(btnSonido);
         //fasesMenu.addActor(btnsilencio);
 
 
@@ -176,8 +206,7 @@ class Configuracion implements Screen {
 
     @Override
     public void render(float delta) {
-        s = "tiempo";
-        tiempo = Float.toString(delta);
+
         juego.sumar(delta);
 
         batch.setProjectionMatrix(camara.combined);
@@ -192,7 +221,7 @@ class Configuracion implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        tabla.setSize(width, height);
+        //tabla.setSize(width, height);
     }
 
     @Override
@@ -214,9 +243,55 @@ class Configuracion implements Screen {
     public void dispose() {
         manager.unload("Botones/btnRegresar.png");
         manager.unload("HUD/fondoGris.png");
-        //manager.unload("Botones/btnSonido.png");
-        //manager.unload("Botones/btnSilencio.png");
+        manager.unload("Botones/btnSonido.png");
+       // manager.unload("Botones/btnSilencio.png");
 
 
+    }
+    private class ProcesadorEntrada implements InputProcessor {
+
+        @Override
+        public boolean keyDown(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyUp(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyTyped(char character) {
+            return false;
+        }
+
+        @Override
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+            efecto1.play();
+            audioFondo.play();
+            return true;
+
+
+        }
+
+        @Override
+        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+            return false;
+        }
+
+        @Override
+        public boolean touchDragged(int screenX, int screenY, int pointer) {
+            return false;
+        }
+
+        @Override
+        public boolean mouseMoved(int screenX, int screenY) {
+            return false;
+        }
+
+        @Override
+        public boolean scrolled(int amount) {
+            return false;
+        }
     }
 }

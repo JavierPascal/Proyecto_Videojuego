@@ -1,6 +1,7 @@
 package mx.itesm.jonapalu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -64,13 +65,13 @@ class Configuracion implements Screen {
         cargarTexturas();
         crearMenu();
          //cargar  audios
-        manager.load("Audios/Efecto2.mp3", Music.class);
+        manager.load("Audios/Musica.mp3", Music.class);
         manager.load("Audios/Efecto1.mp3", Sound.class);
         //manager.load("Audios/Efecto2.mp3", Sound.class);
         manager.load("Audios/Efecto3.mp3", Sound.class);
         manager.finishLoading();    // Segundo plano
         // Leer audios
-        audioFondo = manager.get("Audios/Efecto2.mp3");
+        audioFondo = manager.get("Audios/Musica.mp3");
         efecto1 = manager.get("Audios/Efecto1.mp3");
         //efecto2 = manager.get("Audios/Efecto2.mp3");
         //efecto3 = manager.get("Audios/Efecto3.mp3");
@@ -155,20 +156,23 @@ class Configuracion implements Screen {
         TextureRegionDrawable trdSonidoPress = new TextureRegionDrawable
                 (new TextureRegion(texturabtnSonidoPressed));
 
-        ImageButton btnSonido = new ImageButton(trdSonido, trdSonidoPress);
+        final ImageButton btnSonido = new ImageButton(trdSonido, trdSonidoPress);
         btnSonido.setPosition(720, Juego.ALTO - btnRegresar.getHeight() - 10);
+        btnSonido.setScale(Juego.ALTO, Juego.ANCHO);
 
         //Funcionamiento
         btnSonido.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                audioFondo.play();
+
 
 
             }
         });
 
-        //Boton de Sonido
+        // Boton de Silencio
         Texture texturabtnSilencio = manager.get("Configuracion/Silencio.png");
         TextureRegionDrawable trdSilencio = new TextureRegionDrawable
                 (new TextureRegion(texturabtnSilencio));
@@ -185,6 +189,8 @@ class Configuracion implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                audioFondo.pause();
+
 
 
             }
@@ -266,8 +272,6 @@ class Configuracion implements Screen {
 
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            efecto1.play();
-            audioFondo.play();
             return true;
 
 

@@ -1,6 +1,7 @@
 package mx.itesm.jonapalu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -47,7 +48,6 @@ class PantallaMenu implements Screen {
     private Hashtable<Integer, Item> Items;
 
     //Audio
-    private Music audioFondo;
     private AssetManager manager;
 
 
@@ -61,9 +61,8 @@ class PantallaMenu implements Screen {
         configuracionVista();
         cargarTexturas();
         crearMenu();
-
-
         cargarItems();
+
     }
 
     private void configuracionVista() {
@@ -163,6 +162,7 @@ class PantallaMenu implements Screen {
                 juego.setScreen(new Instrucciones(juego));
             }
         });
+
 
         //Anadir botones
         menuStage.addActor(btnLogo);

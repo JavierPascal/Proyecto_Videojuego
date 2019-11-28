@@ -42,7 +42,6 @@ class CrearMundo implements Screen {
 
     //Mundos
     private Array<ImageButton> botonesMundo;
-    private Array<Mundo> Mundos;
 
     //Manager
     private AssetManager manager;

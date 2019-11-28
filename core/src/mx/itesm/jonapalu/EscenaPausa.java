@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import javax.xml.soap.Text;
+
 
 public class EscenaPausa extends Stage{
 
@@ -21,6 +23,7 @@ public class EscenaPausa extends Stage{
     private SpriteBatch batch;
     private ImageButton btnCerrar;
     private ImageButton btnRegresar;
+    private ImageButton Pausa;
     private boolean pausa = false;
     private AssetManager manager;
     private final Juego juego;
@@ -81,7 +84,11 @@ public class EscenaPausa extends Stage{
 
             }
         });
-
+        //Pausa
+        Texture texturaPausa = manager.get("Botones/Pausa.png");
+        TextureRegionDrawable trdPausa = new TextureRegionDrawable(new TextureRegion(texturaPausa));
+        Pausa = new ImageButton(trdPausa);
+        Pausa.setPosition(Juego.ANCHO/2-Pausa.getWidth()/2, Juego.ALTO/2-Pausa.getHeight()/2);
 
 }
 public boolean getPausa(){
@@ -93,6 +100,7 @@ public void setPausa(){
 public void addBotton(){
     fasesMenu.addActor(btnCerrar);
     fasesMenu.addActor(btnRegresar);
+    fasesMenu.addActor(Pausa);
 }
 }
 

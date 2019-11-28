@@ -108,6 +108,7 @@ public class PantallaCargando extends Pantalla {
         manager.load("Botones/btnManoIzquierda.png", Texture.class);
         manager.load("Mapas/mapaTutorial.tmx", TiledMap.class);
         manager.load("Texturas/Tileset.png", Texture.class);
+        manager.load("Botones/Pausa.png", Texture.class);
         manager.load("Botones/btnRegresar.png",Texture.class);
 
 

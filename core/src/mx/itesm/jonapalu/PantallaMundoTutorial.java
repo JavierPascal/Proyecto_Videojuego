@@ -78,8 +78,8 @@ class PantallaMundoTutorial extends Pantalla {
             }
         });
         //Boton de CuadroTXT
-        final TextureRegionDrawable trdCuadroTXT = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/CuadroTXT.png")));
-        final ImageButton btnCuadroTXT = new ImageButton(trdCuadroTXT);
+        TextureRegionDrawable trdCuadroTXT = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/CuadroTXT.png")));
+        ImageButton btnCuadroTXT = new ImageButton(trdCuadroTXT);
         btnCuadroTXT.setPosition(10 + btnDios.getWidth(), Juego.ALTO - btnCuadroTXT.getHeight() - 10);
         //Funcionamiento
         btnCuadroTXT.addListener(new ClickListener() {
@@ -90,6 +90,7 @@ class PantallaMundoTutorial extends Pantalla {
             }
         });
 
+        fasesMenu.addActor(btnCuadroTXT);
         fasesMenu.addActor(btnDios);
 
         CrearBotonesItems();

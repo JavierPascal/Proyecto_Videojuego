@@ -4,6 +4,7 @@ package mx.itesm.jonapalu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -12,7 +13,17 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -27,8 +38,6 @@ class PantallaMundoTutorial extends Pantalla {
     private Stage fasesMenu;
 
     //Map
-    private OrthogonalTiledMapRenderer mapaRenderer;
-    private TiledMap mapa;
     //Audio
     private Music audioFondo;
     private Sound fx;
@@ -65,7 +74,18 @@ class PantallaMundoTutorial extends Pantalla {
     private int intText = 0;
     private int Tutorial = 0;
 
+
+    private static final float RADIO = 10f ;
+    private World mundo;
+    private Body body;
+    private Box2DDebugRenderer debugRenderer;
+
+    //Mapa
+    private OrthogonalTiledMapRenderer mapaRenderer;
+    private TiledMap mapa;
+
     private Personaje personaje;
+
 
     public PantallaMundoTutorial(Juego juego) {
         this.juego = juego;
@@ -74,6 +94,14 @@ class PantallaMundoTutorial extends Pantalla {
 
     @Override
     public void show() {
+
+        crearMundo();
+        crearObjetos();
+        cargarMapa();
+        definirParedes();
+        crearPersonaje();
+
+        Gdx.input.setInputProcessor(new ProcesadorEntrada());
         Mano = new Texture("Botones/btnMano.png");
         ManoIzquierda = new Texture("Botones/btnManoIzquierda.png");
         fasesMenu = new Stage(vista);
@@ -187,6 +215,60 @@ class PantallaMundoTutorial extends Pantalla {
         audioFondo.setLooping(true);
         audioFondo.play();
         audioFondo.setVolume(.2f);*/
+    }
+
+    private void crearPersonaje() {
+        Texture texture = new Texture("Personajes/personaje.png");
+        personaje = new Personaje(texture,0,0);
+    }
+
+    private void definirParedes() {
+        ConvertidorMapa.crearCuerpos(mapa,mundo);
+    }
+
+    private void cargarMapa() {
+        AssetManager manager = new AssetManager();
+        manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        manager.load("Mapas/mapaTutorial.tmx", TiledMap.class);
+        manager.finishLoading(); //Segundo Plano
+        mapa = manager.get("Mapas/mapaTutorial.tmx");
+        mapaRenderer = new OrthogonalTiledMapRenderer(mapa);
+    }
+
+    private void crearObjetos() {
+        BodyDef bodydef = new BodyDef();
+        bodydef.type = BodyDef.BodyType.DynamicBody;
+        bodydef.position.set(5,700);
+        body = mundo.createBody(bodydef);
+
+        CircleShape circulo =  new CircleShape();
+        circulo.setRadius(RADIO);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = circulo;
+        fixtureDef.density = 0.4f;
+        fixtureDef.friction = 0.5f;
+        fixtureDef.restitution = 0.0f;
+
+        body.createFixture(fixtureDef);
+        circulo.dispose();
+
+        BodyDef bodyPisoDef = new BodyDef();
+        bodyPisoDef.type = BodyDef.BodyType.StaticBody;
+        bodyPisoDef.position.set(ANCHO/4,10);
+
+        Body bodyPiso =  mundo.createBody(bodyPisoDef);
+
+        PolygonShape pisoShape =  new PolygonShape();
+        pisoShape.setAsBox(ANCHO/4,10);
+        bodyPiso.createFixture(pisoShape,0);
+    }
+
+    private void crearMundo() {
+        Box2D.init();
+        Vector2 gravedad = new Vector2(0,-60);
+        mundo = new World(gravedad, true);
+        debugRenderer = new Box2DDebugRenderer();
     }
 
     private void CrearBotonesTutorial() {
@@ -314,13 +396,23 @@ class PantallaMundoTutorial extends Pantalla {
 
     @Override
     public void render(float delta) {
+        float x = body.getPosition().x;
+        float y = body.getPosition().y;
+        personaje.getSprite().setPosition(x-RADIO,y-RADIO);
 
         borrarPantalla(1, 0, 0);
 
         batch.setProjectionMatrix(camara.combined);
+
         mapaRenderer.setView(camara);
         mapaRenderer.render();
+
+        debugRenderer.render(mundo,camara.combined);
+
+
         batch.begin();
+        personaje.render(batch);
+
         if (estadoJuego == EstadoJuego.ANIMACION) {
             if (intText == 5) {
                 fasesMenu.clear();
@@ -395,6 +487,8 @@ class PantallaMundoTutorial extends Pantalla {
         }
         batch.end();
         fasesMenu.draw();
+        mundo.step(1/60f, 6,2);
+
 
     }
 
@@ -416,5 +510,51 @@ class PantallaMundoTutorial extends Pantalla {
         manager.unload("Botones/Pausa.png");
 
 
+    }
+
+    private class ProcesadorEntrada implements InputProcessor {
+        @Override
+        public boolean keyDown(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyUp(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyTyped(char character) {
+            return false;
+        }
+
+        @Override
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+            float x = body.getPosition().x;
+            float y = body.getPosition().y;
+
+            body.applyLinearImpulse(1000,10000,x,y,true);
+            return true;
+        }
+
+        @Override
+        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+            return false;
+        }
+
+        @Override
+        public boolean touchDragged(int screenX, int screenY, int pointer) {
+            return false;
+        }
+
+        @Override
+        public boolean mouseMoved(int screenX, int screenY) {
+            return false;
+        }
+
+        @Override
+        public boolean scrolled(int amount) {
+            return false;
+        }
     }
 }

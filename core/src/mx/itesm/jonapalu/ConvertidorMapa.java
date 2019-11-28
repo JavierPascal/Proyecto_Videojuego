@@ -17,7 +17,7 @@ public class ConvertidorMapa {
 
 
     public static void crearCuerpos(TiledMap mapa, World mundo) {
-        MapObjects objetos = mapa.getLayers().get("floorPlatform").getObjects();
+        MapObjects objetos = mapa.getLayers().get("Object Layer 1").getObjects();
         for (MapObject objeto: objetos) {
             Shape rectangulo = getRectangle((RectangleMapObject)objeto);
 

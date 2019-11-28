@@ -11,7 +11,7 @@ public class Personaje {
     private static final float PLAYER_DENSITY = 1.0f;
     public static final float JUMP_FORCE = 250f;
     public static final float RUN_FORCE = 5f;
-    public static final String PLAYER_IMG_PATH = "Personajes/personaje.png";
+    public static final String PLAYER_IMG_PATH = "Personajes/personaje1.png";
     private static final float PLAYER_START_X = 8f;
     private static final float PLAYER_START_Y = 18f;
     private com.badlogic.gdx.physics.box2d.Body body;

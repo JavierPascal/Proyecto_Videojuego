@@ -15,6 +15,7 @@ public class Personaje {
     private static final float PLAYER_START_X = 8f;
     private static final float PLAYER_START_Y = 18f;
     private com.badlogic.gdx.physics.box2d.Body body;
+    private int vida = 100;
 
     public Personaje(World world) {
         createBoxBody(world, PLAYER_START_X, PLAYER_START_Y);
@@ -35,5 +36,35 @@ public class Personaje {
     }
     public Body getBody() {
         return body;
+    }
+
+    public void moverPersonaje(float x, float y, String Siguiente){
+        //Crear el movimiento del personaje
+        //Cuando termine el movimiento
+        if(Siguiente == "Cavar"){
+            Cavar();
+        }
+        else if(Siguiente == "Picar"){
+            Picar();
+        }
+        else if(Siguiente == "Golpear"){
+            Golpear();
+        }
+    }
+    public void Picar(){
+        //Animacion con el pico
+    }
+    public void Cavar(){
+        //Animacion con la mano
+    }
+    public void Golpear(){
+        //Animacion con la espada
+    }
+    public boolean hacerDaño(int Daño){
+        vida -= Daño;
+        if(vida <= 0){
+            return true;
+        }
+        return false;
     }
 }

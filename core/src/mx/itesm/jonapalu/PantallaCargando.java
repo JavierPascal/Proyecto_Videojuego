@@ -12,6 +12,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.Array;
 
+import javax.xml.soap.Text;
+
 public class PantallaCargando extends Pantalla {
 
     private final float TIEMPO_ENTRE_FRAME = 0.1f;
@@ -102,6 +104,8 @@ public class PantallaCargando extends Pantalla {
     private void cargarRecursosTutorial() {
        // manager.load("Audios/Musica.mp3", Music.class);
         //manager.load("Audios/Efecto1.mp3", Sound.class);
+        manager.load("Botones/btnMano.png", Texture.class);
+        manager.load("Botones/btnManoIzquierda.png", Texture.class);
         manager.load("Mapas/mapaTutorial.tmx", TiledMap.class);
         manager.load("Texturas/Tileset.png", Texture.class);
         manager.load("Botones/btnRegresar.png",Texture.class);

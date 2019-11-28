@@ -149,16 +149,16 @@ class Configuracion implements Screen {
                 juego.setScreen(new PantallaMenu(juego));
             }
         });
-        /*Boton de Sonido
-        Texture texturabtnsonido = manager.get("Botones/btnSonido.png");
-        TextureRegionDrawable trdsonido = new TextureRegionDrawable
-                (new TextureRegion(texturabtnsonido));
+        //Boton de Sonido
+        Texture texturabtnSonido = manager.get("Configuracion/Sonido.png");
+        TextureRegionDrawable trdSonido = new TextureRegionDrawable
+                (new TextureRegion(texturabtnSonido));
 
-        Texture texturabtnSonidoPressed = manager.get("Botones/btnSonido.png");
+        Texture texturabtnSonidoPressed = manager.get("Configuracion/Sonido.png");
         TextureRegionDrawable trdSonidoPress = new TextureRegionDrawable
                 (new TextureRegion(texturabtnSonidoPressed));
 
-        ImageButton btnSonido = new ImageButton(trdsonido, trdSonidoPress);
+        ImageButton btnSonido = new ImageButton(trdSonido, trdSonidoPress);
         btnSonido.setPosition(720, Juego.ALTO - btnRegresar.getHeight() - 10);
 
         //Funcionamiento
@@ -171,39 +171,40 @@ class Configuracion implements Screen {
             }
         });
 
+        //Boton de Sonido
+        Texture texturabtnSilencio = manager.get("Configuracion/Silencio.png");
+        TextureRegionDrawable trdSilencio = new TextureRegionDrawable
+                (new TextureRegion(texturabtnSilencio));
 
-        });
+        Texture texturabtnSilencioPressed = manager.get("Configuracion/Silencio.png");
+        TextureRegionDrawable trdSilencioPress = new TextureRegionDrawable
+                (new TextureRegion(texturabtnSilencioPressed));
 
-        Boton Silencio
-        Texture texturasilencio =manager.get("Botones/btnSilencio.png");
-        TextureRegionDrawable silencio = new TextureRegionDrawable
-                (new TextureRegionDrawable(texturasilencio));
-
-
-        ImageButton btnsilencio = new ImageButton(silencio);
-        btnsilencio.setPosition(Juego.ANCHO / 2, 0);
+        ImageButton btnSilencio = new ImageButton(trdSilencio, trdSilencioPress);
+        btnSilencio.setPosition(360, Juego.ALTO - btnRegresar.getHeight() - 10);
 
         //Funcionamiento
-        btnsilencio.addListener(new ClickListener() {
+        btnSilencio.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                juego.setScreen(new Configuracion(juego));
+
+
             }
-        });*/
+        });
 
 
         //Anadir botones
         fasesMenu.addActor(btnRegresar);
-       // fasesMenu.addActor(tabla);
-       //fasesMenu.addActor(btnSonido);
-        //fasesMenu.addActor(btnsilencio);
+        //fasesMenu.addActor(tabla);
+        fasesMenu.addActor(btnSonido);
+        fasesMenu.addActor(btnSilencio);
 
 
         //Cargar las entradas
         Gdx.input.setInputProcessor(fasesMenu);
-    }
 
+    }
     @Override
     public void render(float delta) {
 
@@ -241,10 +242,11 @@ class Configuracion implements Screen {
 
     @Override
     public void dispose() {
+        manager.unload("Configuracion/Sonido.png");
+        manager.unload("Configuracion/Silencio.png");
         manager.unload("Botones/btnRegresar.png");
         manager.unload("HUD/fondoGris.png");
-        manager.unload("Botones/btnSonido.png");
-       // manager.unload("Botones/btnSilencio.png");
+
 
 
     }

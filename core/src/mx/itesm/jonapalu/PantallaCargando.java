@@ -124,6 +124,8 @@ public class PantallaCargando extends Pantalla{
         manager.load("Botones/btnRegresar.png",Texture.class);
         manager.load("HUD/fondoGris.png",Texture.class);
         manager.load("Botones/btnRegresar.png",Texture.class);
+        manager.load("Configuracion/Silencio.png",Texture.class);
+        manager.load("Configuracion/Sonido.png",Texture.class);
 
     }
 

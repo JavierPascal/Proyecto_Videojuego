@@ -69,9 +69,6 @@ class Configuracion implements Screen {
         //manager.load("Audios/Efecto2.mp3", Sound.class);
         manager.load("Audios/Efecto3.mp3", Sound.class);
         manager.finishLoading();    // Segundo plano
-       /* mapa = manager.get("mapaMario.tmx");
-        mapa = manager.get("mapaMario.tmx");
-        rendererMapa = new OrthogonalTiledMapRenderer(mapa); */
         // Leer audios
         audioFondo = manager.get("Audios/Efecto2.mp3");
         efecto1 = manager.get("Audios/Efecto1.mp3");

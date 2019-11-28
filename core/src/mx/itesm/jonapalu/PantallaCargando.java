@@ -50,11 +50,7 @@ public class PantallaCargando extends Pantalla {
 
         }
         texturaFondo = new Texture("HUD/fondoGris.png");
-        /*manager.load("Audios/Musica.mp3", Music.class);
-        Musica = manager.get("Audios/Musica.mp3");
-        Musica.setLooping(true);
-        Musica.play();
-        Musica.setVolume(0.2f);*/
+
 
         cargarRecursosPantalla(); //Cargar elementos
     }
@@ -97,12 +93,13 @@ public class PantallaCargando extends Pantalla {
         manager.load("Botones/btnCreativoPressed.png", Texture.class);
         manager.load("Botones/btnAventura.png", Texture.class);
         manager.load("Botones/btnAventuraPressed.png", Texture.class);
+        //manager.load("Audios/Musica.mp3", Music.class);
 
 
     }
 
     private void cargarRecursosTutorial() {
-       // manager.load("Audios/Musica.mp3", Music.class);
+       //manager.load("Audios/Musica.mp3", Music.class);
         //manager.load("Audios/Efecto1.mp3", Sound.class);
         manager.load("Botones/btnMano.png", Texture.class);
         manager.load("Botones/btnManoIzquierda.png", Texture.class);
@@ -124,11 +121,13 @@ public class PantallaCargando extends Pantalla {
         manager.load("Botones/btnMundo1Pressed.png", Texture.class);
         manager.load("Botones/btnTutorial.png", Texture.class);
         manager.load("Botones/btnTutorialPressed.png", Texture.class);
+       // manager.load("Audios/Musica.mp3", Music.class);
 
 
     }
 
     private void cargarRecursosInstrucciones() {
+        manager.load("Audios/Musica.mp3", Music.class);
     }
 
     private void cargarRecursosConfig() {
@@ -137,6 +136,7 @@ public class PantallaCargando extends Pantalla {
         manager.load("Botones/btnRegresar.png", Texture.class);
         manager.load("Configuracion/Silencio.png", Texture.class);
         manager.load("Configuracion/Sonido.png", Texture.class);
+        manager.load("Audios/Musica.mp3", Music.class);
 
     }
 
@@ -145,15 +145,18 @@ public class PantallaCargando extends Pantalla {
         manager.load("Fotitos/nosotros.jpeg", Texture.class);
         manager.load("Fotitos/nosotrosPress.jpeg", Texture.class);
         manager.load("Botones/btnRegresar.png", Texture.class);
+        //manager.load("Audios/Musica.mp3", Music.class);
 
     }
 
     private void cargarRecursosJuego() {
+        //manager.load("Audios/Musica.mp3", Music.class);
 
     }
 
     private void cargarRecursosMenu() {
         manager.load("Texturas/fondoMenu.png", Texture.class);
+      //  manager.load("Audios/Musica.mp3", Music.class);
 
         manager.load("Botones/logo.png", Texture.class);
 
@@ -229,6 +232,7 @@ public class PantallaCargando extends Pantalla {
 
     @Override
     public void dispose() {
+      //  manager.unload("Audios/Musica.mp3");
 
     }
 
@@ -251,7 +255,6 @@ public class PantallaCargando extends Pantalla {
 
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            //Musica.play();
             return true;
 
 

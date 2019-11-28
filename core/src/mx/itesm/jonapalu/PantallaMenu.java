@@ -44,6 +44,9 @@ class PantallaMenu implements Screen {
     //Stages
     private Stage menuStage;
 
+    //Musica
+   // public Music Musica;
+
     //Items
     private Hashtable<Integer, Item> Items;
 
@@ -163,6 +166,12 @@ class PantallaMenu implements Screen {
             }
         });
 
+       /* manager.load("Audios/Musica.mp3", Music.class);
+        Musica = manager.get("Audios/Musica.mp3");
+        Musica.setLooping(true);
+        Musica.play();
+        Musica.setVolume(0.2f); */
+
 
         //Anadir botones
         menuStage.addActor(btnLogo);
@@ -232,6 +241,7 @@ class PantallaMenu implements Screen {
         manager.unload("Texturas/mapaMundo.png");
         manager.unload("Botones/btnJugar.png");
         manager.unload("Botones/btnJugarPressed.png");
+        //manager.unload("Audios/Musica.mp3");
 
     }
 

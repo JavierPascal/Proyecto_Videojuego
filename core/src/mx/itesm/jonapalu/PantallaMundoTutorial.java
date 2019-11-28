@@ -23,7 +23,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 class PantallaMundoTutorial extends Pantalla {
 
-    private Juego juego;
+    private final Juego juego;
     private Stage fasesMenu;
 
     //Map
@@ -36,11 +36,15 @@ class PantallaMundoTutorial extends Pantalla {
     private EstadoJuego estadoJuego;
     private EscenaPausa escenaPausa;
     private ParticleEffect pe;
+    private AssetManager manager;
+
 
     private ImageButton btnPausa;
+    private ImageButton btnRegresar;
 
     public PantallaMundoTutorial(Juego juego) {
         this.juego = juego;
+        manager = juego.getManager();
     }
 
     @Override
@@ -53,7 +57,7 @@ class PantallaMundoTutorial extends Pantalla {
                 (new TextureRegion(texturabtnPausa));
 
         btnPausa = new ImageButton(trdPausa);
-        btnPausa.setPosition(Juego.ANCHO - 10 - btnPausa.getWidth() , Juego.ALTO - btnPausa.getHeight() - 10);
+        btnPausa.setPosition(Juego.ANCHO - 10 - btnPausa.getWidth(), Juego.ALTO - btnPausa.getHeight() - 10);
         //Funcionamiento
         btnPausa.addListener(new ClickListener() {
             @Override
@@ -62,13 +66,12 @@ class PantallaMundoTutorial extends Pantalla {
                 fasesMenu.clear();
                 escenaPausa.addBotton();
                 estadoJuego = EstadoJuego.PAUSA;
-
             }
 
         });
+
         fasesMenu.addActor(btnPausa);
         escenaPausa = new EscenaPausa(juego, vista, batch, fasesMenu);
-        AssetManager manager = juego.getManager();
         mapa = manager.get("Mapas/mapaTutorial.tmx");
         mapaRenderer = new OrthogonalTiledMapRenderer(mapa);
         Gdx.input.setInputProcessor(fasesMenu);
@@ -84,7 +87,7 @@ class PantallaMundoTutorial extends Pantalla {
     @Override
     public void render(float delta) {
 
-        borrarPantalla(1,0,0);
+        borrarPantalla(1, 0, 0);
 
         batch.setProjectionMatrix(camara.combined);
         mapaRenderer.setView(camara);
@@ -95,7 +98,7 @@ class PantallaMundoTutorial extends Pantalla {
 
         if (estadoJuego == EstadoJuego.PAUSA) {
             escenaPausa.draw();
-            if (escenaPausa.getPausa()){
+            if (escenaPausa.getPausa()) {
                 fasesMenu.addActor(btnPausa);
                 estadoJuego = EstadoJuego.JUGANDO;
                 escenaPausa.setPausa();
@@ -116,6 +119,10 @@ class PantallaMundoTutorial extends Pantalla {
 
     @Override
     public void dispose() {
+        manager.unload("Botones/btnRegresar.png");
+        manager.unload("Mapas/mapaTutorial.tmx");
+        manager.unload("Texturas/Tileset.png");
+
 
     }
 }

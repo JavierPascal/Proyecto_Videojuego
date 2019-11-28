@@ -20,13 +20,19 @@ public class EscenaPausa extends Stage{
     private Stage fasesMenu;
     private SpriteBatch batch;
     private ImageButton btnCerrar;
+    private ImageButton btnRegresar;
     private boolean pausa = false;
+    private AssetManager manager;
+    private final Juego juego;
 
 
-    public EscenaPausa(Juego juego, Viewport view, SpriteBatch batch, final Stage fasesMenu){
+
+    public EscenaPausa(final Juego juego, Viewport view, SpriteBatch batch, final Stage fasesMenu){
         this.view = view;
         this.batch = batch;
+        this.juego = juego;
         this.fasesMenu = fasesMenu;
+        manager = juego.getManager();
         Pixmap pixmap =  new Pixmap((int)(juego.ANCHO),(int)(juego.ALTO), Pixmap.Format.RGBA8888);
         pixmap.setColor(0,0,0,.5f);
         pixmap.fillRectangle(0,0,pixmap.getWidth(),pixmap.getHeight());
@@ -57,6 +63,24 @@ public class EscenaPausa extends Stage{
 
 
         });
+        //Boton de Regresar
+        Texture texturabtnRegresar = manager.get("Botones/btnRegresar.png");
+        TextureRegionDrawable trdRegresar = new TextureRegionDrawable
+                (new TextureRegion(texturabtnRegresar));
+        btnRegresar = new ImageButton(trdRegresar);
+        btnRegresar.setPosition(10, Juego.ALTO - btnRegresar.getHeight() - 10);
+
+        //Funcionamiento
+        btnRegresar.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                pausa=true;
+                fasesMenu.clear();
+                juego.setScreen(new PantallaMenu(juego));
+
+            }
+        });
 
 
 }
@@ -68,6 +92,7 @@ public void setPausa(){
 }
 public void addBotton(){
     fasesMenu.addActor(btnCerrar);
+    fasesMenu.addActor(btnRegresar);
 }
 }
 

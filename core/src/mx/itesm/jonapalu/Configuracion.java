@@ -38,17 +38,12 @@ class Configuracion implements Screen {
     //private String tiempo;
     //private CharSequence s;
 
-    //Sonido
-
-    public Music Musica;   // Fondo, largo
-    private Sound efecto1;       // Corto
-   // private Sound efecto2;
-    //private Sound efecto3;
-
 
     private SpriteBatch batch;
     private Viewport vista;
     private OrthographicCamera camara;
+
+    private ImageButton btnSilencio;
 
     //Fondo Textura
     private Texture texturaFondo;
@@ -64,34 +59,6 @@ class Configuracion implements Screen {
         configuracionVista();
         cargarTexturas();
         crearMenu();
-         //cargar  audios
-        manager.load("Audios/Musica.mp3", Music.class);
-        manager.load("Audios/Efecto1.mp3", Sound.class);
-        //manager.load("Audios/Efecto2.mp3", Sound.class);
-        manager.load("Audios/Efecto3.mp3", Sound.class);
-        manager.finishLoading();    // Segundo plano */
-        // Leer audios
-        Musica = manager.get("Audios/Musica.mp3");
-        efecto1 = manager.get("Audios/Efecto1.mp3");
-        //efecto2 = manager.get("Audios/Efecto2.mp3");
-        //efecto3 = manager.get("Audios/Efecto3.mp3");
-        Musica.setLooping(true);
-        Musica.play();
-        Musica.setVolume(0.2f);
-
-        /*manager = juego.getManager();
-        arrdesonidos = new Array<>(4);
-        for(int i = 0; i < 4; i++) {
-
-            Sound efecto1 = new Sound("Audios/Efecto1" + i + ".mp3");
-            Sound efecto2 = new Sound("Audios/Efecto2" + i + ".mp3");
-            Sound efecto3 = new Sound("Audios/Efecto3" + i + ".mp3");
-            arrdesonidos.add(efecto1, efecto2, efecto3);
-        }*/
-
-
-
-
     }
 
 
@@ -113,20 +80,6 @@ class Configuracion implements Screen {
 
         fasesMenu = new Stage(vista);
 
-        /*Skin skin = new Skin(Gdx.files.internal("data/uiskin.json"));
-        Label.LabelStyle estilo = new Label.LabelStyle();
-        estilo.font = new BitmapFont(Gdx.files.internal("data/default.fnt"));
-        tabla.setFillParent(true);
-        Label nombreLabel = new Label("Nombre:", skin);
-        Label tiempoLabel = new Label("Tiempo", skin);
-        tabla.align(360); // Hace que todas las celdas esten en default.
-        tabla.add(nombreLabel);
-        tabla.add(tiempoLabel);
-        tabla.row();
-
-        tabla.debug();
-        //tabla.add(s); */
-
 
         //Boton de Regresar
         Texture texturabtnRegresar = manager.get("Botones/btnRegresar.png");
@@ -137,7 +90,7 @@ class Configuracion implements Screen {
         TextureRegionDrawable trdRegresarPress = new TextureRegionDrawable
                 (new TextureRegion(texturabtnRegresarPressed));
 
-        ImageButton btnRegresar = new ImageButton(trdRegresar, trdRegresarPress);
+        final ImageButton btnRegresar = new ImageButton(trdRegresar, trdRegresarPress);
         btnRegresar.setPosition(10, Juego.ALTO - btnRegresar.getHeight() - 10);
         //Funcionamiento
         btnRegresar.addListener(new ClickListener() {
@@ -157,7 +110,7 @@ class Configuracion implements Screen {
                 (new TextureRegion(texturabtnSonidoPressed));
 
         final ImageButton btnSonido = new ImageButton(trdSonido, trdSonidoPress);
-        btnSonido.setPosition(Juego.ANCHO/2, Juego.ALTO/2);
+        btnSonido.setPosition(Juego.ANCHO/2 - (btnSonido.getWidth()/2), Juego.ALTO/2- (btnSonido.getHeight()/2));
         btnSonido.setScale(Juego.ALTO, Juego.ANCHO);
 
         //Funcionamiento
@@ -165,9 +118,10 @@ class Configuracion implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                Musica.play();
-
-
+                fasesMenu.clear();
+                Juego.Musica.play();
+                fasesMenu.addActor(btnSilencio);
+                fasesMenu.addActor(btnRegresar);
 
             }
         });
@@ -181,26 +135,24 @@ class Configuracion implements Screen {
         TextureRegionDrawable trdSilencioPress = new TextureRegionDrawable
                 (new TextureRegion(texturabtnSilencioPressed));
 
-        ImageButton btnSilencio = new ImageButton(trdSilencio, trdSilencioPress);
-        btnSilencio.setPosition(Juego.ANCHO/2, Juego.ALTO/2);
+        btnSilencio = new ImageButton(trdSilencio, trdSilencioPress);
+        btnSilencio.setPosition(Juego.ANCHO/2 - (btnSilencio.getWidth()/2), Juego.ALTO/2- (btnSilencio.getHeight()/2));
 
         //Funcionamiento
         btnSilencio.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                Musica.pause();
-
-
-
+                fasesMenu.clear();
+                Juego.Musica.pause();
+                fasesMenu.addActor(btnRegresar);
+                fasesMenu.addActor(btnSonido);
             }
         });
 
 
         //Anadir botones
         fasesMenu.addActor(btnRegresar);
-        //fasesMenu.addActor(tabla);
-        fasesMenu.addActor(btnSonido);
         fasesMenu.addActor(btnSilencio);
 
 

@@ -99,17 +99,16 @@ public class PantallaCargando extends Pantalla {
     }
 
     private void cargarRecursosTutorial() {
-       //manager.load("Audios/Musica.mp3", Music.class);
+        //manager.load("Audios/Musica.mp3", Music.class);
         //manager.load("Audios/Efecto1.mp3", Sound.class);
         manager.load("Botones/btnMano.png", Texture.class);
         manager.load("Botones/btnManoIzquierda.png", Texture.class);
         manager.load("Mapas/mapaTutorial.tmx", TiledMap.class);
         manager.load("Texturas/Tileset.png", Texture.class);
         manager.load("Botones/Pausa.png", Texture.class);
-        manager.load("Botones/btnExit.png",Texture.class);
-
-
-
+        manager.load("Botones/btnExit.png", Texture.class);
+        manager.load("Configuracion/Silencio.png", Texture.class);
+        manager.load("Configuracion/Sonido.png",Texture.class);
     }
 
     private void cargarRecursosMundos() {

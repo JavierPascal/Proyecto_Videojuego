@@ -177,7 +177,6 @@ class PantallaMundoTutorial extends Pantalla {
 
         });
 
-        fasesMenu.addActor(btnPausa);
         escenaPausa = new EscenaPausa(juego, vista, batch, fasesMenu);
         mapa = manager.get("Mapas/mapaTutorial.tmx");
         mapaRenderer = new OrthogonalTiledMapRenderer(mapa);

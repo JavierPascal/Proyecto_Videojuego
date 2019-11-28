@@ -109,6 +109,7 @@ public class PantallaCargando extends Pantalla {
         manager.load("Botones/btnExit.png", Texture.class);
         manager.load("Configuracion/Silencio.png", Texture.class);
         manager.load("Configuracion/Sonido.png",Texture.class);
+
     }
 
     private void cargarRecursosMundos() {

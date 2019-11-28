@@ -40,7 +40,7 @@ class Configuracion implements Screen {
 
     //Sonido
 
-    private Music audioFondo;   // Fondo, largo
+    public Music Musica;   // Fondo, largo
     private Sound efecto1;       // Corto
    // private Sound efecto2;
     //private Sound efecto3;
@@ -69,15 +69,15 @@ class Configuracion implements Screen {
         manager.load("Audios/Efecto1.mp3", Sound.class);
         //manager.load("Audios/Efecto2.mp3", Sound.class);
         manager.load("Audios/Efecto3.mp3", Sound.class);
-        manager.finishLoading();    // Segundo plano
+        manager.finishLoading();    // Segundo plano */
         // Leer audios
-        audioFondo = manager.get("Audios/Musica.mp3");
+        Musica = manager.get("Audios/Musica.mp3");
         efecto1 = manager.get("Audios/Efecto1.mp3");
         //efecto2 = manager.get("Audios/Efecto2.mp3");
         //efecto3 = manager.get("Audios/Efecto3.mp3");
-        audioFondo.setLooping(true);
-        audioFondo.play();
-        audioFondo.setVolume(0.2f);
+        Musica.setLooping(true);
+        Musica.play();
+        Musica.setVolume(0.2f);
 
         /*manager = juego.getManager();
         arrdesonidos = new Array<>(4);
@@ -157,7 +157,7 @@ class Configuracion implements Screen {
                 (new TextureRegion(texturabtnSonidoPressed));
 
         final ImageButton btnSonido = new ImageButton(trdSonido, trdSonidoPress);
-        btnSonido.setPosition(720, Juego.ALTO - btnRegresar.getHeight() - 10);
+        btnSonido.setPosition(Juego.ANCHO/2, Juego.ALTO/2);
         btnSonido.setScale(Juego.ALTO, Juego.ANCHO);
 
         //Funcionamiento
@@ -165,7 +165,7 @@ class Configuracion implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                audioFondo.play();
+                Musica.play();
 
 
 
@@ -182,14 +182,14 @@ class Configuracion implements Screen {
                 (new TextureRegion(texturabtnSilencioPressed));
 
         ImageButton btnSilencio = new ImageButton(trdSilencio, trdSilencioPress);
-        btnSilencio.setPosition(360, Juego.ALTO - btnRegresar.getHeight() - 10);
+        btnSilencio.setPosition(Juego.ANCHO/2, Juego.ALTO/2);
 
         //Funcionamiento
         btnSilencio.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                audioFondo.pause();
+                Musica.pause();
 
 
 

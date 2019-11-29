@@ -1,14 +1,11 @@
 package mx.itesm.jonapalu;
 
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.Array;
-
-import javax.xml.soap.Text;
 
 public class PantallaCargando extends Pantalla {
 
@@ -75,8 +72,26 @@ public class PantallaCargando extends Pantalla {
             case CREARMUNDO:
                 cargarRecursosCrearMundo();
                 break;
+            case CREATIVO:
+                cargarRecursosPantallaCreativo();
+                break;
 
         }
+
+    }
+
+    private void cargarRecursosPantallaCreativo() {
+        manager.load("Mapas/mapaTutorial.tmx", TiledMap.class);
+        manager.load("Botones/btnPausa.png", Texture.class);
+        manager.load("Botones/btnRegresar.png", Texture.class);
+        manager.load("Botones/btnCrafteo.png", Texture.class);
+        manager.load("Configuracion/Sonido.png", Texture.class);
+        manager.load("Configuracion/Silencio.png", Texture.class);
+        manager.load("Botones/btnCerrar.png", Texture.class);
+        manager.load("Botones/btnExit.png", Texture.class);
+        manager.load("Botones/Pausa.png", Texture.class);
+
+
 
     }
 
@@ -202,6 +217,9 @@ public class PantallaCargando extends Pantalla {
                     break;
                 case CREARMUNDO:
                     juego.setScreen(new CrearMundo(juego));
+                    break;
+                case CREATIVO:
+                    juego.setScreen(new PantallaCreativo(juego));
 
             }
         }

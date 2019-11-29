@@ -2,6 +2,7 @@ package mx.itesm.jonapalu;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -221,9 +222,14 @@ class PantallaMundoTutorial extends Pantalla {
 
 
 
-        //PROBLEMA CON MOVIMENTO
+        /*PROBLEMA CON MOVIMENTO
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
-        Gdx.input.setInputProcessor(fasesMenu);
+        Gdx.input.setInputProcessor(fasesMenu); */
+
+        InputMultiplexer multi = new InputMultiplexer();
+        multi.addProcessor(new ProcesadorEntrada());
+        multi.addProcessor(fasesMenu);
+        Gdx.input.setInputProcessor(multi);
     }
 
     private void crearBloques() {

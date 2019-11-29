@@ -111,8 +111,6 @@ class Configuracion implements Screen {
 
         final ImageButton btnSonido = new ImageButton(trdSonido, trdSonidoPress);
         btnSonido.setPosition(Juego.ANCHO/2 - (btnSonido.getWidth()/2), Juego.ALTO/2- (btnSonido.getHeight()/2));
-        btnSonido.setScale(Juego.ALTO, Juego.ANCHO);
-
         //Funcionamiento
         btnSonido.addListener(new ClickListener() {
             @Override
@@ -153,7 +151,12 @@ class Configuracion implements Screen {
 
         //Anadir botones
         fasesMenu.addActor(btnRegresar);
-        fasesMenu.addActor(btnSilencio);
+        if(Juego.Musica.isPlaying()) {
+            fasesMenu.addActor(btnSilencio);
+        }
+        else{
+            fasesMenu.addActor(btnSonido);
+        }
 
 
         //Cargar las entradas

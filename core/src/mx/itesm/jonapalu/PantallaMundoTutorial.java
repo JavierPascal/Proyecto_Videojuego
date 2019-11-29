@@ -56,12 +56,15 @@ class PantallaMundoTutorial extends Pantalla {
     private ImageButton btnPiedra;
     private ImageButton btnDios;
     private ImageButton btnCuadroTXT;
+    private ImageButton btnPerder;
 
     private boolean Espada = true;
     private boolean Pico = true;
     private boolean Pala = true;
     private boolean Crafteando = false;
     private boolean picar = false;
+    private boolean moviendo = false;
+    private boolean Derecha = true;
 
     private Texture Mano;
     private Texture ManoIzquierda;
@@ -76,9 +79,15 @@ class PantallaMundoTutorial extends Pantalla {
     private Texture textura3;
     private Texture textura4;
     private Texture textura5;
+    private Texture Enemigo1 = new Texture("Personajes/enemigo2.png");
+    private Texture Enemigo2 = new Texture("Personajes/enemigo1.png");
 
     private int intText = 0;
     private int Tutorial = 0;
+    private int Perder = 0;
+
+    private float Perx = 0;
+    private float Pery = 0;
 
 
     private static final float RADIO = 10f ;
@@ -146,6 +155,19 @@ class PantallaMundoTutorial extends Pantalla {
 
         fasesMenu.addActor(btnCuadroTXT);
         fasesMenu.addActor(btnDios);
+
+        //Boton de Perder
+        final TextureRegionDrawable trdPerder = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnPerder.png")));
+        btnPerder = new ImageButton(trdPerder);
+        btnPerder.setPosition( 0, 0);
+        //Funcionamiento
+        btnPerder.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                juego.setScreen(new PantallaMenu(juego));
+            }
+        });
 
 
         //Boton de Pausa
@@ -221,15 +243,8 @@ class PantallaMundoTutorial extends Pantalla {
         mapa = manager.get("Mapas/mapaTutorial.tmx");
         mapaRenderer = new OrthogonalTiledMapRenderer(mapa);
 
-
-
-        /*PROBLEMA CON MOVIMENTO
-        Gdx.input.setInputProcessor(new ProcesadorEntrada());
-        Gdx.input.setInputProcessor(fasesMenu); */
-
         InputMultiplexer multi = new InputMultiplexer();
         multi.addProcessor(fasesMenu);
-        multi.addProcessor(new ProcesadorEntrada());
         Gdx.input.setInputProcessor(multi);
     }
 
@@ -281,16 +296,16 @@ class PantallaMundoTutorial extends Pantalla {
     private void crearObjetos() {
         BodyDef bodydef = new BodyDef();
         bodydef.type = BodyDef.BodyType.DynamicBody;
-        bodydef.position.set(832,700);
+        bodydef.position.set(832,400);
         body = mundo.createBody(bodydef);
 
-        CircleShape circulo =  new CircleShape();
-        circulo.setRadius(RADIO);
+        PolygonShape circulo = new PolygonShape();
+        circulo.setAsBox(32, 32);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circulo;
-        fixtureDef.density = 0.2f;
-        fixtureDef.friction = 0.0f;
+        fixtureDef.density = 0.01f;
+        fixtureDef.friction = 0;
         fixtureDef.restitution = 0.0f;
 
         body.createFixture(fixtureDef);
@@ -326,10 +341,10 @@ class PantallaMundoTutorial extends Pantalla {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Tutorial += 1;
-                //personaje.moverPersonaje(x,y, "Cavar");
-                //Quitar tierra del tmx (x,y)
                 fasesMenu.clear();
+                moverPersonaje(x, y);
                 if (Tutorial == 2) {
+
                     BloquesFx.set(1,10000);
                     fasesMenu.addActor(btnMadera);
                 } else {
@@ -350,6 +365,7 @@ class PantallaMundoTutorial extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                moverPersonaje(x, y);
                 Tutorial += 1;
                 //personaje.moverPersonaje(x,y, "Cavar");
                 //Quitar Madera del tmx
@@ -369,6 +385,7 @@ class PantallaMundoTutorial extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                moverPersonaje(x, y);
                 Tutorial += 1;
                 BloquesFx.set(3,10000);
                 //personaje.moverPersonaje(x,y, "Picar");
@@ -449,18 +466,36 @@ class PantallaMundoTutorial extends Pantalla {
 
         float x = body.getPosition().x;
         float y = body.getPosition().y;
-        personaje.getSprite().setPosition(x-RADIO,y-RADIO);
+        personaje.getSprite().setPosition( x - 32 ,y -32);
 
         batch.setProjectionMatrix(camara.combined);
 
         mapaRenderer.setView(camara);
         mapaRenderer.render();
 
-        debugRenderer.render(mundo,camara.combined);
-
+        //debugRenderer.render(mundo,camara.combined);
         fasesMenu.draw();
         batch.begin();
-        personaje.render(batch);
+        if(Tutorial == 5 && Perder >= 200) {
+
+        }else{
+            personaje.render(batch);
+        }
+
+        if(moviendo) {
+            if (Derecha) {
+                body.applyLinearImpulse(-10, 0, x, y, true);
+                if(personaje.getSprite().getX() >= Perx){
+                    moviendo = false;
+                }
+            } else {
+                body.applyLinearImpulse(10, 0, x, y, true);
+                if(personaje.getSprite().getX() <= Perx){
+                    moviendo = false;
+                }
+            }
+
+        }
 
         for( int i = 0; i < BloquesF.size; i++){
             batch.draw(BloquesF.get(i), BloquesFx.get(i), BloquesFy.get(i));
@@ -488,7 +523,6 @@ class PantallaMundoTutorial extends Pantalla {
                 fasesMenu.addActor(btnPausa);
                 estadoJuego = EstadoJuego.TUTORIAL;
                 fasesMenu.addActor(btnTierra);
-                //personaje = new Personaje(World);
             }
         }
         if (estadoJuego == EstadoJuego.TUTORIAL) {
@@ -529,6 +563,15 @@ class PantallaMundoTutorial extends Pantalla {
             }
             if (Tutorial == 5) {
                 //Spawnear enemigos y matar al personaje
+                Perder += 1;
+                if(Perder >= 200){
+                    personaje.getSprite().setPosition(20000,-200);
+                    fasesMenu.addActor(btnPerder);
+                }
+                else{
+                    batch.draw(Enemigo2, 0 + Perder,320 );
+                    batch.draw(Enemigo1, Juego.ANCHO - Perder,320 );
+                }
             }
 
 
@@ -592,51 +635,16 @@ class PantallaMundoTutorial extends Pantalla {
 
 
     }
-
-    private class ProcesadorEntrada implements InputProcessor {
-        @Override
-        public boolean keyDown(int keycode) {
-            return false;
+    public void moverPersonaje(float dx, float dy) {
+        Perx = dx;
+        Pery = dy;
+        moviendo = true;
+        if (dx > Perx) {
+            Derecha = true;
+        }
+        else{
+            Derecha = false;
         }
 
-        @Override
-        public boolean keyUp(int keycode) {
-            return false;
-        }
-
-        @Override
-        public boolean keyTyped(char character) {
-            return false;
-        }
-
-        @Override
-        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            float x = body.getPosition().x;
-            float y = body.getPosition().y;
-
-            body.applyLinearImpulse(1000,0,x,y,true);
-            return true;
-
-        }
-
-        @Override
-        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-            return false;
-        }
-
-        @Override
-        public boolean touchDragged(int screenX, int screenY, int pointer) {
-            return false;
-        }
-
-        @Override
-        public boolean mouseMoved(int screenX, int screenY) {
-            return false;
-        }
-
-        @Override
-        public boolean scrolled(int amount) {
-            return false;
-        }
     }
 }

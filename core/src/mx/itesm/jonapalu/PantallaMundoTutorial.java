@@ -98,10 +98,13 @@ class PantallaMundoTutorial extends Pantalla {
         crearMundo();
         crearObjetos();
         cargarMapa();
+        CrearBotonesItems();
+        CrearBotonesTutorial();
         definirParedes();
         crearPersonaje();
 
-        Gdx.input.setInputProcessor(new ProcesadorEntrada());
+
+
         Mano = new Texture("Botones/btnMano.png");
         ManoIzquierda = new Texture("Botones/btnManoIzquierda.png");
         fasesMenu = new Stage(vista);
@@ -134,8 +137,7 @@ class PantallaMundoTutorial extends Pantalla {
         fasesMenu.addActor(btnCuadroTXT);
         fasesMenu.addActor(btnDios);
 
-        CrearBotonesItems();
-        CrearBotonesTutorial();
+
         //Boton de Pausa
         Texture texturabtnPausa = new Texture("Botones/btnPausa.png");
         TextureRegionDrawable trdPausa = new TextureRegionDrawable
@@ -208,7 +210,15 @@ class PantallaMundoTutorial extends Pantalla {
         escenaPausa = new EscenaPausa(juego, vista, batch, fasesMenu);
         mapa = manager.get("Mapas/mapaTutorial.tmx");
         mapaRenderer = new OrthogonalTiledMapRenderer(mapa);
+
+
+
+        //PROBLEMA CON MOVIMENTO
+        Gdx.input.setInputProcessor(new ProcesadorEntrada());
         Gdx.input.setInputProcessor(fasesMenu);
+
+
+
         //Read Audios
         /*audioFondo = manager.get("Audios/marioBros.mp3");
         fx = manager.get("Audios/moneda.mp3");
@@ -535,6 +545,7 @@ class PantallaMundoTutorial extends Pantalla {
 
             body.applyLinearImpulse(1000,0,x,y,true);
             return true;
+
         }
 
         @Override

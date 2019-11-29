@@ -42,7 +42,6 @@ public class Juego extends Game {
     }
     public void sumar(float delta) {
         tiempo += delta;
-        System.out.println(tiempo);
     }
 
     public AssetManager getManager() {

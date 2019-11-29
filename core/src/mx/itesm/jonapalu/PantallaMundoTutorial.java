@@ -4,23 +4,32 @@ package mx.itesm.jonapalu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 class PantallaMundoTutorial extends Pantalla {
@@ -29,8 +38,6 @@ class PantallaMundoTutorial extends Pantalla {
     private Stage fasesMenu;
 
     //Map
-    private OrthogonalTiledMapRenderer mapaRenderer;
-    private TiledMap mapa;
     //Audio
     private Music audioFondo;
     private Sound fx;
@@ -52,8 +59,6 @@ class PantallaMundoTutorial extends Pantalla {
     private ImageButton btnTierra;
     private ImageButton btnMadera;
     private ImageButton btnPiedra;
-    private ImageButton btnDios;
-    private ImageButton btnCuadroTXT;
 
     private boolean Espada = true;
     private boolean Pico = true;
@@ -65,20 +70,21 @@ class PantallaMundoTutorial extends Pantalla {
     private Texture ManoIzquierda;
     private float dy = 0;
 
-    private Array<Texture> BloquesF = new Array<>(4);
-    private Array<Integer> BloquesFx = new Array<>(4);
-    private Array<Integer> BloquesFy = new Array<>(4);
 
     private int intText = 0;
     private int Tutorial = 0;
 
-    private Personaje personaje;
 
-    private Texture textura1;
-    private Texture textura2;
-    private Texture textura3;
-    private Texture textura4;
-    private Texture textura5;
+    private static final float RADIO = 10f ;
+    private World mundo;
+    private Body body;
+    private Box2DDebugRenderer debugRenderer;
+
+    //Mapa
+    private OrthogonalTiledMapRenderer mapaRenderer;
+    private TiledMap mapa;
+
+    private Personaje personaje;
 
 
     public PantallaMundoTutorial(Juego juego) {
@@ -88,13 +94,24 @@ class PantallaMundoTutorial extends Pantalla {
 
     @Override
     public void show() {
+
+        crearMundo();
+        crearObjetos();
+        cargarMapa();
+        CrearBotonesItems();
+        CrearBotonesTutorial();
+        definirParedes();
+        crearPersonaje();
+
+
+
         Mano = new Texture("Botones/btnMano.png");
         ManoIzquierda = new Texture("Botones/btnManoIzquierda.png");
         fasesMenu = new Stage(vista);
-        crearBloques();
+
         //Boton de Dios
         final TextureRegionDrawable trdDios = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/btnDiosP.png")));
-        btnDios = new ImageButton(trdDios);
+        final ImageButton btnDios = new ImageButton(trdDios);
         btnDios.setPosition(10, Juego.ALTO - btnDios.getHeight() - 10);
         //Funcionamiento
         btnDios.addListener(new ClickListener() {
@@ -106,7 +123,7 @@ class PantallaMundoTutorial extends Pantalla {
         });
         //Boton de CuadroTXT
         TextureRegionDrawable trdCuadroTXT = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/CuadroTXT.png")));
-        btnCuadroTXT = new ImageButton(trdCuadroTXT);
+        ImageButton btnCuadroTXT = new ImageButton(trdCuadroTXT);
         btnCuadroTXT.setPosition(10 + btnDios.getWidth(), Juego.ALTO - btnCuadroTXT.getHeight() - 10);
         //Funcionamiento
         btnCuadroTXT.addListener(new ClickListener() {
@@ -117,14 +134,11 @@ class PantallaMundoTutorial extends Pantalla {
             }
         });
 
-        texturas();
-
         fasesMenu.addActor(btnCuadroTXT);
         fasesMenu.addActor(btnDios);
 
 
-        CrearBotonesTutorial();
-        //Boton de PausaCrearBotonesItems();
+        //Boton de Pausa
         Texture texturabtnPausa = new Texture("Botones/btnPausa.png");
         TextureRegionDrawable trdPausa = new TextureRegionDrawable
                 (new TextureRegion(texturabtnPausa));
@@ -193,12 +207,18 @@ class PantallaMundoTutorial extends Pantalla {
 
         });
 
-        CrearBotonesItems();
-
         escenaPausa = new EscenaPausa(juego, vista, batch, fasesMenu);
         mapa = manager.get("Mapas/mapaTutorial.tmx");
         mapaRenderer = new OrthogonalTiledMapRenderer(mapa);
+
+
+
+        //PROBLEMA CON MOVIMENTO
+        Gdx.input.setInputProcessor(new ProcesadorEntrada());
         Gdx.input.setInputProcessor(fasesMenu);
+
+
+
         //Read Audios
         /*audioFondo = manager.get("Audios/marioBros.mp3");
         fx = manager.get("Audios/moneda.mp3");
@@ -207,31 +227,58 @@ class PantallaMundoTutorial extends Pantalla {
         audioFondo.setVolume(.2f);*/
     }
 
-    private void crearBloques() {
-        BloquesF.add(new Texture("Texturas/texPasto.png"));
-        BloquesF.add(new Texture("Texturas/texPasto.png"));
-        BloquesF.add(new Texture("Texturas/texMadera.png"));
-        BloquesF.add(new Texture("Texturas/texPiedra.png"));
-        BloquesFx.add(960);
-        BloquesFx.add(960-64);
-        BloquesFx.add(576);
-        BloquesFx.add(960);
-        BloquesFy.add(256);
-        BloquesFy.add(256);
-        BloquesFy.add(320);
-        BloquesFy.add(256 - 64);
-
-
+    private void crearPersonaje() {
+        Texture texture = new Texture("Personajes/personaje.png");
+        personaje = new Personaje(texture,0,0);
     }
 
-    private void texturas() {
-        textura1 = new Texture("Botones/txt1.png");
-        textura2 = new Texture("Botones/txt2.png");
-        textura3 = new Texture("Botones/txt3.png");
-        textura4 = new Texture("Botones/txt4.png");
-        textura5 = new Texture("Botones/txt5.png");
+    private void definirParedes() {
+        ConvertidorMapa.crearCuerpos(mapa,mundo);
+    }
 
+    private void cargarMapa() {
+        AssetManager manager = new AssetManager();
+        manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        manager.load("Mapas/mapaTutorial.tmx", TiledMap.class);
+        manager.finishLoading(); //Segundo Plano
+        mapa = manager.get("Mapas/mapaTutorial.tmx");
+        mapaRenderer = new OrthogonalTiledMapRenderer(mapa);
+    }
 
+    private void crearObjetos() {
+        BodyDef bodydef = new BodyDef();
+        bodydef.type = BodyDef.BodyType.DynamicBody;
+        bodydef.position.set(5,700);
+        body = mundo.createBody(bodydef);
+
+        CircleShape circulo =  new CircleShape();
+        circulo.setRadius(RADIO);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = circulo;
+        fixtureDef.density = 0.2f;
+        fixtureDef.friction = 0.0f;
+        fixtureDef.restitution = 0.0f;
+
+        body.createFixture(fixtureDef);
+        circulo.dispose();
+
+        BodyDef bodyPisoDef = new BodyDef();
+        bodyPisoDef.type = BodyDef.BodyType.StaticBody;
+        bodyPisoDef.position.set(ANCHO/4,10);
+
+        Body bodyPiso =  mundo.createBody(bodyPisoDef);
+
+        PolygonShape pisoShape =  new PolygonShape();
+        pisoShape.setAsBox(ANCHO/4,10);
+        bodyPiso.createFixture(pisoShape,0);
+    }
+
+    private void crearMundo() {
+        Box2D.init();
+        Vector2 gravedad = new Vector2(0,-60);
+        mundo = new World(gravedad, true);
+        debugRenderer = new Box2DDebugRenderer();
     }
 
     private void CrearBotonesTutorial() {
@@ -250,10 +297,8 @@ class PantallaMundoTutorial extends Pantalla {
                 //Quitar tierra del tmx (x,y)
                 fasesMenu.clear();
                 if (Tutorial == 2) {
-                    BloquesFx.set(1,10000);
                     fasesMenu.addActor(btnMadera);
                 } else {
-                    BloquesFx.set(0,10000);
                     btnTierra.setPosition(btnTierra.getX() - 64, btnTierra.getY());
                     fasesMenu.addActor(btnTierra);
                 }
@@ -274,7 +319,6 @@ class PantallaMundoTutorial extends Pantalla {
                 //personaje.moverPersonaje(x,y, "Cavar");
                 //Quitar Madera del tmx
                 fasesMenu.clear();
-                BloquesFx.set(2,10000);
                 fasesMenu.addActor(btnPausa);
                 fasesMenu.addActor(btnCrafteo);
                 Crafteando = true;
@@ -290,7 +334,6 @@ class PantallaMundoTutorial extends Pantalla {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Tutorial += 1;
-                BloquesFx.set(3,10000);
                 //personaje.moverPersonaje(x,y, "Picar");
                 //Quitar piedra del tmx
                 fasesMenu.clear();
@@ -363,36 +406,24 @@ class PantallaMundoTutorial extends Pantalla {
 
     @Override
     public void render(float delta) {
+        float x = body.getPosition().x;
+        float y = body.getPosition().y;
+        personaje.getSprite().setPosition(x-RADIO,y-RADIO);
 
         borrarPantalla(1, 0, 0);
 
         batch.setProjectionMatrix(camara.combined);
+
         mapaRenderer.setView(camara);
         mapaRenderer.render();
-        fasesMenu.draw();
-        batch.begin();
 
-        for( int i = 0; i < BloquesF.size; i++){
-            batch.draw(BloquesF.get(i), BloquesFx.get(i), BloquesFy.get(i));
-        }
+        debugRenderer.render(mundo,camara.combined);
+
+
+        batch.begin();
+        personaje.render(batch);
 
         if (estadoJuego == EstadoJuego.ANIMACION) {
-            if(intText == 0){
-                fasesMenu.addActor(btnCuadroTXT);
-                batch.draw(textura1, 10 + btnDios.getWidth(), Juego.ALTO - btnCuadroTXT.getHeight() - 10);
-            }if(intText == 1){
-                fasesMenu.addActor(btnCuadroTXT);
-                batch.draw(textura2, 10 + btnDios.getWidth(), Juego.ALTO - btnCuadroTXT.getHeight() - 10);
-            }if(intText == 2){
-                fasesMenu.addActor(btnCuadroTXT);
-                batch.draw(textura3, 10 + btnDios.getWidth(), Juego.ALTO - btnCuadroTXT.getHeight() - 10);
-            }if(intText == 3){
-                fasesMenu.addActor(btnCuadroTXT);
-                batch.draw(textura4, 10 + btnDios.getWidth(), Juego.ALTO - btnCuadroTXT.getHeight() - 10);
-            }if(intText == 4){
-                fasesMenu.addActor(btnCuadroTXT);
-                batch.draw(textura5, 10 + btnDios.getWidth(), Juego.ALTO - btnCuadroTXT.getHeight() - 10);
-            }
             if (intText == 5) {
                 fasesMenu.clear();
                 fasesMenu.addActor(btnPausa);
@@ -454,30 +485,20 @@ class PantallaMundoTutorial extends Pantalla {
 
 
         if (estadoJuego == EstadoJuego.PAUSA) {
-            fasesMenu.draw();
             escenaPausa.draw();
             if (escenaPausa.getPausa()) {
-                if (Tutorial == 0) {
-                    fasesMenu.addActor(btnTierra);
-                }
-                if (Tutorial == 1) {
-                    fasesMenu.addActor(btnTierra);
-                }
-                if (Tutorial == 2) {
-                    fasesMenu.addActor(btnMadera);
-                }
-                if (Tutorial == 4) {
-                    fasesMenu.addActor(btnPiedra);
-                }
                 fasesMenu.addActor(btnPausa);
                 if (Crafteando) {
                     fasesMenu.addActor(btnCrafteo);
                 }
-                estadoJuego = EstadoJuego.TUTORIAL;
+                estadoJuego = EstadoJuego.JUGANDO;
                 escenaPausa.setPausa();
             }
         }
         batch.end();
+        mundo.step(1/60f, 6,6);
+        fasesMenu.draw();
+
 
     }
 
@@ -499,5 +520,52 @@ class PantallaMundoTutorial extends Pantalla {
         manager.unload("Botones/Pausa.png");
 
 
+    }
+
+    private class ProcesadorEntrada implements InputProcessor {
+        @Override
+        public boolean keyDown(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyUp(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyTyped(char character) {
+            return false;
+        }
+
+        @Override
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+            float x = body.getPosition().x;
+            float y = body.getPosition().y;
+
+            body.applyLinearImpulse(1000,0,x,y,true);
+            return true;
+
+        }
+
+        @Override
+        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+            return false;
+        }
+
+        @Override
+        public boolean touchDragged(int screenX, int screenY, int pointer) {
+            return false;
+        }
+
+        @Override
+        public boolean mouseMoved(int screenX, int screenY) {
+            return false;
+        }
+
+        @Override
+        public boolean scrolled(int amount) {
+            return false;
+        }
     }
 }

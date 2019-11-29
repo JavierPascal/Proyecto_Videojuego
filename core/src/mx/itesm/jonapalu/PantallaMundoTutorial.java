@@ -456,7 +456,7 @@ class PantallaMundoTutorial extends Pantalla {
         mapaRenderer.setView(camara);
         mapaRenderer.render();
 
-        //debugRenderer.render(mundo,camara.combined);
+        debugRenderer.render(mundo,camara.combined);
 
         fasesMenu.draw();
         batch.begin();

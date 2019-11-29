@@ -44,6 +44,8 @@ class PantallaMundoTutorial extends Pantalla {
     private EscenaPausa escenaPausa;
     private AssetManager manager;
 
+    private Array<Texture> personaje = new Array<>(4);
+
 
     private ImageButton btnPausa;
     private ImageButton btnCrafteo;
@@ -57,6 +59,7 @@ class PantallaMundoTutorial extends Pantalla {
     private ImageButton btnDios;
     private ImageButton btnCuadroTXT;
     private ImageButton btnPerder;
+    private ImageButton btnTierra2;
 
     private boolean Espada = true;
     private boolean Pico = true;
@@ -85,21 +88,16 @@ class PantallaMundoTutorial extends Pantalla {
     private int intText = 0;
     private int Tutorial = 0;
     private int Perder = 0;
+    private int Anim = 0;
+    private float Movx;
+    private float Movy;
 
-    private float Perx = 0;
-    private float Pery = 0;
-
-
-    private static final float RADIO = 10f ;
-    private World mundo;
-    private Body body;
-    private Box2DDebugRenderer debugRenderer;
+    private float Perx = 576 + 64;
+    private float Pery = 320;
 
     //Mapa
     private OrthogonalTiledMapRenderer mapaRenderer;
     private TiledMap mapa;
-
-    private Personaje personaje;
 
 
     public PantallaMundoTutorial(Juego juego) {
@@ -111,14 +109,9 @@ class PantallaMundoTutorial extends Pantalla {
         public void show() {
 
         fasesMenu = new Stage(vista);
-
-        crearMundo();
-
         cargarMapa();
         CrearBotonesItems();
         CrearBotonesTutorial();
-        crearObjetos();
-        definirParedes();
         crearPersonaje();
         texturas();
         crearBloques();
@@ -276,13 +269,16 @@ class PantallaMundoTutorial extends Pantalla {
     }
 
     private void crearPersonaje() {
-        Texture texture = new Texture("Personajes/personaje.png");
-        personaje = new Personaje(texture,0,0);
+        Texture personajes = new Texture("Personajes/personaje1.png");
+        personaje.add(personajes);
+        personajes = new Texture("Personajes/personaje2.png");
+        personaje.add(personajes);
+        personajes = new Texture("Personajes/personaje1.png");
+        personaje.add(personajes);
+        personajes = new Texture("Personajes/personaje4.png");
+        personaje.add(personajes);
     }
 
-    private void definirParedes() {
-        ConvertidorMapa.crearCuerpos(mapa,mundo);
-    }
 
     private void cargarMapa() {
         AssetManager manager = new AssetManager();
@@ -291,42 +287,6 @@ class PantallaMundoTutorial extends Pantalla {
         manager.finishLoading(); //Segundo Plano
         mapa = manager.get("Mapas/mapaTutorial.tmx");
         mapaRenderer = new OrthogonalTiledMapRenderer(mapa);
-    }
-
-    private void crearObjetos() {
-        BodyDef bodydef = new BodyDef();
-        bodydef.type = BodyDef.BodyType.DynamicBody;
-        bodydef.position.set(832,400);
-        body = mundo.createBody(bodydef);
-
-        PolygonShape circulo = new PolygonShape();
-        circulo.setAsBox(30, 30);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = circulo;
-        fixtureDef.density = 0.01f;
-        fixtureDef.friction = 0.1f;
-        fixtureDef.restitution = 0.0f;
-
-        body.createFixture(fixtureDef);
-        circulo.dispose();
-
-        BodyDef bodyPisoDef = new BodyDef();
-        bodyPisoDef.type = BodyDef.BodyType.StaticBody;
-        bodyPisoDef.position.set(ANCHO/4,10);
-
-        Body bodyPiso =  mundo.createBody(bodyPisoDef);
-
-        PolygonShape pisoShape =  new PolygonShape();
-        pisoShape.setAsBox(ANCHO/4,10);
-        bodyPiso.createFixture(pisoShape,0);
-    }
-
-    private void crearMundo() {
-        Box2D.init();
-        Vector2 gravedad = new Vector2(0,-100);
-        mundo = new World(gravedad, true);
-        debugRenderer = new Box2DDebugRenderer();
     }
 
     private void CrearBotonesTutorial() {
@@ -340,18 +300,26 @@ class PantallaMundoTutorial extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                Tutorial += 1;
                 fasesMenu.clear();
-                moverPersonaje(x, y);
-                if (Tutorial == 2) {
-
-                    BloquesFx.set(1,10000);
-                    fasesMenu.addActor(btnMadera);
-                } else {
-                    BloquesFx.set(0,10000);
+                    moverPersonaje(960, 256);
                     btnTierra.setPosition(btnTierra.getX() - 64, btnTierra.getY());
-                    fasesMenu.addActor(btnTierra);
-                }
+                    fasesMenu.addActor(btnTierra2);
+                fasesMenu.addActor(btnPausa);
+            }
+        });
+        //Boton Primera Tierra
+        Texture texturabtnTierra2 = new Texture("Texturas/texPasto.png");
+        TextureRegionDrawable trdTierra2 = new TextureRegionDrawable(new TextureRegion(texturabtnTierra));
+        btnTierra2 = new ImageButton(trdTierra2);
+        btnTierra2.setPosition(960 - 64, 256);
+        //Funcionamiento
+        btnTierra2.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                fasesMenu.clear();
+                moverPersonaje(960 - 128 - 64, 256);
+                fasesMenu.addActor(btnMadera);
                 fasesMenu.addActor(btnPausa);
             }
         });
@@ -365,12 +333,8 @@ class PantallaMundoTutorial extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                moverPersonaje(x, y);
-                Tutorial += 1;
-                //personaje.moverPersonaje(x,y, "Cavar");
-                //Quitar Madera del tmx
+                moverPersonaje(576, 320);
                 fasesMenu.clear();
-                BloquesFx.set(2,10000);
                 fasesMenu.addActor(btnPausa);
                 fasesMenu.addActor(btnCrafteo);
                 Crafteando = true;
@@ -385,11 +349,7 @@ class PantallaMundoTutorial extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                moverPersonaje(x, y);
-                Tutorial += 1;
-                BloquesFx.set(3,10000);
-                //personaje.moverPersonaje(x,y, "Picar");
-                //Quitar piedra del tmx
+                moverPersonaje(960, 256 - 64);
                 fasesMenu.clear();
                 fasesMenu.addActor(btnPausa);
                 fasesMenu.addActor(btnCrafteo);
@@ -464,37 +424,56 @@ class PantallaMundoTutorial extends Pantalla {
 
         borrarPantalla(1, 0, 0);
 
-        float x = body.getPosition().x;
-        float y = body.getPosition().y;
-        personaje.getSprite().setPosition( x - 32 ,y -32);
-
         batch.setProjectionMatrix(camara.combined);
 
         mapaRenderer.setView(camara);
         mapaRenderer.render();
-
-        debugRenderer.render(mundo,camara.combined);
         fasesMenu.draw();
         batch.begin();
-        if(Tutorial == 5 && Perder >= 200) {
+        if((Tutorial == 5 && Perder >= 200) || (estadoJuego == EstadoJuego.PAUSA)) {
 
         }else{
-            personaje.render(batch);
+            if(Anim >= 4){
+                Anim = 0;
+            }
+            batch.draw(personaje.get(Anim), Perx , Pery);
         }
 
         if(moviendo) {
-            if (Derecha) {
-                body.applyLinearImpulse(-10, 0, x, y, true);
-                if(personaje.getSprite().getX() >= Perx){
-                    moviendo = false;
+            Anim +=1;
+            if (Tutorial == 4) {
+                Perx += 2;
+                if(Perx >= Movx){
+                    Perx -= 2;
+                    Pery -= 2;
+                    Anim = 0;
                 }
-            } else {
-                body.applyLinearImpulse(10, 0, x, y, true);
-                if(personaje.getSprite().getX() <= Perx){
+                if(Pery <= Movy + 128){
                     moviendo = false;
+                    BloquesFx.set(3, 10000);
+                    Tutorial += 1;
+                    Anim = 0;
                 }
             }
-
+            else {
+                if (Derecha) {
+                    Perx += 2;
+                    if (Perx >= Movx) {
+                        moviendo = false;
+                        BloquesFx.set(Tutorial, 10000);
+                        Tutorial += 1;
+                        Anim = 0;
+                    }
+                } else {
+                    Perx -= 2;
+                    if (Perx <= Movx) {
+                        moviendo = false;
+                        BloquesFx.set(Tutorial, 10000);
+                        Tutorial += 1;
+                        Anim = 0;
+                    }
+                }
+            }
         }
 
         for( int i = 0; i < BloquesF.size; i++){
@@ -565,7 +544,6 @@ class PantallaMundoTutorial extends Pantalla {
                 //Spawnear enemigos y matar al personaje
                 Perder += 1;
                 if(Perder >= 200){
-                    personaje.getSprite().setPosition(20000,-200);
                     fasesMenu.addActor(btnPerder);
                 }
                 else{
@@ -613,7 +591,6 @@ class PantallaMundoTutorial extends Pantalla {
             }
         }
         batch.end();
-        mundo.step(1/60f, 6,6);
     }
 
     @Override
@@ -636,14 +613,18 @@ class PantallaMundoTutorial extends Pantalla {
 
     }
     public void moverPersonaje(float dx, float dy) {
-        Perx = dx;
-        Pery = dy;
+        Movx = dx;
+        Movy = dy;
         moviendo = true;
         if (dx > Perx) {
             Derecha = true;
+            Movx = dx - 64;
+            Movy = dy - 64;
         }
         else{
             Derecha = false;
+            Movx = dx + 64;
+            Movy = dy + 64;
         }
 
     }

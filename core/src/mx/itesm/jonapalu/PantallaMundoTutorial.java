@@ -228,8 +228,8 @@ class PantallaMundoTutorial extends Pantalla {
         Gdx.input.setInputProcessor(fasesMenu); */
 
         InputMultiplexer multi = new InputMultiplexer();
-        multi.addProcessor(new ProcesadorEntrada());
         multi.addProcessor(fasesMenu);
+        multi.addProcessor(new ProcesadorEntrada());
         Gdx.input.setInputProcessor(multi);
     }
 
@@ -530,6 +530,8 @@ class PantallaMundoTutorial extends Pantalla {
             if (Tutorial == 5) {
                 //Spawnear enemigos y matar al personaje
             }
+
+
         }
         if (estadoJuego == EstadoJuego.CRAFTEO) {
             if (Tutorial == 3) {

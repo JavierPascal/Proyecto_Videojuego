@@ -23,6 +23,7 @@ public class EscenaPausa extends Stage{
     private SpriteBatch batch;
     private ImageButton btnCerrar;
     private ImageButton btnRegresar;
+    private ImageButton btnSonido;
     private ImageButton Pausa;
     private boolean pausa = false;
     private AssetManager manager;
@@ -52,11 +53,9 @@ public class EscenaPausa extends Stage{
         TextureRegionDrawable trdSonido = new TextureRegionDrawable
                 (new TextureRegion(texturabtnSonido));
 
-        final ImageButton btnSonido = new ImageButton(trdSonido);
+        btnSonido = new ImageButton(trdSonido);
         btnSonido.setPosition(Juego.ANCHO/2 - (btnSonido.getWidth()/2), Juego.ALTO/2- (btnSonido.getHeight()/2));
-        btnSonido.setScale(Juego.ALTO, Juego.ANCHO);
-
-        //Funcionamiento
+               //Funcionamiento
         btnSonido.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -78,7 +77,6 @@ public class EscenaPausa extends Stage{
 
         btnSilencio = new ImageButton(trdSilencio);
         btnSilencio.setPosition(Juego.ANCHO/2 - (btnSilencio.getWidth()/2), Juego.ALTO/2- (btnSilencio.getHeight()/2));
-
         //Funcionamiento
         btnSilencio.addListener(new ClickListener() {
             @Override
@@ -146,9 +144,14 @@ public void setPausa(){
 }
 public void addBotton(){
     fasesMenu.addActor(btnCerrar);
-    fasesMenu.addActor(btnSilencio);
     fasesMenu.addActor(btnRegresar);
     fasesMenu.addActor(Pausa);
+    if(Juego.Musica.isPlaying()) {
+        fasesMenu.addActor(btnSilencio);
+    }
+    else{
+        fasesMenu.addActor(btnSonido);
+    }
 }
 }
 

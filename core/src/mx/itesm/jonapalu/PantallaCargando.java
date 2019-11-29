@@ -127,6 +127,8 @@ public class PantallaCargando extends Pantalla {
         manager.load("Botones/btnMundo1Pressed.png", Texture.class);
         manager.load("Botones/btnTutorial.png", Texture.class);
         manager.load("Botones/btnTutorialPressed.png", Texture.class);
+        manager.load("Botones/btnCreativo.png", Texture.class);
+
 
 
     }

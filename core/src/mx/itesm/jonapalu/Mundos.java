@@ -133,12 +133,28 @@ class Mundos implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                juego.setScreen((new PantallaCargando(juego, TipoPantalla.TUTORIAL)));
+            }
+        });
+        //Boton Tutorial
+        Texture texturaBtnCreativo = manager.get("Botones/btnCreativo.png");
+        TextureRegionDrawable trdCreativo = new TextureRegionDrawable
+                (new TextureRegion(texturaBtnCreativo));
+
+        ImageButton btnCreativo = new ImageButton(trdCreativo);
+        btnCreativo.setPosition(50, Juego.ALTO  - 50 - 2*(btnCreativo.getHeight()));
+        //Funcionamiento
+        btnCreativo.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
                 juego.setScreen((new PantallaCargando(juego, TipoPantalla.CREATIVO)));
             }
         });
 
         //Anadir botones
         fasesMenu.addActor(btnRegresar);
+        fasesMenu.addActor(btnCreativo);
         fasesMenu.addActor(btnTutorial);
 
 

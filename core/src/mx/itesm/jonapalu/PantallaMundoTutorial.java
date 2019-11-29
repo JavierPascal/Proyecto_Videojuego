@@ -103,10 +103,11 @@ class PantallaMundoTutorial extends Pantalla {
         fasesMenu = new Stage(vista);
 
         crearMundo();
-        crearObjetos();
+
         cargarMapa();
         CrearBotonesItems();
         CrearBotonesTutorial();
+        crearObjetos();
         definirParedes();
         crearPersonaje();
         texturas();
@@ -274,7 +275,7 @@ class PantallaMundoTutorial extends Pantalla {
     private void crearObjetos() {
         BodyDef bodydef = new BodyDef();
         bodydef.type = BodyDef.BodyType.DynamicBody;
-        bodydef.position.set(5,700);
+        bodydef.position.set(832,700);
         body = mundo.createBody(bodydef);
 
         CircleShape circulo =  new CircleShape();
@@ -302,7 +303,7 @@ class PantallaMundoTutorial extends Pantalla {
 
     private void crearMundo() {
         Box2D.init();
-        Vector2 gravedad = new Vector2(0,-60);
+        Vector2 gravedad = new Vector2(0,-100);
         mundo = new World(gravedad, true);
         debugRenderer = new Box2DDebugRenderer();
     }
@@ -449,7 +450,7 @@ class PantallaMundoTutorial extends Pantalla {
         mapaRenderer.setView(camara);
         mapaRenderer.render();
 
-        debugRenderer.render(mundo,camara.combined);
+        //debugRenderer.render(mundo,camara.combined);
 
         fasesMenu.draw();
         batch.begin();

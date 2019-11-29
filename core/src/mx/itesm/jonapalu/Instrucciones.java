@@ -1,9 +1,6 @@
 package mx.itesm.jonapalu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,14 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class Instrucciones extends Pantalla {
 
     private Juego juego;
-    private Music audioFondo;
     private Texture texturaFondo;
     private Stage InstruccionesStage;
 
@@ -30,14 +24,10 @@ public class Instrucciones extends Pantalla {
 
     @Override
     public void show() {
-        AssetManager manager = new AssetManager();
 
         crearBotones();
         cargarTexturas();
         configuracionVista();
-
-        //Read Audios
-        //audioFondo = manager.get("Audios/marioBros.mp3");
 
     }
 

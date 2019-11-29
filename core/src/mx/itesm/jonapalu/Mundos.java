@@ -14,9 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -35,7 +32,6 @@ class Mundos implements Screen {
 
     //Botones de Mundos
     public int mundos;
-    public Array<ImageButton> arrBotonesMundo;
 
     //Fases
     private Stage fasesMenu;
@@ -97,26 +93,6 @@ class Mundos implements Screen {
                 juego.setScreen(new PantallaMenu(juego));
             }
         });
-        /*/Boton Nuevo Mundo
-        Texture texturaBtnAgregarMundo = manager.get("Botones/btnAgregarMundo.png");
-        TextureRegionDrawable trdNuevoMundo = new TextureRegionDrawable
-                (new TextureRegion(texturaBtnAgregarMundo));
-
-        Texture texturaBtnAgregarMundoPressed = manager.get("Botones/btnAgregarMundoPressed.png");
-        TextureRegionDrawable trdNuevoMundoPress = new TextureRegionDrawable
-                (new TextureRegion(texturaBtnAgregarMundoPressed));
-        ImageButton btnNuevoMundo = new ImageButton(trdNuevoMundo, trdNuevoMundoPress);
-        btnNuevoMundo.setPosition(Juego.ANCHO - btnNuevoMundo.getWidth() - 20, 10);
-        //Funcionamiento
-        btnNuevoMundo.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                juego.setScreen((new PantallaCargando(juego, TipoPantalla.CREARMUNDO)));
-            }
-        });
-        fasesMenu.addActor(btnNuevoMundo);
-         */
 
         //Boton Mundo provicional
         if (Tutorial) {

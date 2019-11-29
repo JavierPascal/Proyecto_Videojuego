@@ -2,14 +2,10 @@ package mx.itesm.jonapalu;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.Array;
 
 import javax.xml.soap.Text;
@@ -24,8 +20,6 @@ public class PantallaCargando extends Pantalla {
 
     private Juego juego;
     private TipoPantalla siguientePantalla;
-    private int avance;
-    //private Music Musica;
 
     private Texture texturaCargando;
     private Texture texturaFondo;
@@ -93,14 +87,11 @@ public class PantallaCargando extends Pantalla {
         manager.load("Botones/btnCreativoPressed.png", Texture.class);
         manager.load("Botones/btnAventura.png", Texture.class);
         manager.load("Botones/btnAventuraPressed.png", Texture.class);
-        //manager.load("Audios/Musica.mp3", Music.class);
 
 
     }
 
     private void cargarRecursosTutorial() {
-        //manager.load("Audios/Musica.mp3", Music.class);
-        //manager.load("Audios/Efecto1.mp3", Sound.class);
         manager.load("Botones/btnMano.png", Texture.class);
         manager.load("Botones/btnManoIzquierda.png", Texture.class);
         manager.load("Mapas/mapaTutorial.tmx", TiledMap.class);
@@ -121,7 +112,6 @@ public class PantallaCargando extends Pantalla {
         manager.load("Botones/btnMundo1Pressed.png", Texture.class);
         manager.load("Botones/btnTutorial.png", Texture.class);
         manager.load("Botones/btnTutorialPressed.png", Texture.class);
-       // manager.load("Audios/Musica.mp3", Music.class);
 
 
     }
@@ -145,18 +135,15 @@ public class PantallaCargando extends Pantalla {
         manager.load("Fotitos/nosotros.jpeg", Texture.class);
         manager.load("Fotitos/nosotrosPress.jpeg", Texture.class);
         manager.load("Botones/btnRegresar.png", Texture.class);
-        //manager.load("Audios/Musica.mp3", Music.class);
 
     }
 
     private void cargarRecursosJuego() {
-        //manager.load("Audios/Musica.mp3", Music.class);
 
     }
 
     private void cargarRecursosMenu() {
         manager.load("Texturas/fondoMenu.png", Texture.class);
-      //  manager.load("Audios/Musica.mp3", Music.class);
 
         manager.load("Botones/logo.png", Texture.class);
 
@@ -232,53 +219,7 @@ public class PantallaCargando extends Pantalla {
 
     @Override
     public void dispose() {
-      //  manager.unload("Audios/Musica.mp3");
 
-    }
-
-    class ProcesadorEntrada implements InputProcessor {
-
-        @Override
-        public boolean keyDown(int keycode) {
-            return false;
-        }
-
-        @Override
-        public boolean keyUp(int keycode) {
-            return false;
-        }
-
-        @Override
-        public boolean keyTyped(char character) {
-            return false;
-        }
-
-        @Override
-        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            return true;
-
-
-        }
-
-        @Override
-        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-            return false;
-        }
-
-        @Override
-        public boolean touchDragged(int screenX, int screenY, int pointer) {
-            return false;
-        }
-
-        @Override
-        public boolean mouseMoved(int screenX, int screenY) {
-            return false;
-        }
-
-        @Override
-        public boolean scrolled(int amount) {
-            return false;
-        }
     }
 }
 

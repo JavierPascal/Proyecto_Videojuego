@@ -13,9 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import javax.xml.soap.Text;
-
-
 public class EscenaPausa extends Stage{
 
     private Viewport view;

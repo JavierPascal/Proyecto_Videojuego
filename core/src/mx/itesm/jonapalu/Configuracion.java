@@ -1,26 +1,17 @@
 package mx.itesm.jonapalu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -28,15 +19,8 @@ class Configuracion implements Screen {
 
     private final Juego juego;
 
-    //Efectos
-    public Array<Sound> arrdesonidos;
-
     //Fases
     private Stage fasesMenu;
-
-    //private Table tabla = new Table();
-    //private String tiempo;
-    //private CharSequence s;
 
 
     private SpriteBatch batch;
@@ -147,8 +131,6 @@ class Configuracion implements Screen {
                 fasesMenu.addActor(btnSonido);
             }
         });
-
-
         //Anadir botones
         fasesMenu.addActor(btnRegresar);
         if(Juego.Musica.isPlaying()) {
@@ -157,8 +139,6 @@ class Configuracion implements Screen {
         else{
             fasesMenu.addActor(btnSonido);
         }
-
-
         //Cargar las entradas
         Gdx.input.setInputProcessor(fasesMenu);
 
@@ -180,7 +160,6 @@ class Configuracion implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        //tabla.setSize(width, height);
     }
 
     @Override
@@ -204,52 +183,5 @@ class Configuracion implements Screen {
         manager.unload("Configuracion/Silencio.png");
         manager.unload("Botones/btnRegresar.png");
         manager.unload("HUD/fondoGris.png");
-
-
-
-    }
-    private class ProcesadorEntrada implements InputProcessor {
-
-        @Override
-        public boolean keyDown(int keycode) {
-            return false;
-        }
-
-        @Override
-        public boolean keyUp(int keycode) {
-            return false;
-        }
-
-        @Override
-        public boolean keyTyped(char character) {
-            return false;
-        }
-
-        @Override
-        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            return true;
-
-
-        }
-
-        @Override
-        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-            return false;
-        }
-
-        @Override
-        public boolean touchDragged(int screenX, int screenY, int pointer) {
-            return false;
-        }
-
-        @Override
-        public boolean mouseMoved(int screenX, int screenY) {
-            return false;
-        }
-
-        @Override
-        public boolean scrolled(int amount) {
-            return false;
-        }
     }
 }

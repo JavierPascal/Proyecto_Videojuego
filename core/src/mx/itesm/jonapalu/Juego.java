@@ -9,8 +9,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
-import java.io.File;
-
 public class Juego extends Game {
 
     public static Music Musica;   // Fondo, largo
@@ -48,7 +46,3 @@ public class Juego extends Game {
 	    return manager;
     }
 }
-
-/*REvisar Franja Blanca en menù principal DONE
-* Pantalla perder
-* Enemigos*/

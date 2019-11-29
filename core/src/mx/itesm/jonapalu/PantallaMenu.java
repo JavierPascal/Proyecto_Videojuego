@@ -1,11 +1,8 @@
 package mx.itesm.jonapalu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,16 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.badlogic.gdx.utils.Array;
-
-import java.util.ArrayList;
-import java.util.Hashtable;
-
-import mx.itesm.jonapalu.Items.Item;
 
 class PantallaMenu implements Screen {
 
@@ -38,15 +27,8 @@ class PantallaMenu implements Screen {
     private Texture texturaFondo;
     private int deltaFondoX = 1;
 
-
-    //Fondo Sprite
-    private Array<Item_Falso> arrItem;
-
     //Stages
     private Stage menuStage;
-
-    //Items
-    private Hashtable<Integer, Item> Items;
 
     //Audio
     private AssetManager manager;
@@ -154,7 +136,6 @@ class PantallaMenu implements Screen {
         menuStage.addActor(btnConf);
         menuStage.addActor(btnAcercaDe);
 
-
         //Cargar las entradas
         Gdx.input.setInputProcessor(menuStage);
     }
@@ -165,8 +146,6 @@ class PantallaMenu implements Screen {
 
     @Override
     public void render(float delta) {
-
-        //movimientoFondo(delta);
 
         clearScreen();
         juego.sumar(delta);
@@ -179,9 +158,6 @@ class PantallaMenu implements Screen {
         menuStage.draw();
 
 
-    }
-
-    private void movimientoFondo(float delta) {
     }
 
     private void clearScreen() {
@@ -211,17 +187,9 @@ class PantallaMenu implements Screen {
 
     @Override
     public void dispose() {
-        //texturaFondo.dispose();
         manager.unload("Texturas/mapaMundo.png");
         manager.unload("Botones/btnJugar.png");
         manager.unload("Botones/btnJugarPressed.png");
-        //manager.unload("Audios/Musica.mp3");
 
-    }
-
-
-    public static double numeroRandom(double min, double max) {
-        double x = (int) (Math.random() * ((max - min) + 1)) + min;
-        return x;
     }
 }

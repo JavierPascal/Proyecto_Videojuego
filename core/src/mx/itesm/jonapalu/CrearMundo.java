@@ -13,9 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -35,13 +32,6 @@ class CrearMundo implements Screen {
 
     //Fases
     private Stage fasesMenu;
-
-    //botones
-    private String btnCreativoTextura;
-    private String btnAventuraTextura;
-
-    //Mundos
-    private Array<ImageButton> botonesMundo;
 
     //Manager
     private AssetManager manager;

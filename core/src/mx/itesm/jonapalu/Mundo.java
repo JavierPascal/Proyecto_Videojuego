@@ -2,24 +2,11 @@ package mx.itesm.jonapalu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.viewport.Viewport;
-
-import java.io.File;
 
 public class Mundo extends Pantalla {
 
@@ -30,10 +17,6 @@ public class Mundo extends Pantalla {
     private OrthogonalTiledMapRenderer mapaRenderer;
     private TiledMap mapa;
     private String nombre;
-
-    //Audio
-    private Music audioFondo;
-    private Sound fx;
 
     //States
     private EstadoJuego estadoJuego;
@@ -50,13 +33,6 @@ public class Mundo extends Pantalla {
         AssetManager manager = juego.getManager();
         mapa = manager.get("Mapas/" + nombre + ".tmx");
         mapaRenderer = new OrthogonalTiledMapRenderer(mapa);
-        //Read Audios
-        /*audioFondo = manager.get("Audios/marioBros.mp3");
-        fx = manager.get("Audios/moneda.mp3");
-        audioFondo.setLooping(true);
-        audioFondo.play();
-        audioFondo.setVolume(.2f);*/
-
         Gdx.input.setInputProcessor( new Mundo.EntryProcessor());
 
     }
@@ -116,13 +92,11 @@ public class Mundo extends Pantalla {
             //Pause
             if (estadoJuego ==EstadoJuego.JUGANDO){
                 estadoJuego = EstadoJuego.PAUSA;
-                //audioFondo.pause();
                 if (escenaPausa == null) {
                     escenaPausa = new EscenaPausa(juego,vista,batch, fasesMenu);
                 }
             } else{
                 estadoJuego = EstadoJuego.JUGANDO;
-                //audioFondo.play();
             }
 
             return true;

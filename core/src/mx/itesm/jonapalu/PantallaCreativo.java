@@ -79,7 +79,10 @@ public class PantallaCreativo extends Pantalla{
         crearPersonaje();
         crearPausa();
 
-        Gdx.input.setInputProcessor(new ProcesadorEntrada());
+        InputMultiplexer multi = new InputMultiplexer();
+        multi.addProcessor(fasesMenu);
+        multi.addProcessor(new ProcesadorEntrada());
+        Gdx.input.setInputProcessor(multi);
 
 
     }
@@ -157,6 +160,7 @@ public class PantallaCreativo extends Pantalla{
         });
 
         escenaPausa = new EscenaPausa(juego, vista, batch, fasesMenu);
+        fasesMenu.addActor(btnPausa);
         mapa = manager.get("Mapas/mapaTutorial.tmx");
         mapaRenderer = new OrthogonalTiledMapRenderer(mapa);
 
@@ -195,7 +199,7 @@ public class PantallaCreativo extends Pantalla{
         fixtureDef.shape = circulo;
         fixtureDef.density = 0.4f;
         fixtureDef.friction = 0.5f;
-        fixtureDef.restitution = 0.0f;
+        fixtureDef.restitution = 0.1f;
 
         body.createFixture(fixtureDef);
         circulo.dispose();
@@ -230,11 +234,26 @@ public class PantallaCreativo extends Pantalla{
 
         mapaRenderer.setView(camara);
         mapaRenderer.render();
+        fasesMenu.draw();
 
         debugRenderer.render(mundo,camara.combined);
 
         batch.begin();
         personaje.render(batch);
+
+        if (estadoJuego == EstadoJuego.PAUSA) {
+            fasesMenu.draw();
+            escenaPausa.draw();
+            if (escenaPausa.getPausa()) {
+                fasesMenu.addActor(btnPausa);
+                fasesMenu.addActor(btnPiedra);
+                if (Crafteando) {
+                    fasesMenu.addActor(btnCrafteo);
+                }
+                estadoJuego = EstadoJuego.TUTORIAL;
+                escenaPausa.setPausa();
+            }
+        }
         batch.end();
 
         mundo.step(1/60f, 6,12);

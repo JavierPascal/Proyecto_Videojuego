@@ -300,12 +300,12 @@ class PantallaMundoTutorial extends Pantalla {
         body = mundo.createBody(bodydef);
 
         PolygonShape circulo = new PolygonShape();
-        circulo.setAsBox(32, 32);
+        circulo.setAsBox(30, 30);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circulo;
         fixtureDef.density = 0.01f;
-        fixtureDef.friction = 0;
+        fixtureDef.friction = 0.1f;
         fixtureDef.restitution = 0.0f;
 
         body.createFixture(fixtureDef);
@@ -473,7 +473,7 @@ class PantallaMundoTutorial extends Pantalla {
         mapaRenderer.setView(camara);
         mapaRenderer.render();
 
-        //debugRenderer.render(mundo,camara.combined);
+        debugRenderer.render(mundo,camara.combined);
         fasesMenu.draw();
         batch.begin();
         if(Tutorial == 5 && Perder >= 200) {

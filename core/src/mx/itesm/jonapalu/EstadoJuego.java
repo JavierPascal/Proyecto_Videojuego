@@ -5,5 +5,6 @@ enum EstadoJuego {
     PAUSA,
     TUTORIAL,
     ANIMACION,
-    CRAFTEO
+    CRAFTEO,
+    PIERDE
 }
